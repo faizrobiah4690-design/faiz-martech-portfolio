@@ -1,12 +1,21 @@
 import { useEffect, useRef, useState } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, Moon, Sun, X } from 'lucide-react';
 import { localizeText, normalizeLang } from '../utils/i18n.js';
 
-export default function Navbar({ lang, onToggleLang, totalSystems = 0, t, profile }) {
+export default function Navbar({
+  lang,
+  onToggleLang,
+  theme = 'dark',
+  onToggleTheme,
+  totalSystems = 0,
+  t,
+  profile
+}) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const headerRef = useRef(null);
   const menuButtonRef = useRef(null);
   const isBm = normalizeLang(lang) === 'bm';
+  const isLight = theme === 'light';
   const safeTotalSystems = totalSystems ?? 0;
 
   useEffect(() => {
@@ -40,6 +49,7 @@ export default function Navbar({ lang, onToggleLang, totalSystems = 0, t, profil
   const navItems = [
     { href: '#funnel', label: localizeText(t?.nav?.funnel, lang) || 'Funnel Map' },
     { href: '#systems', label: localizeText(t?.nav?.systems, lang) || 'Systems' },
+    { href: '#live-apps', label: isBm ? 'Aplikasi Live' : 'Live Apps' },
     { href: '#case-studies', label: localizeText(t?.nav?.caseStudies, lang) || 'Case Studies' },
     { href: '#credentials', label: localizeText(t?.nav?.credentials, lang) || 'Credentials' },
     { href: '#governance', label: localizeText(t?.nav?.governance, lang) || 'Governance' }
@@ -99,6 +109,43 @@ export default function Navbar({ lang, onToggleLang, totalSystems = 0, t, profil
         </nav>
 
         <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          {typeof onToggleTheme === 'function' ? (
+            <button
+              type="button"
+              onClick={onToggleTheme}
+              data-testid="theme-toggle"
+              aria-pressed={isLight}
+              aria-label={
+                isLight
+                  ? isBm
+                    ? 'Tukar ke Mod Gelap'
+                    : 'Switch to Dark Mode'
+                  : isBm
+                    ? 'Tukar ke Mod Cerah'
+                    : 'Switch to Light Mode'
+              }
+              title={
+                isLight
+                  ? isBm
+                    ? 'Tukar ke Mod Gelap'
+                    : 'Switch to Dark Mode'
+                  : isBm
+                    ? 'Tukar ke Mod Cerah'
+                    : 'Switch to Light Mode'
+              }
+              className="inline-flex items-center gap-1.5 rounded-lg border border-slate-700 bg-slate-900 px-2 sm:px-2.5 py-1.5 text-xs font-mono font-semibold text-slate-200 hover:border-emerald-400/60 hover:text-emerald-300 transition-colors shrink-0"
+            >
+              {isLight ? (
+                <Moon className="h-3.5 w-3.5 text-cyan-400 shrink-0" aria-hidden="true" />
+              ) : (
+                <Sun className="h-3.5 w-3.5 text-amber-400 shrink-0" aria-hidden="true" />
+              )}
+              <span className="hidden sm:inline">
+                {isLight ? (isBm ? 'Gelap' : 'Dark') : isBm ? 'Cerah' : 'Light'}
+              </span>
+            </button>
+          ) : null}
+
           <div
             role="group"
             aria-label={localizeText(t?.nav?.languageLabel, lang) || 'Language'}

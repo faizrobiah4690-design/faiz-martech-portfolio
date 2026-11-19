@@ -101,7 +101,29 @@ export default function App({ initialData } = {}) {
   );
   const i18n = isPlainObject(initialData?.i18n) ? initialData.i18n : i18nData;
 
-  const [lang, setLang] = useState(() => normalizeLang(initialData?.lang ?? 'en'));
+  const [lang, setLang] = useState(() => {
+    if (initialData?.lang !== undefined) return normalizeLang(initialData.lang);
+    if (typeof window !== 'undefined') {
+      try {
+        const saved = window.localStorage.getItem('faiz-portfolio-lang');
+        if (saved === 'bm' || saved === 'en') return saved;
+      } catch {
+        // ignore storage errors
+      }
+    }
+    return 'en';
+  });
+  const [theme, setTheme] = useState(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const saved = window.localStorage.getItem('faiz-portfolio-theme');
+        if (saved === 'light' || saved === 'dark') return saved;
+      } catch {
+        // ignore storage errors
+      }
+    }
+    return 'dark';
+  });
   const [selectedStage, setSelectedStage] = useState('ALL');
   const [selectedCategory, setSelectedCategory] = useState('ALL');
   const [searchQuery, setSearchQuery] = useState('');
@@ -118,7 +140,32 @@ export default function App({ initialData } = {}) {
     if (typeof document !== 'undefined' && titleText) {
       document.title = titleText;
     }
+    if (typeof window !== 'undefined') {
+      try {
+        window.localStorage.setItem('faiz-portfolio-lang', lang);
+      } catch {
+        // ignore storage errors
+      }
+    }
   }, [lang, t]);
+
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      document.documentElement.dataset.theme = theme;
+      document.documentElement.style.colorScheme = theme;
+    }
+    if (typeof window !== 'undefined') {
+      try {
+        window.localStorage.setItem('faiz-portfolio-theme', theme);
+      } catch {
+        // ignore storage errors
+      }
+    }
+  }, [theme]);
+
+  const handleToggleTheme = useCallback(() => {
+    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+  }, []);
 
   const metrics = useMemo(
     () => computePortfolioMetrics(projects, credentials),
@@ -252,6 +299,8 @@ export default function App({ initialData } = {}) {
       <Navbar
         lang={lang}
         onToggleLang={handleToggleLang}
+        theme={theme}
+        onToggleTheme={handleToggleTheme}
         totalSystems={metrics.totalSystems}
         t={t}
         profile={profile}
