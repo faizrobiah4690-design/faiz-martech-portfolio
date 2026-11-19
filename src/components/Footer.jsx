@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import {
   Briefcase,
+  Check,
   Code2,
+  Copy,
   Download,
   ExternalLink,
   Mail,
@@ -29,15 +31,24 @@ export default function Footer({
   t
 }) {
   const [exportStatus, setExportStatus] = useState('');
+  const [emailCopied, setEmailCopied] = useState(false);
   const safeProfile = isPlainObject(profile) ? profile : {};
   const contacts = isPlainObject(safeProfile.contacts) ? safeProfile.contacts : {};
 
   const whatsappUrl = normalizeExternalUrl(contacts.whatsappUrl);
   const linkedinUrl = normalizeExternalUrl(contacts.linkedinUrl);
   const githubUrl = normalizeExternalUrl(contacts.githubUrl);
-  const emailHref = normalizeExternalUrl(
-    contacts.emailHref || (contacts.email ? `mailto:${contacts.email}` : '')
-  );
+  const emailAddress = typeof contacts.email === 'string' ? contacts.email.trim() : '';
+  const gmailComposeUrl = emailAddress
+    ? `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(emailAddress)}&su=${encodeURIComponent('Portfolio Inquiry — Mohd Faiz Bin Md Nordin')}`
+    : '';
+  const handleCopyEmail = () => {
+    if (!emailAddress || typeof navigator === 'undefined' || !navigator.clipboard) return;
+    navigator.clipboard.writeText(emailAddress).then(() => {
+      setEmailCopied(true);
+      setTimeout(() => setEmailCopied(false), 2500);
+    }).catch(() => {});
+  };
 
   const identityParts = [
     localizeText(safeProfile.fullName, lang).trim(),
@@ -113,16 +124,38 @@ export default function Footer({
               </a>
             ) : null}
 
-            {isSafeExternalUrl(emailHref) ? (
-              <a
-                href={emailHref}
-                className="inline-flex items-center gap-1.5 rounded-lg border border-slate-800 bg-slate-900/80 px-3 py-2 text-xs font-medium text-slate-200 hover:border-amber-400/50 hover:text-amber-300"
-              >
-                <Mail className="h-3.5 w-3.5 text-amber-400 shrink-0" aria-hidden="true" />
-                <span>
-                  {localizeText(contacts.email, lang) || localizeText(t?.hero?.ctaEmail, lang) || 'Email'}
-                </span>
-              </a>
+            {gmailComposeUrl ? (
+              <div className="inline-flex items-center rounded-lg border border-slate-800 bg-slate-900/80 overflow-hidden">
+                <a
+                  href={gmailComposeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={handleCopyEmail}
+                  className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-slate-200 hover:bg-amber-400/10 hover:text-amber-300 transition"
+                  title={lang === 'bm' ? 'Tulis e-mel di Gmail' : 'Compose email in Gmail'}
+                >
+                  <Mail className="h-3.5 w-3.5 text-amber-400 shrink-0" aria-hidden="true" />
+                  <span>
+                    {localizeText(contacts.email, lang) || localizeText(t?.hero?.ctaEmail, lang) || 'Email'}
+                  </span>
+                  <ExternalLink className="h-3 w-3 text-slate-400 shrink-0" aria-hidden="true" />
+                </a>
+                <button
+                  type="button"
+                  onClick={handleCopyEmail}
+                  aria-label={lang === 'bm' ? 'Salin alamat e-mel' : 'Copy email address'}
+                  className="inline-flex items-center gap-1 border-l border-slate-800 px-2 py-2 text-xs font-mono text-slate-400 hover:bg-slate-800/80 hover:text-emerald-300 transition"
+                >
+                  {emailCopied ? (
+                    <>
+                      <Check className="h-3.5 w-3.5 text-emerald-400 shrink-0" aria-hidden="true" />
+                      <span className="text-emerald-300">{lang === 'bm' ? 'Disalin' : 'Copied'}</span>
+                    </>
+                  ) : (
+                    <Copy className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+                  )}
+                </button>
+              </div>
             ) : null}
           </div>
 

@@ -462,59 +462,38 @@ export default function ArchitectureModal({ project, lang, t, onClose }) {
           </div>
         </div>
 
-        <div className="space-y-2 border-t border-slate-800 pt-4">
-          <h3 className="text-xs font-mono uppercase tracking-wider text-slate-400">
-            {localizeText(t?.modal?.linksTitle, lang)}
-          </h3>
-          <div className="flex flex-wrap items-center gap-3">
-            {isSafeExternalUrl(safeRepo) ? (
-              <a
-                href={safeRepo}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-xl border border-emerald-400/40 bg-emerald-400/10 px-4 py-2 text-xs sm:text-sm font-semibold text-emerald-300 hover:bg-emerald-400 hover:text-slate-950 transition"
-              >
-                <Code2 className="h-4 w-4 shrink-0" aria-hidden="true" />
-                <span>{localizeText(t?.modal?.repoButton, lang)}</span>
-                <ExternalLink className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-              </a>
-            ) : null}
+        {isSafeExternalUrl(safeLooker) || isSafeExternalUrl(safeLive) ? (
+          <div className="space-y-2 border-t border-slate-800 pt-4">
+            <h3 className="text-xs font-mono uppercase tracking-wider text-slate-400">
+              {localizeText(t?.modal?.linksTitle, lang)}
+            </h3>
+            <div className="flex flex-wrap items-center gap-3">
+              {isSafeExternalUrl(safeLooker) ? (
+                <a
+                  href={safeLooker}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-xl border border-cyan-400/40 bg-cyan-400/10 px-4 py-2 text-xs sm:text-sm font-semibold text-cyan-300 hover:bg-cyan-400 hover:text-slate-950 transition"
+                >
+                  <span>{localizeText(t?.modal?.lookerButton, lang)}</span>
+                  <ExternalLink className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+                </a>
+              ) : null}
 
-            {isSafeExternalUrl(safeLooker) ? (
-              <a
-                href={safeLooker}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-xl border border-cyan-400/40 bg-cyan-400/10 px-4 py-2 text-xs sm:text-sm font-semibold text-cyan-300 hover:bg-cyan-400 hover:text-slate-950 transition"
-              >
-                <span>{localizeText(t?.modal?.lookerButton, lang)}</span>
-                <ExternalLink className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-              </a>
-            ) : (
-              <span className="inline-flex items-center rounded-xl border border-slate-700 bg-slate-950/70 px-3 py-2 text-xs font-mono text-slate-400">
-                {localizeText(t?.modal?.lookerButton, lang)}:{' '}
-                {localizeText(t?.modal?.pendingAdapterBadge, lang)}
-              </span>
-            )}
-
-            {isSafeExternalUrl(safeLive) ? (
-              <a
-                href={safeLive}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-xl border border-cyan-400/40 bg-cyan-400/10 px-4 py-2 text-xs sm:text-sm font-semibold text-cyan-300 hover:bg-cyan-400 hover:text-slate-950 transition"
-              >
-                <span>{localizeText(t?.modal?.liveAppButton, lang)}</span>
-                <ExternalLink className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-              </a>
-            ) : (
-              <span className="inline-flex items-center rounded-xl border border-slate-700 bg-slate-950/70 px-3 py-2 text-xs font-mono text-slate-400">
-                {localizeText(t?.modal?.liveAppButton, lang)}:{' '}
-                {localizeText(t?.modal?.pendingAdapterBadge, lang)}
-              </span>
-            )}
+              {isSafeExternalUrl(safeLive) ? (
+                <a
+                  href={safeLive}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 rounded-xl border border-cyan-400/40 bg-cyan-400/10 px-4 py-2 text-xs sm:text-sm font-semibold text-cyan-300 hover:bg-cyan-400 hover:text-slate-950 transition"
+                >
+                  <span>{localizeText(t?.modal?.liveAppButton, lang)}</span>
+                  <ExternalLink className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+                </a>
+              ) : null}
+            </div>
           </div>
-        </div>
+        ) : null}
       </div>
     </div>
   );

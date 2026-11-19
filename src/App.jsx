@@ -5,6 +5,7 @@ import projectsData from './data/projects.json';
 import caseStudiesData from './data/caseStudies.json';
 import credentialsData from './data/credentials.json';
 import operationalHistoryData from './data/operationalHistory.json';
+import liveAppsData from './data/liveApps.json';
 import i18nData from './data/i18n.json';
 
 import { localizeText, normalizeLang, safeLookup, syncDocumentLang } from './utils/i18n.js';
@@ -15,6 +16,7 @@ import HeroSection from './components/HeroSection.jsx';
 import FunnelPipelineMap from './components/FunnelPipelineMap.jsx';
 import SystemsRegistry from './components/SystemsRegistry.jsx';
 import ArchitectureModal from './components/ArchitectureModal.jsx';
+import LiveAppsShowcase from './components/LiveAppsShowcase.jsx';
 import LocalCaseStudies from './components/LocalCaseStudies.jsx';
 import CredentialsVault from './components/CredentialsVault.jsx';
 import GovernanceAndBackground from './components/GovernanceAndBackground.jsx';
@@ -282,6 +284,8 @@ export default function App({ initialData } = {}) {
           lang={lang}
           t={t}
         />
+
+        <LiveAppsShowcase apps={liveAppsData} lang={lang} />
 
         <LocalCaseStudies caseStudies={caseStudies} lang={lang} t={t} />
 
