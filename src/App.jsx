@@ -137,8 +137,17 @@ export default function App({ initialData } = {}) {
   useEffect(() => {
     syncDocumentLang(lang);
     const titleText = localizeText(t?.meta?.title, lang);
-    if (typeof document !== 'undefined' && titleText) {
-      document.title = titleText;
+    const descText = localizeText(t?.meta?.description, lang);
+    if (typeof document !== 'undefined') {
+      if (titleText) {
+        document.title = titleText;
+      }
+      if (descText) {
+        const metaDesc = document.querySelector('meta[name="description"]');
+        if (metaDesc) metaDesc.setAttribute('content', descText);
+        const ogDesc = document.querySelector('meta[property="og:description"]');
+        if (ogDesc) ogDesc.setAttribute('content', descText);
+      }
     }
     if (typeof window !== 'undefined') {
       try {
@@ -229,6 +238,10 @@ export default function App({ initialData } = {}) {
         localizeText(project.funnelStageName, 'bm'),
         localizeText(project.title, 'en'),
         localizeText(project.title, 'bm'),
+        localizeText(project.businessObjective, 'en'),
+        localizeText(project.businessObjective, 'bm'),
+        localizeText(project.martechInsight, 'en'),
+        localizeText(project.martechInsight, 'bm'),
         localizeText(project.commercialLeak, 'en'),
         localizeText(project.commercialLeak, 'bm'),
         localizeText(project.deterministicGate, 'en'),
@@ -242,6 +255,24 @@ export default function App({ initialData } = {}) {
           : []),
         ...(Array.isArray(project.pipelineNodes)
           ? project.pipelineNodes.map((n) => `${localizeText(n, 'en')} ${localizeText(n, 'bm')}`)
+          : []),
+        ...(Array.isArray(project.pipelineStepDetails)
+          ? project.pipelineStepDetails.map(
+              (step) =>
+                `${localizeText(step?.role, 'en')} ${localizeText(step?.role, 'bm')} ${localizeText(step?.summary, 'en')} ${localizeText(step?.summary, 'bm')}`
+            )
+          : []),
+        ...(Array.isArray(project.formulas)
+          ? project.formulas.map(
+              (f) =>
+                `${localizeText(f?.name, 'en')} ${localizeText(f?.name, 'bm')} ${localizeText(f?.note, 'en')} ${localizeText(f?.note, 'bm')}`
+            )
+          : []),
+        ...(Array.isArray(project.processVisuals)
+          ? project.processVisuals.map(
+              (v) =>
+                `${localizeText(v?.caption, 'en')} ${localizeText(v?.caption, 'bm')} ${localizeText(v?.flowStep, 'en')} ${localizeText(v?.flowStep, 'bm')} ${localizeText(v?.takeaway, 'en')} ${localizeText(v?.takeaway, 'bm')}`
+            )
           : [])
       ]
         .filter(Boolean)
@@ -293,7 +324,7 @@ export default function App({ initialData } = {}) {
         href="#main-content"
         className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-lg focus:bg-emerald-400 focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-slate-950"
       >
-        {normalizeLang(lang) === 'bm' ? 'Langkau ke kandungan' : 'Skip to content'}
+        {localizeText(t?.app?.skipToContent, lang) || 'Skip to content'}
       </a>
 
       <Navbar
@@ -334,7 +365,7 @@ export default function App({ initialData } = {}) {
           t={t}
         />
 
-        <LiveAppsShowcase apps={liveAppsData} lang={lang} />
+        <LiveAppsShowcase apps={liveAppsData} lang={lang} t={t} />
 
         <LocalCaseStudies caseStudies={caseStudies} lang={lang} t={t} />
 
@@ -350,6 +381,7 @@ export default function App({ initialData } = {}) {
       <Footer
         profile={profile}
         projects={projects}
+        liveApps={liveAppsData}
         caseStudies={caseStudies}
         credentials={credentials}
         operationalHistory={operationalHistory}

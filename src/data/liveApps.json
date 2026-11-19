@@ -7,8 +7,8 @@
       "bm": "Studio Kreatif Iklan AI & MarTech"
     },
     "tagline": {
-      "en": "Bilingual AI ad copy, 2-layer 9:16 & 4:5 carousel studio, BM jingle synthesis, and staged vertical video ad generator built for Malaysian SMEs.",
-      "bm": "Penjana teks iklan AI dwibahasa, studio karusel 9:16 & 4:5 dua lapisan, sintesis jingle BM, dan studio video iklan menegak untuk PKS Malaysia."
+      "en": "Bilingual AI ad copy, 2-layer 9:16 & 4:5 carousel studio, BM jingle synthesis, and staged vertical video ad generator built for Malaysian SMEs — directly solving the creative fatigue flagged by PRJ-02.",
+      "bm": "Penjana teks iklan AI dwibahasa, studio karusel 9:16 & 4:5 dua lapisan, sintesis jingle BM, dan studio video iklan menegak untuk PKS Malaysia — membantu menangani kelesuan kreatif yang dikesan oleh PRJ-02."
     },
     "liveUrl": "https://adforge-my-eight.vercel.app/",
     "repoUrl": "https://github.com/faizrobiah4690-design/adforge-my",
@@ -18,12 +18,12 @@
     "id": "APP-02",
     "name": "VertigoLab",
     "category": {
-      "en": "Interactive Clinical Playbook & Simulator",
-      "bm": "Playbook Klinikal Interaktif & Simulator"
+      "en": "Interactive Clinical Guide & Simulator",
+      "bm": "Panduan Klinikal Interaktif & Simulator"
     },
     "tagline": {
-      "en": "Interactive vestibular anatomy lab, HINTS & 5D stroke red-flag triage simulator, 5-step Epley Maneuver clinical timer, and VRT recovery coach.",
-      "bm": "Makmal anatomi vestibular interaktif, simulator saringan strok kecemasan HINTS & 5D, pemasa klinikal Epley Maneuver 5 langkah, dan jurulatih pemulihan VRT."
+      "en": "Interactive vestibular anatomy lab, HINTS & 5D stroke red-flag triage simulator, 5-step Epley Maneuver clinical timer, and VRT recovery coach — demonstrating deterministic step-by-step gate UX.",
+      "bm": "Makmal anatomi vestibular interaktif, simulator saringan strok kecemasan HINTS & 5D, pemasa klinikal Epley Maneuver 5 langkah, dan jurulatih pemulihan VRT — membuktikan kejuruteraan UX berfasa deterministik."
     },
     "liveUrl": "https://vertigolab.pages.dev/",
     "repoUrl": "https://github.com/faizrobiah4690-design/vertigolab",
@@ -37,8 +37,8 @@
       "bm": "PWA Bantuan Pantas SOS & Kesihatan Mental"
     },
     "tagline": {
-      "en": "Evidence-based bilingual panic attack playbook with 3 viewing lenses (Self, Family, Clinical), 60-second SOS breathing & grounding tools, and doctor summary generator.",
-      "bm": "Playbook serangan panik dwibahasa berasaskan bukti dengan 3 lensa paparan (Saya, Keluarga, Klinikal), alat pernafasan SOS 60 saat, dan penjana ringkasan doktor."
+      "en": "Evidence-based bilingual panic attack guide with 3 viewing lenses (Self, Family, Clinical), 60-second SOS breathing & grounding tools, and doctor summary generator — built for zero-friction bilingual clarity.",
+      "bm": "Panduan serangan panik dwibahasa berasaskan bukti dengan 3 lensa paparan (Saya, Keluarga, Klinikal), alat pernafasan SOS 60 saat, dan penjana ringkasan doktor — dibina untuk kejelasan dwibahasa tanpa geseran."
     },
     "liveUrl": "https://paniclab.pages.dev/",
     "repoUrl": "https://github.com/faizrobiah4690-design/paniclab",
@@ -52,8 +52,8 @@
       "bm": "Platform EdTech Interaktif (18 Bab KSSM)"
     },
     "tagline": {
-      "en": "Complete KSSM Form 4 & Form 5 Additional Mathematics learning platform in BM & English DLP featuring 18 HTML5 Canvas visual labs and 180 SPM diagnostic exam questions.",
-      "bm": "Platform pembelajaran lengkap Matematik Tambahan KSSM Tingkatan 4 & 5 (BM & English DLP) dengan 18 makmal visual HTML5 Canvas dan 180 soalan diagnostik SPM."
+      "en": "Complete KSSM Form 4 & Form 5 Additional Mathematics learning platform in BM & English DLP featuring 18 HTML5 Canvas visual labs and 180 SPM diagnostic exam questions — proving deterministic math engine design.",
+      "bm": "Platform pembelajaran lengkap Matematik Tambahan KSSM Tingkatan 4 & 5 (BM & English DLP) dengan 18 makmal visual HTML5 Canvas dan 180 soalan diagnostik SPM — membuktikan reka bentuk enjin matematik deterministik."
     },
     "liveUrl": "https://addmath-mudah.pages.dev/",
     "repoUrl": "https://github.com/faizrobiah4690-design/addmath-mudah",

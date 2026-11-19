@@ -49,7 +49,7 @@ export default function Navbar({
   const navItems = [
     { href: '#funnel', label: localizeText(t?.nav?.funnel, lang) || 'Funnel Map' },
     { href: '#systems', label: localizeText(t?.nav?.systems, lang) || 'Systems' },
-    { href: '#live-apps', label: isBm ? 'Aplikasi Live' : 'Live Apps' },
+    { href: '#live-apps', label: localizeText(t?.nav?.liveApps, lang) || 'Live Apps' },
     { href: '#case-studies', label: localizeText(t?.nav?.caseStudies, lang) || 'Case Studies' },
     { href: '#credentials', label: localizeText(t?.nav?.credentials, lang) || 'Credentials' },
     { href: '#governance', label: localizeText(t?.nav?.governance, lang) || 'Governance' }
@@ -62,6 +62,12 @@ export default function Navbar({
   const switchToEnLabel = localizeText(t?.nav?.switchToEn, lang) || 'Switch language to English';
   const switchToBmLabel =
     localizeText(t?.nav?.switchToBm, lang) || 'Tukar bahasa ke Bahasa Melayu';
+  const themeToggleLabel = isLight
+    ? localizeText(t?.nav?.switchToDark, lang) || 'Switch to Dark Mode'
+    : localizeText(t?.nav?.switchToLight, lang) || 'Switch to Light Mode';
+  const themeShortLabel = isLight
+    ? localizeText(t?.nav?.darkShort, lang) || 'Dark'
+    : localizeText(t?.nav?.lightShort, lang) || 'Light';
 
   return (
     <header
@@ -95,7 +101,7 @@ export default function Navbar({
 
         <nav
           className="hidden lg:flex items-center gap-5"
-          aria-label={isBm ? 'Navigasi utama' : 'Primary navigation'}
+          aria-label={localizeText(t?.nav?.primaryAria, lang) || 'Primary navigation'}
         >
           {navItems.map((item) => (
             <a
@@ -115,24 +121,8 @@ export default function Navbar({
               onClick={onToggleTheme}
               data-testid="theme-toggle"
               aria-pressed={isLight}
-              aria-label={
-                isLight
-                  ? isBm
-                    ? 'Tukar ke Mod Gelap'
-                    : 'Switch to Dark Mode'
-                  : isBm
-                    ? 'Tukar ke Mod Cerah'
-                    : 'Switch to Light Mode'
-              }
-              title={
-                isLight
-                  ? isBm
-                    ? 'Tukar ke Mod Gelap'
-                    : 'Switch to Dark Mode'
-                  : isBm
-                    ? 'Tukar ke Mod Cerah'
-                    : 'Switch to Light Mode'
-              }
+              aria-label={themeToggleLabel}
+              title={themeToggleLabel}
               className="inline-flex items-center gap-1.5 rounded-lg border border-slate-700 bg-slate-900 px-2 sm:px-2.5 py-1.5 text-xs font-mono font-semibold text-slate-200 hover:border-emerald-400/60 hover:text-emerald-300 transition-colors shrink-0"
             >
               {isLight ? (
@@ -140,9 +130,7 @@ export default function Navbar({
               ) : (
                 <Sun className="h-3.5 w-3.5 text-amber-400 shrink-0" aria-hidden="true" />
               )}
-              <span className="hidden sm:inline">
-                {isLight ? (isBm ? 'Gelap' : 'Dark') : isBm ? 'Cerah' : 'Light'}
-              </span>
+              <span className="hidden sm:inline">{themeShortLabel}</span>
             </button>
           ) : null}
 
@@ -206,7 +194,7 @@ export default function Navbar({
       {mobileOpen ? (
         <nav
           id="mobile-nav-drawer"
-          aria-label={isBm ? 'Navigasi mudah alih' : 'Mobile navigation'}
+          aria-label={localizeText(t?.nav?.mobileAria, lang) || 'Mobile navigation'}
           className="lg:hidden border-t border-slate-800 bg-slate-950/95 px-4 py-3 space-y-1"
         >
           {navItems.map((item) => (

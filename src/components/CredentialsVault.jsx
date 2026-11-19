@@ -1,7 +1,6 @@
 import { Award, CheckCircle2, ExternalLink, GraduationCap } from 'lucide-react';
 import { localizeText, safeLookup } from '../utils/i18n.js';
 import { isSafeExternalUrl, normalizeExternalUrl } from '../utils/urlSafety.js';
-import AssetSlot from './AssetSlot.jsx';
 
 function isPlainObject(v) {
   return Boolean(v && typeof v === 'object' && !Array.isArray(v));
@@ -123,14 +122,15 @@ export default function CredentialsVault({ credentials, lang, t }) {
                 <div className="flex items-center justify-between gap-2">
                   <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/40 bg-emerald-400/10 px-3 py-1 font-mono text-xs font-semibold text-emerald-300">
                     <CheckCircle2 className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-                    <span>{lang === 'bm' ? 'Pengesahan Rasmi JPK' : 'Official JPK Verified'}</span>
+                    <span>
+                      {localizeText(t?.credentials?.jpkVerifiedBadge, lang) ||
+                        'Official JPK Verified'}
+                    </span>
                   </span>
                   <span className="font-mono text-xs text-slate-400">PDPA 2024</span>
                 </div>
                 <p className="text-sm text-slate-200 leading-relaxed">
-                  {lang === 'bm'
-                    ? 'Salinan fizikal sijil mengandungi nombor Kad Pengenalan (NRIC) dan tidak dipaparkan secara awam bagi mematuhi Akta Perlindungan Data Peribadi (PDPA) 2024. Rujukan rasmi disediakan melalui Nombor Siri dan Kod NOSS di sebelah.'
-                    : 'Original certificate scans contain personal NRIC details and are intentionally withheld from public web display in compliance with Malaysia PDPA 2024. Official verification references are listed via Serial Number and NOSS Code.'}
+                  {localizeText(t?.credentials?.pdpaCertNotice, lang)}
                 </p>
                 <div className="rounded-xl border border-slate-800 bg-slate-900/70 px-3.5 py-2.5 font-mono text-xs text-cyan-300 flex items-center justify-between gap-2">
                   <span>{localizeText(skm.certificateSerialNo, lang)}</span>
@@ -264,6 +264,17 @@ export default function CredentialsVault({ credentials, lang, t }) {
             })}
           </div>
         </div>
+        {localizeText(credentials?.systemBridge, lang) ? (
+          <div className="rounded-2xl border border-cyan-400/30 bg-cyan-950/20 p-5 space-y-1.5">
+            <h3 className="text-xs font-mono uppercase tracking-wider text-cyan-300">
+              {localizeText(t?.credentials?.bridgeTitle, lang) ||
+                'How These Credentials Power PRJ-01..05'}
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-200 leading-relaxed">
+              {localizeText(credentials.systemBridge, lang)}
+            </p>
+          </div>
+        ) : null}
       </div>
     </section>
   );

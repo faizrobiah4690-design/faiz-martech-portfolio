@@ -92,7 +92,7 @@
     },
     "martechTransfer": {
       "en": "High-volume SLA lead routing, automated anomaly sentinel alerts, and resilient multi-step operational workflows.",
-      "bm": "Penghalaan prospek SLA berisipadu tinggi, amaran pengesan anomali automatik, dan aliran kerja operasi berbilang langkah yang berdaya tahan."
+      "bm": "Penghalaan prospek SLA bervolum tinggi, amaran pengesan anomali automatik, dan aliran kerja operasi berbilang langkah yang berdaya tahan."
     }
   },
   {
@@ -112,11 +112,11 @@
     },
     "summary": {
       "en": "End-to-end transport, warehouse SLAs, and field operations control.",
-      "bm": "Pengurusan pengangkutan hujung-ke-hujung, SLA gudang, dan kawalan operasi lapangan."
+      "bm": "Pengurusan pengangkutan menyeluruh, SLA gudang, dan kawalan operasi lapangan."
     },
     "martechTransfer": {
       "en": "End-to-end funnel SLA tracking from inbound click to realized warehouse and counter cash settlement.",
-      "bm": "Penjejakan SLA corong pemasaran hujung-ke-hujung daripada klik masuk hingga penyelesaian tunai sebenar."
+      "bm": "Penjejakan SLA corong pemasaran menyeluruh daripada klik masuk hingga penyelesaian tunai sebenar."
     }
   }
 ]

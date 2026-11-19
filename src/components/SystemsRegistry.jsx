@@ -243,6 +243,17 @@ export default function SystemsRegistry({
                       </p>
                     </div>
 
+                    {localizeText(project.businessObjective, lang) ? (
+                      <div className="rounded-xl border border-emerald-400/25 bg-emerald-950/15 px-3 py-2.5 space-y-1">
+                        <p className="text-[11px] font-mono uppercase tracking-wider text-emerald-300">
+                          {localizeText(t?.systems?.businessObjectiveLabel, lang) || 'Business Objective'}
+                        </p>
+                        <p className="text-xs sm:text-sm text-slate-100 leading-relaxed">
+                          {localizeText(project.businessObjective, lang)}
+                        </p>
+                      </div>
+                    ) : null}
+
                     <div className="space-y-2 text-xs sm:text-sm text-slate-300">
                       <div>
                         <span className="font-semibold text-slate-200">

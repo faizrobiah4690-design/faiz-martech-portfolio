@@ -29,7 +29,7 @@ const operationalHistory = readJson('src/data/operationalHistory.json');
 const i18n = readJson('src/data/i18n.json');
 
 const FORBIDDEN_INDONESIAN_RE =
-  /\b(dasbor|laba\s+bersih|peramban|peladen|(?:di|ter|me(?:ng)?|peng)?unduh(?:an)?|sertifikat|tautan|kartu\s+skor|antarmuka|pencarian|kata\s+sandi)\b/i;
+  /\b(dasbor|laba\s+bersih|peramban|peladen|(?:di|ter|me(?:ng)?|peng)?unduh(?:an)?|sertifikat|tautan|kartu\s+skor|antarmuka|pencarian|kata\s+sandi|arsitektur|tingkap|berisipadu|perangkat|fitur|bisnis|kualitas|kinerja|solusi|otomatis|efektif|konten|saat\s+ini|bisa|gimana|playbook)\b/i;
 
 function assertBilingualObject(val, label) {
   assert.ok(val && typeof val === 'object', `${label} must be an object`);
@@ -144,7 +144,7 @@ test('schema: profile.json matches candidate identity and safe URL contracts', (
   assert.ok(isSafeExternalUrl(profile.contacts.whatsappUrl));
   assert.ok(isSafeExternalUrl(profile.contacts.linkedinUrl));
   assert.ok(isSafeExternalUrl(profile.contacts.githubUrl));
-  assert.equal(profile.contacts.resumePdfPath, '/assets/resume-mohd-faiz-oct2026.pdf');
+  assert.equal(profile.contacts.resumePdfPath, undefined);
 });
 
 test('schema: projects.json satisfies PRJ-01..05+ contract, 5 pipeline nodes, and safe URLs', () => {
@@ -160,6 +160,8 @@ test('schema: projects.json satisfies PRJ-01..05+ contract, 5 pipeline nodes, an
     assert.ok(typeof project.category === 'string' && project.category.trim().length > 0);
     assert.ok(typeof project.statusBadge === 'string' && project.statusBadge.trim().length > 0);
     assertBilingualObject(project.title, `${project.id}.title`);
+    assertBilingualObject(project.businessObjective, `${project.id}.businessObjective`);
+    assertBilingualObject(project.martechInsight, `${project.id}.martechInsight`);
     assert.ok(typeof project.headlineMetric === 'string' && project.headlineMetric.trim().length > 0);
     assertBilingualObject(project.commercialLeak, `${project.id}.commercialLeak`);
     assertBilingualObject(project.deterministicGate, `${project.id}.deterministicGate`);
@@ -167,6 +169,28 @@ test('schema: projects.json satisfies PRJ-01..05+ contract, 5 pipeline nodes, an
     assertBilingualObject(project.validatedOutcome, `${project.id}.validatedOutcome`);
     assert.ok(Array.isArray(project.stack) && project.stack.length > 0);
     assert.ok(Array.isArray(project.pipelineNodes) && project.pipelineNodes.length === 5);
+    for (const [nodeIdx, node] of project.pipelineNodes.entries()) {
+      assertBilingualObject(node, `${project.id}.pipelineNodes[${nodeIdx}]`);
+    }
+    assert.ok(Array.isArray(project.pipelineStepDetails) && project.pipelineStepDetails.length === 5);
+    for (const [stepIdx, step] of project.pipelineStepDetails.entries()) {
+      assert.equal(step.stepNumber, stepIdx + 1);
+      assertBilingualObject(step.role, `${project.id}.pipelineStepDetails[${stepIdx}].role`);
+      assertBilingualObject(step.summary, `${project.id}.pipelineStepDetails[${stepIdx}].summary`);
+    }
+    assert.ok(Array.isArray(project.formulas) && project.formulas.length >= 1);
+    for (const [fIdx, formula] of project.formulas.entries()) {
+      assertBilingualObject(formula.name, `${project.id}.formulas[${fIdx}].name`);
+      assert.ok(typeof formula.formula === 'string' && formula.formula.trim().length > 0);
+      assertBilingualObject(formula.note, `${project.id}.formulas[${fIdx}].note`);
+    }
+    assert.ok(Array.isArray(project.processVisuals) && project.processVisuals.length > 0);
+    for (const [vIdx, visual] of project.processVisuals.entries()) {
+      assert.ok(typeof visual.src === 'string' && visual.src.startsWith('/assets/projects/'));
+      assertBilingualObject(visual.caption, `${project.id}.processVisuals[${vIdx}].caption`);
+      assertBilingualObject(visual.flowStep, `${project.id}.processVisuals[${vIdx}].flowStep`);
+      assertBilingualObject(visual.takeaway, `${project.id}.processVisuals[${vIdx}].takeaway`);
+    }
 
     assert.equal(typeof project.lookerUrl, 'string');
     assert.equal(typeof project.liveAppUrl, 'string');
@@ -202,8 +226,12 @@ test('schema: caseStudies.json satisfies CS-01..03 real-world engagement schema'
     assert.ok(typeof cs.sector === 'string' && cs.sector.trim().length > 0);
     assertBilingualObject(cs.focus, `${cs.id}.focus`);
     assertBilingualObject(cs.workDelivered, `${cs.id}.workDelivered`);
+    assertBilingualObject(cs.whyItMatters, `${cs.id}.whyItMatters`);
     assertBilingualObject(cs.evidenceBoundary, `${cs.id}.evidenceBoundary`);
-    assert.ok(typeof cs.evidenceImage === 'string' && cs.evidenceImage.startsWith('/assets/'));
+    assert.equal(typeof cs.evidenceImage, 'string');
+    if (cs.evidenceImage !== '') {
+      assert.ok(cs.evidenceImage.startsWith('/assets/'));
+    }
   }
 });
 
@@ -219,7 +247,7 @@ test('schema: credentials.json enforces SKM Level 3 TERAMPIL (never pending), 6 
     false,
     'SKM accreditation must NEVER be labeled pending'
   );
-  assert.equal(skm.certificateImage, '/assets/skm-level-3-cert.jpg');
+  assert.equal(skm.certificateImage, undefined);
   assert.match(skm.privacyNote, /nric/i);
 
   assert.ok(Array.isArray(credentials.googleCourseraCourses));
@@ -227,7 +255,8 @@ test('schema: credentials.json enforces SKM Level 3 TERAMPIL (never pending), 6 
   for (const course of credentials.googleCourseraCourses) {
     assert.ok(typeof course.courseNumber === 'string' && course.courseNumber.trim().length > 0);
     assert.ok(typeof course.title === 'string' && course.title.trim().length > 0);
-    assert.ok(typeof course.completionDate === 'string' && course.completionDate.trim().length > 0);
+    assertBilingualObject(course.completionDate, `course-${course.courseNumber}.completionDate`);
+    assertBilingualObject(course.studyHours, `course-${course.courseNumber}.studyHours`);
     assert.ok(typeof course.verifyCode === 'string' && course.verifyCode.length > 0);
     assert.ok(typeof course.score === 'string' && course.score.endsWith('%'));
     assert.equal(course.verifyUrl, `https://coursera.org/verify/${course.verifyCode}`);
@@ -235,6 +264,7 @@ test('schema: credentials.json enforces SKM Level 3 TERAMPIL (never pending), 6 
     assert.ok(isSafeExternalUrl(course.verifyUrl));
   }
 
+  assertBilingualObject(credentials.systemBridge, 'credentials.systemBridge');
   assert.ok(Array.isArray(credentials.academicEducation) && credentials.academicEducation.length === 2);
   const eduText = JSON.stringify(credentials.academicEducation);
   assert.ok(eduText.includes('UMP') && eduText.includes('IIUM'));
@@ -260,9 +290,11 @@ test('schema: operationalHistory.json has 5 bilingual entries covering clinical,
 });
 
 test('i18n & Malaysian BM hygiene: 100% EN/BM parity and zero forbidden Indonesian terms', () => {
+  const liveApps = readJson('src/data/liveApps.json');
   const dataBmStrings = [
     ...walkBilingualPairs(profile, 'profile'),
     ...walkBilingualPairs(projects, 'projects'),
+    ...walkBilingualPairs(liveApps, 'liveApps'),
     ...walkBilingualPairs(caseStudies, 'caseStudies'),
     ...walkBilingualPairs(credentials, 'credentials'),
     ...walkBilingualPairs(operationalHistory, 'operationalHistory')
@@ -409,7 +441,7 @@ test('utils: i18n, urlSafety, and exportPortfolioJson pure helpers handle edge c
   );
   assert.equal(normalizeExternalUrl('coursera.org/verify/ABC'), 'https://coursera.org/verify/ABC');
   assert.equal(normalizeExternalUrl('mailto:mfaiz.mdnordin@gmail.com'), 'mailto:mfaiz.mdnordin@gmail.com');
-  assert.equal(normalizeExternalUrl('/assets/resume-mohd-faiz-oct2026.pdf'), '');
+  assert.equal(normalizeExternalUrl('/assets/sample-document.pdf'), '');
   assert.equal(normalizeExternalUrl('javascript:alert(1)'), '');
   assert.equal(normalizeExternalUrl('java\tscript:alert(1)'), '');
   assert.equal(normalizeExternalUrl('data:text/html,<script>'), '');
@@ -461,4 +493,43 @@ test('utils: i18n, urlSafety, and exportPortfolioJson pure helpers handle edge c
   assert.equal(payload.credentials.nationalAccreditation.certificateSerialNo, 'S304265796');
   assert.equal(payload.credentials.nationalAccreditation.batchCode, 'M731-001-3:2021-102026');
   assert.equal(downloadPortfolioJson(payload), false);
+});
+
+test('R3 compliance: zero resume/cert file path references and zero hardcoded JSX lang===bm strings', () => {
+  const forbiddenRefRe = /resume-mohd-faiz|skm-level-3-cert/i;
+  const checkFiles = [];
+  const walk = (dir) => {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      const full = path.join(dir, entry.name);
+      if (entry.isDirectory()) walk(full);
+      else if (/\.(js|jsx|json|css|md)$/i.test(entry.name)) checkFiles.push(full);
+    }
+  };
+  walk(path.join(ROOT_DIR, 'src'));
+  checkFiles.push(path.join(ROOT_DIR, 'CONTRIBUTING_PROJECTS.md'));
+
+  for (const filePath of checkFiles) {
+    const content = fs.readFileSync(filePath, 'utf8');
+    assert.equal(
+      forbiddenRefRe.test(content),
+      false,
+      `Residual resume/cert file reference found in ${path.relative(ROOT_DIR, filePath)}`
+    );
+  }
+
+  const jsxTargets = [
+    path.join(ROOT_DIR, 'src', 'App.jsx'),
+    ...fs
+      .readdirSync(path.join(ROOT_DIR, 'src', 'components'))
+      .filter((name) => name.endsWith('.jsx'))
+      .map((name) => path.join(ROOT_DIR, 'src', 'components', name)),
+  ];
+  for (const filePath of jsxTargets) {
+    const jsx = fs.readFileSync(filePath, 'utf8').replace(/className=\{`[\s\S]*?`\}/g, '');
+    assert.equal(
+      /\b(?:activeLang|lang)\s*===\s*['"]bm['"]|\bisBm\s*\?/.test(jsx),
+      false,
+      `Hardcoded JSX lang==='bm' / isBm ternary found in ${path.relative(ROOT_DIR, filePath)}`
+    );
+  }
 });

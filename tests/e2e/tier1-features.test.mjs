@@ -538,7 +538,7 @@ describe('Tier 1 — Feature Coverage (F1–F18, 90 Tests)', () => {
     });
   });
 
-  test('T1-F07-02: Hero normalized external CTAs (https:// & mailto:)', async () => {
+  test('T1-F07-02: Hero normalized external CTAs (https:// & Gmail compose)', async () => {
     await withTrackedPage(browser, server.baseUrl, {}, async ({ page, errors }) => {
       const hero = page.locator('main section').first();
       assert.equal(
@@ -553,10 +553,9 @@ describe('Tier 1 — Feature Coverage (F1–F18, 90 Tests)', () => {
         await hero.locator('a[href*="wa.me"]').first().getAttribute('href'),
         'https://wa.me/60183904690'
       );
-      assert.equal(
-        await hero.locator('a[href^="mailto:"]').first().getAttribute('href'),
-        'mailto:mfaiz.mdnordin@gmail.com'
-      );
+      const gmailHref = await hero.locator('a[href^="https://mail.google.com/mail/"]').first().getAttribute('href');
+      assert.ok(gmailHref && gmailHref.includes('mfaiz.mdnordin%40gmail.com'), `Unexpected Gmail compose href: ${gmailHref}`);
+      assert.equal(await hero.getByRole('button', { name: /copy email address/i }).count(), 1);
       errors.assertZeroUnexpected('T1-F07-02');
     });
   });
@@ -591,18 +590,11 @@ describe('Tier 1 — Feature Coverage (F1–F18, 90 Tests)', () => {
     });
   });
 
-  test('T1-F07-05: Hero Resume PDF slot or safe fallback reference', async () => {
+  test('T1-F07-05: Hero zero resume/PDF file references & zero broken images', async () => {
     await withTrackedPage(browser, server.baseUrl, {}, async ({ page, errors }) => {
       const hero = page.locator('main section').first();
-      const resumeMarker = await hero.evaluate((el) => {
-        const html = el.innerHTML;
-        const text = el.innerText;
-        return (
-          /resume-mohd-faiz-oct2026\.pdf/i.test(html) ||
-          /resume|cv/i.test(text)
-        );
-      });
-      assert.ok(resumeMarker, 'Expected Resume PDF reference or fallback slot in Hero');
+      const html = await hero.innerHTML();
+      assert.equal(/resume-mohd-faiz|\.pdf/i.test(html), false, 'Unexpected resume/PDF file reference in Hero');
       await assertNoBrokenVisibleImages(page);
       errors.assertZeroUnexpected('T1-F07-05');
     });
@@ -743,18 +735,24 @@ describe('Tier 1 — Feature Coverage (F1–F18, 90 Tests)', () => {
     });
   });
 
-  test('T1-F10-03: Deterministic Gate vs Bounded AI Role separation in PRJ-01 & PRJ-05', async () => {
+  test('T1-F10-03: Deterministic Gate, Bounded AI, Business Objective, Project Formulas & Walkthrough in PRJ-01 & PRJ-05', async () => {
     await withTrackedPage(browser, server.baseUrl, {}, async ({ page, errors }) => {
       const d1 = await openProjectModal(page, 'PRJ-01');
       const t1 = await d1.innerText();
       assert.ok(t1.includes('Deterministic SLA timer'));
       assert.ok(t1.includes('Gemini Flash strictly scores'));
+      assert.match(t1, /Plain-Language Business Objective/i);
+      assert.ok(t1.includes('Speed-to-Lead SLA Latency'));
+      assert.ok(t1.includes('Executive Outcome Preview'));
+      assert.ok(await d1.getByTestId('slide-walkthrough-takeaway').isVisible());
       await closeModal(page, 'escape');
 
       const d5 = await openProjectModal(page, 'PRJ-05');
       const t5 = await d5.innerText();
-      assert.ok(t5.includes('6-tab relational schema'));
+      assert.ok(t5.includes('7-tab relational schema'));
       assert.ok(t5.includes('Synthesizes executive settlement discrepancy briefings'));
+      assert.ok(t5.includes('Paper GMV-to-Bank Settlement Waterfall'));
+      assert.ok(await d5.getByTestId('slide-walkthrough-takeaway').isVisible());
       errors.assertZeroUnexpected('T1-F10-03');
     });
   });
@@ -778,11 +776,11 @@ describe('Tier 1 — Feature Coverage (F1–F18, 90 Tests)', () => {
     });
   });
 
-  test('T1-F10-05: Modal conditional URLs (repoUrl active, empty URLs never emit href="")', async () => {
+  test('T1-F10-05: Modal conditional URLs (slide link safe, empty looker/live URLs never emit href="")', async () => {
     await withTrackedPage(browser, server.baseUrl, {}, async ({ page, errors }) => {
       const dialog = await openProjectModal(page, 'PRJ-01');
       const hrefs = await dialog.locator('a').evaluateAll((els) => els.map((a) => a.getAttribute('href')));
-      assert.ok(hrefs.includes('https://github.com/faizrobiah4690-design'));
+      assert.ok(hrefs.length >= 1, 'Expected at least 1 safe link inside modal (Open Full slide link)');
       for (const href of hrefs) {
         assert.ok(href && href !== '#' && href !== 'undefined', `Unsafe modal href: ${href}`);
       }
@@ -833,12 +831,13 @@ describe('Tier 1 — Feature Coverage (F1–F18, 90 Tests)', () => {
     });
   });
 
-  test('T1-F11-05: Case study image slots render clean placeholders when assets missing', async () => {
+  test('T1-F11-05: Case study cards & Funnel/MarTech connection render cleanly with zero broken images', async () => {
     await withTrackedPage(browser, server.baseUrl, {}, async ({ page, errors }) => {
-      const html = await page.locator('main').innerHTML();
-      assert.match(html, /case-radhi-fruits\.png|Radhi Fruits/i);
-      assert.match(html, /case-pedalhaus\.png|PedalHaus/i);
-      assert.match(html, /case-school-van\.png|School Van/i);
+      const text = await page.locator('main').innerText();
+      assert.match(text, /Radhi Fruits 4690/i);
+      assert.match(text, /PedalHaus Chukai/i);
+      assert.match(text, /School Van Service, Binjai/i);
+      assert.match(text, /Funnel & MarTech Connection/i);
       await assertNoBrokenVisibleImages(page);
       errors.assertZeroUnexpected('T1-F11-05');
     });
@@ -980,10 +979,11 @@ describe('Tier 1 — Feature Coverage (F1–F18, 90 Tests)', () => {
   });
 
   // F14: Footer.jsx
-  test('T1-F14-01: Footer direct contact links (email, WhatsApp, LinkedIn, GitHub)', async () => {
+  test('T1-F14-01: Footer direct contact links (Gmail compose, WhatsApp, LinkedIn, GitHub)', async () => {
     await withTrackedPage(browser, server.baseUrl, {}, async ({ page, errors }) => {
       const footer = page.locator('footer').first();
-      assert.equal(await footer.locator('a[href^="mailto:"]').first().getAttribute('href'), 'mailto:mfaiz.mdnordin@gmail.com');
+      const gmailHref = await footer.locator('a[href^="https://mail.google.com/mail/"]').first().getAttribute('href');
+      assert.ok(gmailHref && gmailHref.includes('mfaiz.mdnordin%40gmail.com'));
       assert.equal(await footer.locator('a[href*="wa.me"]').first().getAttribute('href'), 'https://wa.me/60183904690');
       assert.match(await footer.locator('a[href*="linkedin.com"]').first().getAttribute('href') || '', /^https:\/\//);
       assert.match(await footer.locator('a[href*="github.com"]').first().getAttribute('href') || '', /^https:\/\//);
@@ -1130,29 +1130,23 @@ describe('Tier 1 — Feature Coverage (F1–F18, 90 Tests)', () => {
     });
   });
 
-  // F17: Placeholder / Fallback Asset Slots
-  test('T1-F17-01: Resume PDF fallback slot safe when PDF missing', async () => {
+  // F17: PDPA Zero-File Guard & 40 Process Visuals Integrity
+  test('T1-F17-01: Hero contains zero resume PDF file references & zero broken images', async () => {
     await withTrackedPage(browser, server.baseUrl, {}, async ({ page, errors }) => {
       const hero = page.locator('main section').first();
-      const hasResumeSlot = await hero.evaluate((el) => {
-        const html = el.innerHTML || '';
-        const text = el.innerText || '';
-        return (
-          /resume-mohd-faiz-oct2026\.pdf/i.test(html) ||
-          /Resume PDF Slot|Slot PDF Resume|Download Resume|Muat Turun Resume/i.test(text)
-        );
-      });
-      assert.ok(hasResumeSlot, 'Expected explicit Resume PDF slot or fallback reference in Hero');
+      const html = await hero.innerHTML();
+      assert.equal(/resume-mohd-faiz|\.pdf/i.test(html), false, 'Unexpected resume PDF reference in Hero');
       await assertNoBrokenVisibleImages(page);
       errors.assertZeroUnexpected('T1-F17-01');
     });
   });
 
-  test('T1-F17-02: SKM cert fallback slot renders cleanly without broken img', async () => {
+  test('T1-F17-02: SKM verification metadata renders cleanly without cert file reference or broken img', async () => {
     await withTrackedPage(browser, server.baseUrl, {}, async ({ page, errors }) => {
       await assertNoBrokenVisibleImages(page);
       const html = await page.locator('main').innerHTML();
-      assert.match(html, /skm-level-3-cert\.jpg|S304265796/i);
+      assert.ok(html.includes('S304265796'));
+      assert.equal(/skm-level-3-cert/i.test(html), false, 'Unexpected cert file reference in DOM');
       errors.assertZeroUnexpected('T1-F17-02');
     });
   });
@@ -1225,6 +1219,115 @@ describe('Tier 1 — Feature Coverage (F1–F18, 90 Tests)', () => {
       assert.ok(modalText.includes('PRJ-01'));
       assert.ok(modalText.includes('Inbound Form Webhook'));
       errors.assertZeroUnexpected('T1-F18-05');
+    });
+  });
+
+  // R2 & R3 Coverage: LiveAppsShowcase & Light Mode Contrast
+  test('T1-R2-01: LiveAppsShowcase renders APP-01..04 in EN & BM with valid external links', async () => {
+    await withTrackedPage(browser, server.baseUrl, {}, async ({ page, errors }) => {
+      const section = page.locator('#live-apps');
+      await section.waitFor({ state: 'visible' });
+      const enText = await section.innerText();
+      for (const appName of ['AdForge MY', 'VertigoLab', 'PanicLab', 'AddMath Mudah']) {
+        assert.ok(enText.includes(appName), `Missing live app in EN: ${appName}`);
+      }
+      assert.equal(await section.locator('[data-live-app-id]').count(), 4);
+
+      await switchLanguage(page, 'bm');
+      const bmText = await section.innerText();
+      assert.ok(bmText.includes('Aplikasi Web Langsung'));
+      assert.ok(bmText.includes('Buka Aplikasi Langsung'));
+      assert.deepEqual(scanTextForIndonesianTerms(bmText, 'LiveAppsShowcase BM'), []);
+      errors.assertZeroUnexpected('T1-R2-01');
+    });
+  });
+
+  test('T1-R3-01: Light Mode toggle applies readable surface & WCAG 2.1 AA text contrast (>=4.5:1) across Funnel, Systems, Live Apps, Credentials & Modal', async () => {
+    const contrastRatio = (fgStr, bgStr) => {
+      const l1 = relativeLuminance(parseRgb(fgStr));
+      const l2 = relativeLuminance(parseRgb(bgStr));
+      return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
+    };
+
+    await withTrackedPage(browser, server.baseUrl, {}, async ({ page, errors }) => {
+      await page.getByTestId('theme-toggle').click();
+      const theme = await page.evaluate(() => document.documentElement.dataset.theme);
+      assert.equal(theme, 'light');
+      await page.waitForTimeout(250);
+
+      // Click stage 02 so active .bg-emerald-400 funnel pill is also rendered
+      await getFunnelStageButton(page, '02').click();
+      await page.waitForTimeout(250);
+
+      const metrics = await page.evaluate(() => {
+        const readColors = (el) => {
+          if (!el) return null;
+          const cs = getComputedStyle(el);
+          return { text: (el.textContent || '').trim(), bg: cs.backgroundColor, color: cs.color };
+        };
+        const stage2 = document.querySelector('[data-funnel-stage="02"]');
+        const activePill = stage2?.querySelector('span:last-child');
+        const stage1 = document.querySelector('[data-funnel-stage="01"]');
+        const inactivePill = stage1?.querySelector('span:last-child');
+        const emeraldSolidNodes = Array.from(document.querySelectorAll('.bg-emerald-400')).filter((el) => {
+          const rect = el.getBoundingClientRect();
+          const cs = getComputedStyle(el);
+          return rect.width > 4 && rect.height > 4 && cs.visibility !== 'hidden' && (el.textContent || '').trim().length > 0;
+        });
+        const prjBadges = Array.from(document.querySelectorAll('#systems article .bg-slate-800.text-emerald-300'));
+        return {
+          bodyBg: getComputedStyle(document.body).backgroundColor,
+          activePill: readColors(activePill),
+          inactivePill: readColors(inactivePill),
+          emeraldSolids: emeraldSolidNodes.map(readColors),
+          prjBadges: prjBadges.map(readColors),
+        };
+      });
+
+      const bodyLum = relativeLuminance(parseRgb(metrics.bodyBg));
+      assert.ok(bodyLum > 0.8, `Expected light body background, got ${metrics.bodyBg}`);
+      assert.ok(metrics.inactivePill, 'Expected inactive stage pill');
+      assert.ok(
+        contrastRatio(metrics.inactivePill.color, metrics.inactivePill.bg) >= 4.5,
+        `Inactive stage pill failed AA contrast: ${JSON.stringify(metrics.inactivePill)}`
+      );
+      assert.ok(metrics.activePill, 'Expected active stage pill');
+      assert.ok(
+        contrastRatio(metrics.activePill.color, metrics.activePill.bg) >= 4.5,
+        `Active stage pill failed AA contrast: ${JSON.stringify(metrics.activePill)}`
+      );
+
+      assert.ok(metrics.emeraldSolids.length >= 4, `Expected >=4 visible .bg-emerald-400 controls/badges, got ${metrics.emeraldSolids.length}`);
+      for (const item of metrics.emeraldSolids) {
+        const ratio = contrastRatio(item.color, item.bg);
+        assert.ok(ratio >= 4.5, `Light Mode .bg-emerald-400 element "${item.text}" failed WCAG 2.1 AA (${ratio.toFixed(2)}:1 < 4.5:1): ${JSON.stringify(item)}`);
+      }
+
+      // Reset stages so all 5 PRJ-01..05 badges are visible (already verified for stage 02, now verify all 5)
+      await getAllStagesButton(page).click();
+      await page.waitForTimeout(250);
+      const allPrjBadges = await page.evaluate(() =>
+        Array.from(document.querySelectorAll('#systems article .bg-slate-800.text-emerald-300')).map((el) => {
+          const cs = getComputedStyle(el);
+          return { text: (el.textContent || '').trim(), bg: cs.backgroundColor, color: cs.color };
+        })
+      );
+      assert.equal(allPrjBadges.length, 5, 'Expected all 5 PRJ-01..05 ID badges');
+      for (const badge of allPrjBadges) {
+        const ratio = contrastRatio(badge.color, badge.bg);
+        assert.ok(ratio >= 4.5, `Light Mode PRJ badge "${badge.text}" failed WCAG 2.1 AA (${ratio.toFixed(2)}:1 < 4.5:1): ${JSON.stringify(badge)}`);
+      }
+
+      const dialog = await openProjectModal(page, 'PRJ-02');
+      const formulaPreLum = await dialog.locator('pre').first().evaluate((el) => {
+        const cs = getComputedStyle(el);
+        return { bg: cs.backgroundColor, color: cs.color };
+      });
+      assert.ok(relativeLuminance(parseRgb(formulaPreLum.bg)) > 0.7, `Expected light <pre> surface, got ${formulaPreLum.bg}`);
+      assert.ok(contrastRatio(formulaPreLum.color, formulaPreLum.bg) >= 4.5, `Light Mode <pre> failed AA contrast: ${JSON.stringify(formulaPreLum)}`);
+      await closeModal(page, 'escape');
+
+      errors.assertZeroUnexpected('T1-R3-01');
     });
   });
 });

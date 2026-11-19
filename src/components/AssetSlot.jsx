@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Download, EyeOff, FileText, Image as ImageIcon, ShieldCheck } from 'lucide-react';
+import i18nData from '../data/i18n.json';
 import { localizeText, normalizeLang } from '../utils/i18n.js';
 import { isSafeExternalUrl, normalizeExternalUrl } from '../utils/urlSafety.js';
 
@@ -63,19 +64,33 @@ export default function AssetSlot({
   lang = 'en',
   t = {}
 }) {
-  const isBm = normalizeLang(lang) === 'bm';
+  const activeLang = normalizeLang(lang);
+  const fallbackAssets = i18nData?.[activeLang]?.assets || i18nData.en.assets;
   const safeSrc = sanitizeAssetPath(src);
   const safeHint = sanitizeAssetPath(expectedPathHint);
   const displayPath = safeSrc || safeHint || '';
-  const safeTitle = localizeText(title, lang);
-  const safeDownloadLabel = localizeText(downloadLabel, lang);
-  const safeUnavailableLabel = localizeText(unavailableLabel, lang);
-  const safePrivacyNotice = localizeText(privacyNotice, lang);
-  const safeDropInHint = localizeText(t?.assets?.dropInHint, lang);
-  const safeCtaResume = localizeText(t?.hero?.ctaResume, lang);
-  const safeResumeUnavailable = localizeText(t?.hero?.resumeUnavailable, lang);
-  const safePlaceholderBadge = localizeText(t?.assets?.placeholderBadge, lang);
-  const safeExpectedPathLabel = localizeText(t?.assets?.expectedPathLabel, lang);
+  const safeTitle = localizeText(title, activeLang);
+  const safeDownloadLabel = localizeText(downloadLabel, activeLang);
+  const safeUnavailableLabel = localizeText(unavailableLabel, activeLang);
+  const safePrivacyNotice = localizeText(privacyNotice, activeLang);
+  const safeDropInHint =
+    localizeText(t?.assets?.dropInHint, activeLang) ||
+    localizeText(fallbackAssets.dropInHint, activeLang);
+  const safePdfDownload =
+    localizeText(t?.assets?.pdfDownloadLabel, activeLang) ||
+    localizeText(fallbackAssets.pdfDownloadLabel, activeLang);
+  const safePdfUnavailable =
+    localizeText(t?.assets?.pdfUnavailableLabel, activeLang) ||
+    localizeText(fallbackAssets.pdfUnavailableLabel, activeLang);
+  const safePlaceholderBadge =
+    localizeText(t?.assets?.placeholderBadge, activeLang) ||
+    localizeText(fallbackAssets.placeholderBadge, activeLang);
+  const safeExpectedPathLabel =
+    localizeText(t?.assets?.expectedPathLabel, activeLang) ||
+    localizeText(fallbackAssets.expectedPathLabel, activeLang);
+  const safePdpaShieldBadge =
+    localizeText(t?.assets?.pdpaShieldBadge, activeLang) ||
+    localizeText(fallbackAssets.pdpaShieldBadge, activeLang);
 
   const [status, setStatus] = useState(safeSrc ? 'checking' : 'missing');
   const [showResumeSlotDetails, setShowResumeSlotDetails] = useState(false);
@@ -146,11 +161,7 @@ export default function AssetSlot({
           className="inline-flex items-center gap-2 rounded-xl border border-cyan-400/50 bg-cyan-400/10 px-4 py-2.5 text-sm font-semibold text-cyan-200 transition hover:bg-cyan-400/20"
         >
           <Download className="h-4 w-4 shrink-0" aria-hidden="true" />
-          <span>
-            {safeDownloadLabel ||
-              safeCtaResume ||
-              (isBm ? 'Muat Turun Resume (PDF)' : 'Download Resume (PDF)')}
-          </span>
+          <span>{safeDownloadLabel || safePdfDownload}</span>
         </a>
       );
     }
@@ -164,28 +175,24 @@ export default function AssetSlot({
           className="inline-flex items-center gap-2 rounded-xl border border-dashed border-slate-600 bg-slate-900/90 px-4 py-2.5 text-sm font-medium text-slate-200 transition hover:border-cyan-400/50 hover:text-cyan-200"
         >
           <FileText className="h-4 w-4 shrink-0 text-cyan-400" aria-hidden="true" />
-          <span>
-            {safeUnavailableLabel ||
-              safeResumeUnavailable ||
-              (isBm ? 'Slot PDF Resume Sedia' : 'Resume PDF Slot Ready')}
-          </span>
+          <span>{safeUnavailableLabel || safePdfUnavailable}</span>
         </button>
         <div className="text-xs text-slate-400 font-mono break-all" data-asset-slot={displayPath}>
           <code>{displayPath}</code>
         </div>
         {showResumeSlotDetails ? (
           <p className="text-xs text-slate-300 bg-slate-900/90 border border-slate-800 rounded-lg px-3 py-2 max-w-sm">
-            {safeDropInHint ||
-              (isBm
-                ? 'Letakkan fail aset sah ke dalam public/assets/ untuk paparan automatik tanpa suntingan kod.'
-                : 'Place verified asset in public/assets/ to render automatically without code changes.')}
+            {safeDropInHint}
           </p>
         ) : null}
       </div>
     );
   }
 
-  const shieldNotice = safePrivacyNotice || localizeText(t?.assets?.nricMaskNotice, lang);
+  const shieldNotice =
+    safePrivacyNotice ||
+    localizeText(t?.assets?.nricMaskNotice, activeLang) ||
+    localizeText(fallbackAssets.nricMaskNotice, activeLang);
 
   if (status === 'ready' && kind === 'pdf' && safeSrc) {
     return (
@@ -202,7 +209,7 @@ export default function AssetSlot({
           {isNricProtected ? (
             <span className="inline-flex items-center gap-1 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-2.5 py-0.5 font-mono text-[11px] text-emerald-300">
               <EyeOff className="h-3 w-3 shrink-0" aria-hidden="true" />
-              <span>{isBm ? 'Perisai PDPA 2024' : 'PDPA 2024 Shield'}</span>
+              <span>{safePdpaShieldBadge}</span>
             </span>
           ) : null}
         </div>
@@ -216,11 +223,7 @@ export default function AssetSlot({
             className="inline-flex items-center gap-2 rounded-xl border border-cyan-400/50 bg-cyan-400/10 px-4 py-2 text-sm font-semibold text-cyan-200 transition hover:bg-cyan-400/20"
           >
             <Download className="h-4 w-4 shrink-0" aria-hidden="true" />
-            <span>
-              {safeDownloadLabel ||
-                safeCtaResume ||
-                (isBm ? 'Muat Turun Resume (PDF)' : 'Download Resume (PDF)')}
-            </span>
+            <span>{safeDownloadLabel || safePdfDownload}</span>
           </a>
         </div>
         {isNricProtected && shieldNotice ? (
@@ -277,12 +280,12 @@ export default function AssetSlot({
           ) : (
             <ImageIcon className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
           )}
-          <span>{safePlaceholderBadge || (isBm ? 'Slot Aset Sedia' : 'Asset Slot Ready')}</span>
+          <span>{safePlaceholderBadge}</span>
         </span>
         {isNricProtected ? (
           <span className="inline-flex items-center gap-1 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-2.5 py-0.5 font-mono text-[11px] text-emerald-300">
             <EyeOff className="h-3 w-3 shrink-0" aria-hidden="true" />
-            <span>{isBm ? 'Perisai PDPA 2024' : 'PDPA 2024 Shield'}</span>
+            <span>{safePdpaShieldBadge}</span>
           </span>
         ) : null}
       </div>
@@ -292,17 +295,13 @@ export default function AssetSlot({
         {displayPath ? (
           <p className="text-xs text-slate-400 break-words">
             <span className="mr-1.5">
-              {safeExpectedPathLabel || (isBm ? 'Laluan Aset Dijangka' : 'Expected Asset Path')}:
+              {safeExpectedPathLabel}:
             </span>
             <code className="font-mono text-cyan-300 break-all">{displayPath}</code>
           </p>
         ) : null}
         <p className="text-xs text-slate-400 leading-relaxed">
-          {safeUnavailableLabel ||
-            safeDropInHint ||
-            (isBm
-              ? 'Letakkan fail aset sah ke dalam public/assets/ untuk paparan automatik tanpa suntingan kod.'
-              : 'Place verified asset in public/assets/ to render automatically without code changes.')}
+          {safeUnavailableLabel || safeDropInHint}
         </p>
       </div>
 

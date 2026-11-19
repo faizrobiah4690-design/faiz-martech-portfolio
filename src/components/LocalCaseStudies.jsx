@@ -106,6 +106,18 @@ export default function LocalCaseStudies({ caseStudies, lang, t }) {
                 </div>
 
                 <div className="space-y-4 min-w-0">
+                  {localizeText(cs.whyItMatters, lang) ? (
+                    <div className="rounded-xl border border-cyan-400/25 bg-cyan-950/20 p-3 space-y-1">
+                      <p className="text-[11px] font-mono uppercase tracking-wider text-cyan-300">
+                        {localizeText(t?.caseStudies?.whyItMattersLabel, lang) ||
+                          'Funnel & MarTech Connection'}
+                      </p>
+                      <p className="text-xs text-slate-200 leading-relaxed">
+                        {localizeText(cs.whyItMatters, lang)}
+                      </p>
+                    </div>
+                  ) : null}
+
                   <div className="rounded-xl border border-amber-400/25 bg-amber-950/15 p-3 space-y-1">
                     <p className="text-[11px] font-mono uppercase tracking-wider text-amber-300">
                       {localizeText(t?.caseStudies?.evidenceBoundaryLabel, lang)}

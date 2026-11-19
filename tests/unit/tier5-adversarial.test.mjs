@@ -302,17 +302,17 @@ test('SSR adversarial checks (U1, GAP-01..05, GAP-08e): Vite SSR renderToStaticM
     // U1: SSR 5 -> 6 in EN & BM
     const ssr5En = renderEl(App);
     assert.ok(ssr5En.includes('5 Systems Shipped'));
-    assert.ok(ssr5En.includes('Explore 5 Live Systems'));
+    assert.ok(ssr5En.includes('Explore 5 MarTech Systems'));
 
     const extendedProjects = [...structuredClone(projects), makePrj06()];
     const ssr6En = renderEl(App, { initialData: { projects: extendedProjects, lang: 'en' } });
     assert.ok(ssr6En.includes('6 Systems Shipped'));
-    assert.ok(ssr6En.includes('Explore 6 Live Systems'));
+    assert.ok(ssr6En.includes('Explore 6 MarTech Systems'));
     assert.ok(ssr6En.includes('2 Systems'));
 
     const ssr6Bm = renderEl(App, { initialData: { projects: extendedProjects, lang: 'bm' } });
     assert.ok(ssr6Bm.includes('6 Sistem Disiapkan'));
-    assert.ok(ssr6Bm.includes('Terokai 6 Sistem Aktif'));
+    assert.ok(ssr6Bm.includes('Terokai 6 Sistem MarTech'));
 
     // GAP-01 / X1: SSR Hero KPI & CredentialsVault count sync on malformed array
     const badCreds = {
@@ -441,7 +441,7 @@ test('SSR adversarial checks (U1, GAP-01..05, GAP-08e): Vite SSR renderToStaticM
       t: { ...structuredClone(i18n.en), hero: { ...i18n.en.hero, kpis: [null, { key: 'systems', value: '{count}', label: 'Systems', subtext: 'OK' }] } },
       metrics: undefined
     });
-    assert.ok(undefHeroHtml.includes('Explore 0 Live Systems'));
+    assert.ok(undefHeroHtml.includes('Explore 0 MarTech Systems'));
 
     const navMsHtml = renderEl(Navbar, {
       lang: 'ms',
@@ -478,8 +478,8 @@ test('SSR adversarial checks (U1, GAP-01..05, GAP-08e): Vite SSR renderToStaticM
 
     // Valid local & external paths remain accepted by AssetSlot
     for (const [validSrc, validKind] of [
-      ['/assets/resume-mohd-faiz-oct2026.pdf', 'pdf'],
-      ['/assets/skm-level-3-cert.jpg', 'image'],
+      ['/assets/sample-doc.pdf', 'pdf'],
+      ['/assets/projects/prj-01/slide-01.jpg', 'image'],
       ['https://example.com/img.png', 'image']
     ]) {
       const validHtml = renderEl(AssetSlot, { src: validSrc, kind: validKind, title: 'Valid Asset' });
@@ -562,7 +562,7 @@ test('SSR adversarial checks (U1, GAP-01..05, GAP-08e): Vite SSR renderToStaticM
         i18n: { en: 'invalid-primitive', bm: i18n.bm }
       }
     });
-    assert.ok(ssrPrimitiveI18n.includes('Explore 5 Live Systems'));
+    assert.ok(ssrPrimitiveI18n.includes('Explore 5 MarTech Systems'));
 
     // REM-GAP-02: Footer omits stray ' · ' separator on empty or partial profile
     const ssrFooterEmpty = renderEl(Footer, {

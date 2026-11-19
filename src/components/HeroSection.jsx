@@ -12,7 +12,6 @@ import {
 } from 'lucide-react';
 import { localizeText } from '../utils/i18n.js';
 import { isSafeExternalUrl, normalizeExternalUrl } from '../utils/urlSafety.js';
-import AssetSlot from './AssetSlot.jsx';
 
 function isPlainObject(v) {
   return Boolean(v && typeof v === 'object' && !Array.isArray(v));
@@ -42,7 +41,7 @@ export default function HeroSection({ profile, lang, t, metrics }) {
   };
 
   const ctaExploreLabel = (
-    localizeText(t?.hero?.ctaExplore, lang) || 'Explore {count} Live Systems'
+    localizeText(t?.hero?.ctaExplore, lang) || 'Explore {count} MarTech Systems'
   ).replace('{count}', String(totalSystems));
 
   const fullName = localizeText(safeProfile.fullName, lang) || 'Mohd Faiz Bin Md Nordin';
@@ -153,7 +152,7 @@ export default function HeroSection({ profile, lang, t, metrics }) {
                     rel="noopener noreferrer"
                     onClick={handleCopyEmail}
                     className="inline-flex items-center gap-1.5 px-3 py-2 text-xs sm:text-sm font-medium text-slate-200 transition hover:bg-amber-400/10 hover:text-amber-300"
-                    title={lang === 'bm' ? 'Tulis e-mel di Gmail' : 'Compose email in Gmail'}
+                    title={localizeText(t?.hero?.gmailComposeTitle, lang) || 'Compose email in Gmail'}
                   >
                     <Mail className="h-4 w-4 text-amber-400 shrink-0" aria-hidden="true" />
                     <span>{localizeText(t?.hero?.ctaEmail, lang) || 'Email'}</span>
@@ -162,14 +161,16 @@ export default function HeroSection({ profile, lang, t, metrics }) {
                   <button
                     type="button"
                     onClick={handleCopyEmail}
-                    aria-label={lang === 'bm' ? 'Salin alamat e-mel' : 'Copy email address'}
+                    aria-label={localizeText(t?.hero?.copyEmailAria, lang) || 'Copy email address'}
                     title={emailAddress}
                     className="inline-flex items-center gap-1 border-l border-slate-800 px-2.5 py-2 text-xs font-mono text-slate-400 hover:bg-slate-800/80 hover:text-emerald-300 transition"
                   >
                     {emailCopied ? (
                       <>
                         <Check className="h-3.5 w-3.5 text-emerald-400 shrink-0" aria-hidden="true" />
-                        <span className="text-emerald-300">{lang === 'bm' ? 'Disalin' : 'Copied'}</span>
+                        <span className="text-emerald-300">
+                          {localizeText(t?.hero?.copiedLabel, lang) || 'Copied'}
+                        </span>
                       </>
                     ) : (
                       <Copy className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />

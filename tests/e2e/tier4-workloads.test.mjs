@@ -175,7 +175,7 @@ describe('Tier 4 — Real-World Application Scenarios (10 End-to-End User Journe
       const dialog = await openProjectModal(page, 'PRJ-05');
       const modalText = await dialog.innerText();
       assert.match(modalText, /RM 0\.00 Order-to-Settlement/i);
-      assert.ok(modalText.includes('6-tab relational schema'));
+      assert.ok(modalText.includes('7-tab relational schema'));
       assert.ok(modalText.includes('8% SST'));
       assert.ok(modalText.includes('RTS/refund clawbacks'));
       assert.ok(modalText.includes('Sandbox Stress-Test Validated'));

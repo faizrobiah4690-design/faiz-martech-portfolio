@@ -67,7 +67,8 @@ html[data-theme="light"] .bg-slate-950\/95,
 html[data-theme="light"] .bg-slate-950\/90,
 html[data-theme="light"] .bg-slate-950\/80,
 html[data-theme="light"] .bg-slate-950\/70,
-html[data-theme="light"] .bg-slate-950\/60 {
+html[data-theme="light"] .bg-slate-950\/60,
+html[data-theme="light"] .bg-slate-950\/50 {
   background-color: #f8fafc !important;
 }
 
@@ -82,6 +83,21 @@ html[data-theme="light"] .bg-slate-900\/70 {
   background-color: #ffffff !important;
 }
 
+html[data-theme="light"] .bg-slate-800,
+html[data-theme="light"] .bg-slate-800\/80 {
+  background-color: #e2e8f0 !important;
+}
+
+html[data-theme="light"] .hover\:bg-slate-900\/90:hover,
+html[data-theme="light"] .hover\:bg-slate-900:hover {
+  background-color: #f1f5f9 !important;
+}
+
+html[data-theme="light"] .hover\:bg-slate-800\/80:hover {
+  background-color: #e2e8f0 !important;
+}
+
+html[data-theme="light"] .bg-emerald-950\/30,
 html[data-theme="light"] .bg-emerald-950\/20,
 html[data-theme="light"] .bg-emerald-950\/15 {
   background-color: #ecfdf5 !important;
@@ -124,13 +140,20 @@ html[data-theme="light"] .text-slate-400 {
 
 html[data-theme="light"] .text-emerald-300,
 html[data-theme="light"] .text-emerald-400,
-html[data-theme="light"] .text-emerald-200 {
+html[data-theme="light"] .text-emerald-200,
+html[data-theme="light"] .text-emerald-200\/80 {
   color: #047857 !important;
+}
+
+html[data-theme="light"] .bg-slate-800.text-emerald-300,
+html[data-theme="light"] .bg-slate-800 .text-emerald-300 {
+  color: #065f46 !important;
 }
 
 html[data-theme="light"] .text-cyan-300,
 html[data-theme="light"] .text-cyan-400,
-html[data-theme="light"] .text-cyan-200 {
+html[data-theme="light"] .text-cyan-200,
+html[data-theme="light"] .text-cyan-200\/80 {
   color: #0e7490 !important;
 }
 
@@ -141,8 +164,45 @@ html[data-theme="light"] .text-amber-100\/90 {
   color: #b45309 !important;
 }
 
+html[data-theme="light"] .hover\:text-white:hover {
+  color: #0f172a !important;
+}
+
+html[data-theme="light"] .hover\:text-slate-200:hover {
+  color: #1e293b !important;
+}
+
+html[data-theme="light"] .hover\:text-emerald-300:hover,
+html[data-theme="light"] .hover\:text-emerald-200:hover {
+  color: #065f46 !important;
+}
+
+html[data-theme="light"] .hover\:text-cyan-200:hover,
+html[data-theme="light"] .hover\:text-cyan-300:hover {
+  color: #0e7490 !important;
+}
+
+html[data-theme="light"] .hover\:text-amber-300:hover {
+  color: #b45309 !important;
+}
+
+html[data-theme="light"] .hover\:bg-emerald-400:hover {
+  background-color: #047857 !important;
+  color: #ffffff !important;
+}
+
+html[data-theme="light"] .hover\:bg-cyan-400:hover {
+  background-color: #0e7490 !important;
+  color: #ffffff !important;
+}
+
+html[data-theme="light"] pre {
+  background-color: #f1f5f9 !important;
+  border: 1px solid #cbd5e1 !important;
+}
+
 html[data-theme="light"] .bg-emerald-400 {
-  background-color: #059669 !important;
+  background-color: #047857 !important;
   color: #ffffff !important;
 }
 
@@ -152,7 +212,7 @@ html[data-theme="light"] .bg-emerald-400.text-slate-950 {
 }
 
 html[data-theme="light"] .bg-emerald-400:hover {
-  background-color: #047857 !important;
+  background-color: #065f46 !important;
 }
 
 html[data-theme="light"] input[type="search"] {

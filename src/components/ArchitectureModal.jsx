@@ -101,9 +101,19 @@ export default function ArchitectureModal({ project, lang, t, onClose }) {
       : '';
 
   const pipelineNodes = Array.isArray(project.pipelineNodes) ? project.pipelineNodes : [];
-  const formulas = (
+  const pipelineStepDetails = (
+    Array.isArray(project.pipelineStepDetails) ? project.pipelineStepDetails : []
+  ).filter(isPlainObject);
+  const projectFormulas = (Array.isArray(project.formulas) ? project.formulas : []).filter(
+    isPlainObject
+  );
+  const fallbackFormulas = (
     Array.isArray(t?.modal?.deterministicFormulas) ? t.modal.deterministicFormulas : []
   ).filter(isPlainObject);
+  const formulas = projectFormulas.length > 0 ? projectFormulas : fallbackFormulas;
+
+  const businessObjectiveText = localizeText(project.businessObjective, lang);
+  const martechInsightText = localizeText(project.martechInsight, lang);
 
   const statusKey =
     typeof project.statusBadge === 'string' ? project.statusBadge.trim() : '';
@@ -140,14 +150,15 @@ export default function ArchitectureModal({ project, lang, t, onClose }) {
             src: item.src.trim(),
             caption:
               localizeText(item.caption || item.alt, lang) ||
-              `${processVisualDefaultTitle} #${idx + 1}`
+              `${processVisualDefaultTitle} #${idx + 1}`,
+            flowStep: localizeText(item.flowStep, lang),
+            takeaway: localizeText(item.takeaway, lang)
           }));
   const clampedSlideIndex =
     galleryVisuals.length > 0
       ? Math.min(activeSlideIndex, galleryVisuals.length - 1)
       : 0;
   const activeVisual = galleryVisuals[clampedSlideIndex] || null;
-  const isBm = lang === 'bm';
   const safeProjectSlug =
     (projectId || 'project')
       .toLowerCase()
@@ -217,34 +228,97 @@ export default function ArchitectureModal({ project, lang, t, onClose }) {
           </button>
         </div>
 
-        <div className="space-y-2">
-          <h3 className="text-xs font-mono uppercase tracking-wider text-cyan-400">
-            {localizeText(t?.modal?.pipelineTitle, lang) || '5-Node Data Flow Pipeline'}
-          </h3>
+        {businessObjectiveText || martechInsightText ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {businessObjectiveText ? (
+              <div className="rounded-xl border border-emerald-400/35 bg-emerald-950/15 p-4 space-y-1.5 min-w-0">
+                <h3 className="text-xs font-mono uppercase tracking-wider text-emerald-300">
+                  {localizeText(t?.modal?.businessObjectiveTitle, lang) ||
+                    'Plain-Language Business Objective'}
+                </h3>
+                <p className="text-sm text-slate-100 leading-relaxed">{businessObjectiveText}</p>
+              </div>
+            ) : null}
+
+            {martechInsightText ? (
+              <div className="rounded-xl border border-cyan-400/35 bg-cyan-950/20 p-4 space-y-1.5 min-w-0">
+                <h3 className="text-xs font-mono uppercase tracking-wider text-cyan-300">
+                  {localizeText(t?.modal?.martechInsightTitle, lang) ||
+                    'Why This Matters (MarTech & Ad Ops Insight)'}
+                </h3>
+                <p className="text-sm text-slate-100 leading-relaxed">{martechInsightText}</p>
+              </div>
+            ) : null}
+          </div>
+        ) : null}
+
+        <div className="space-y-3">
+          <div className="space-y-1">
+            <h3 className="text-xs font-mono uppercase tracking-wider text-cyan-400">
+              {localizeText(t?.modal?.pipelineTitle, lang) || '5-Node Data Flow Pipeline'}
+            </h3>
+            {localizeText(t?.modal?.pipelineSubtitle, lang) ? (
+              <p className="text-xs text-slate-400 leading-relaxed">
+                {localizeText(t?.modal?.pipelineSubtitle, lang)}
+              </p>
+            ) : null}
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-5 gap-2.5">
-            {pipelineNodes.map((node, index) => (
-              <div
-                key={`${projectId || 'project'}-node-${index + 1}`}
-                data-pipeline-node={index + 1}
-                className="relative rounded-xl border border-slate-700/90 bg-slate-950/80 p-3 flex flex-col justify-between gap-1.5 min-w-0"
-              >
-                <div className="flex items-center justify-between gap-1">
-                  <span className="font-mono text-xs font-bold text-cyan-400">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
-                  {index < pipelineNodes.length - 1 ? (
-                    <ChevronRight
-                      className="hidden sm:block h-3.5 w-3.5 text-slate-500"
-                      aria-hidden="true"
-                    />
+            {pipelineNodes.map((node, index) => {
+              const stepDetail = pipelineStepDetails[index];
+              const stepRole = stepDetail ? localizeText(stepDetail.role, lang) : '';
+              return (
+                <div
+                  key={`${projectId || 'project'}-node-${index + 1}`}
+                  data-pipeline-node={index + 1}
+                  className="relative rounded-xl border border-slate-700/90 bg-slate-950/80 p-3 flex flex-col justify-between gap-1.5 min-w-0"
+                >
+                  <div className="flex items-center justify-between gap-1">
+                    <span className="font-mono text-xs font-bold text-cyan-400">
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
+                    {index < pipelineNodes.length - 1 ? (
+                      <ChevronRight
+                        className="hidden sm:block h-3.5 w-3.5 text-slate-500"
+                        aria-hidden="true"
+                      />
+                    ) : null}
+                  </div>
+                  <p className="text-xs font-medium text-slate-100 leading-snug break-words">
+                    {localizeText(node, lang)}
+                  </p>
+                  {stepRole ? (
+                    <p className="text-[10px] font-mono text-emerald-300 leading-tight break-words">
+                      {stepRole}
+                    </p>
                   ) : null}
                 </div>
-                <p className="text-xs font-medium text-slate-100 leading-snug break-words">
-                  {localizeText(node, lang)}
-                </p>
-              </div>
-            ))}
+              );
+            })}
           </div>
+
+          {pipelineStepDetails.length > 0 ? (
+            <ol className="grid grid-cols-1 gap-2 rounded-xl border border-slate-800 bg-slate-950/60 p-3.5">
+              {pipelineStepDetails.map((step, idx) => {
+                const roleLabel = localizeText(step.role, lang);
+                const summaryText = localizeText(step.summary, lang);
+                if (!roleLabel && !summaryText) return null;
+                return (
+                  <li
+                    key={`${projectId || 'project'}-step-detail-${idx + 1}`}
+                    className="text-xs text-slate-200 leading-relaxed flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-2"
+                  >
+                    {roleLabel ? (
+                      <span className="font-mono font-semibold text-cyan-300 shrink-0">
+                        {roleLabel}:
+                      </span>
+                    ) : null}
+                    <span>{summaryText}</span>
+                  </li>
+                );
+              })}
+            </ol>
+          ) : null}
         </div>
 
         <div className="rounded-xl border border-slate-800 bg-slate-950/60 p-4 space-y-1.5">
@@ -348,21 +422,25 @@ export default function ArchitectureModal({ project, lang, t, onClose }) {
                       prev <= 0 ? galleryVisuals.length - 1 : prev - 1
                     )
                   }
-                  aria-label={isBm ? 'Slaid sebelumnya' : 'Previous slide'}
+                  aria-label={localizeText(t?.modal?.prevSlideAria, lang) || 'Previous slide'}
                   className="inline-flex items-center gap-1 rounded-lg border border-slate-700 bg-slate-950/80 px-2.5 py-1.5 text-xs font-medium text-slate-200 hover:border-cyan-400/60 hover:text-cyan-200 transition"
                 >
                   <ChevronLeft className="h-3.5 w-3.5" aria-hidden="true" />
-                  <span className="hidden sm:inline">{isBm ? 'Sebelum' : 'Prev'}</span>
+                  <span className="hidden sm:inline">
+                    {localizeText(t?.modal?.prevShort, lang) || 'Prev'}
+                  </span>
                 </button>
                 <button
                   type="button"
                   onClick={() =>
                     setActiveSlideIndex((prev) => (prev + 1) % galleryVisuals.length)
                   }
-                  aria-label={isBm ? 'Slaid seterusnya' : 'Next slide'}
+                  aria-label={localizeText(t?.modal?.nextSlideAria, lang) || 'Next slide'}
                   className="inline-flex items-center gap-1 rounded-lg border border-slate-700 bg-slate-950/80 px-2.5 py-1.5 text-xs font-medium text-slate-200 hover:border-cyan-400/60 hover:text-cyan-200 transition"
                 >
-                  <span className="hidden sm:inline">{isBm ? 'Seterusnya' : 'Next'}</span>
+                  <span className="hidden sm:inline">
+                    {localizeText(t?.modal?.nextShort, lang) || 'Next'}
+                  </span>
                   <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
                 </button>
               </div>
@@ -372,19 +450,26 @@ export default function ArchitectureModal({ project, lang, t, onClose }) {
           {activeVisual ? (
             <div className="space-y-3">
               <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-slate-800 bg-slate-950/70 px-3 py-2">
-                <p className="text-xs sm:text-sm font-medium text-slate-100">
-                  <span className="font-mono text-cyan-400 mr-2">
-                    {isBm ? 'Slaid' : 'Slide'} {activeVisual.stage}
+                <div className="flex flex-wrap items-center gap-2 min-w-0">
+                  <span className="font-mono text-xs text-cyan-400 shrink-0">
+                    {localizeText(t?.modal?.slideLabel, lang) || 'Slide'} {activeVisual.stage}
                   </span>
-                  {activeVisual.caption}
-                </p>
+                  {activeVisual.flowStep ? (
+                    <span className="rounded-md border border-emerald-400/30 bg-emerald-400/10 px-2 py-0.5 font-mono text-[11px] font-semibold text-emerald-300">
+                      {activeVisual.flowStep}
+                    </span>
+                  ) : null}
+                  <p className="text-xs sm:text-sm font-medium text-slate-100">
+                    {activeVisual.caption}
+                  </p>
+                </div>
                 <a
                   href={activeVisual.src}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1 text-xs font-mono text-emerald-300 hover:text-emerald-200 shrink-0"
                 >
-                  <span>{isBm ? 'Buka Penuh' : 'Open Full'}</span>
+                  <span>{localizeText(t?.modal?.openFullLabel, lang) || 'Open Full'}</span>
                   <ExternalLink className="h-3 w-3" aria-hidden="true" />
                 </a>
               </div>
@@ -400,11 +485,27 @@ export default function ArchitectureModal({ project, lang, t, onClose }) {
                 t={t}
               />
 
+              {activeVisual.takeaway ? (
+                <div
+                  data-testid="slide-walkthrough-takeaway"
+                  className="rounded-xl border border-cyan-400/25 bg-cyan-950/20 px-3.5 py-2.5 space-y-1"
+                >
+                  <p className="text-[11px] font-mono uppercase tracking-wider text-cyan-300">
+                    {localizeText(t?.modal?.takeawayLabel, lang) || 'What This Proves'}
+                  </p>
+                  <p className="text-xs sm:text-sm text-slate-100 leading-relaxed">
+                    {activeVisual.takeaway}
+                  </p>
+                </div>
+              ) : null}
+
               {galleryVisuals.length > 1 ? (
                 <div
                   className="flex flex-wrap gap-1.5"
                   role="tablist"
-                  aria-label={isBm ? 'Pilihan slaid peringkat proses' : 'Process stage slide selector'}
+                  aria-label={
+                    localizeText(t?.modal?.tablistAria, lang) || 'Process stage slide selector'
+                  }
                 >
                   {galleryVisuals.map((item, idx) => {
                     const isSelected = idx === clampedSlideIndex;

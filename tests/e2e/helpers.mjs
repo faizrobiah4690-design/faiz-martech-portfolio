@@ -76,7 +76,7 @@ export const CANONICAL_OPERATIONAL_ORGS = [
 ];
 
 export const INDONESIAN_FORBIDDEN_RE =
-  /\b(dasbor|laba\s+bersih|peramban|peladen|(?:di|ter|me(?:ng)?|peng)?unduh(?:an)?|sertifikat|tautan|kartu\s+skor|antarmuka|pencarian|kata\s+sandi)\b/gi;
+  /\b(dasbor|laba\s+bersih|peramban|peladen|(?:di|ter|me(?:ng)?|peng)?unduh(?:an)?|sertifikat|tautan|kartu\s+skor|antarmuka|pencarian|kata\s+sandi|arsitektur|tingkap|berisipadu|perangkat|fitur|bisnis|kualitas|kinerja|solusi|otomatis|efektif|konten|saat\s+ini|bisa|gimana|playbook)\b/gi;
 
 export function escapeRegExp(str) {
   return String(str).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');

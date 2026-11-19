@@ -9,10 +9,18 @@
       "en": "Inbound Ad-Lead Qualification & Sub-10s CRM Router",
       "bm": "Sistem Kelayakan Prospek Iklan & Penghala CRM Bawah-10 Saat"
     },
+    "businessObjective": {
+      "en": "Automatically qualifies new B2B ad enquiries, syncs verified leads to HubSpot CRM, and equips sales reps with an instant email alert, Gmail draft, and 1-click WhatsApp opener in under 10 seconds.",
+      "bm": "Menilai pertanyaan iklan B2B baharu secara automatik, menyegerakkan prospek sah ke HubSpot CRM, serta membekalkan pasukan jualan dengan makluman e-mel segera, draf Gmail dan pembuka WhatsApp 1-klik dalam tempoh bawah 10 saat."
+    },
+    "martechInsight": {
+      "en": "B2B speed-to-lead decay is steep: qualification odds drop sharply after 5 minutes, while unverified free-email or dead-domain submissions waste rep hours. Deterministic HTTP domain reachability checks + spend-tier rules filter out spam (Tier 3) before AI drafts tailored openers — replacing expensive Zapier/Make task tiers at RM 0/mo.",
+      "bm": "Kelewatan respons prospek B2B menjejaskan kadar penukaran secara drastik selepas 5 minit, manakala borang daripada domain mati atau e-mel peribadi membazirkan masa wakil jualan. Semakan kebolehcapaian HTTP domain dan peraturan aras bajet menapis spam (Tier 3) secara deterministik sebelum AI merangka skrip pembuka khusus — menggantikan caj bulanan Zapier/Make pada kos RM 0/bln."
+    },
     "headlineMetric": "< 10s Speed-to-Lead SLA Sync",
     "commercialLeak": {
       "en": "High-intent B2B inbound leads going cold due to manual spreadsheet triage and expensive recurring Zapier/Make task limits.",
-      "bm": "Prospek masuk B2B berniat tinggi menjadi dingin akibat saringan manual serta kos langganan tugasan bulanan Zapier/Make yang mahal."
+      "bm": "Prospek masuk B2B berniat tinggi menjadi sejuk dan terlepas akibat saringan manual serta kos langganan tugasan bulanan Zapier/Make yang mahal."
     },
     "deterministicGate": {
       "en": "Deterministic SLA timer, live HTTP corporate domain reachability check, and strict budget-tier routing rules.",
@@ -20,22 +28,151 @@
     },
     "boundedAiRole": {
       "en": "Gemini Flash strictly scores unstructured company context and drafts personalized B2B sales openers without touching routing math.",
-      "bm": "Gemini Flash dihadkan untuk menilai konteks syarikat tidak berstruktur dan merangka skrip pembuka jualan B2B."
+      "bm": "Gemini Flash dihadkan untuk menilai konteks syarikat tidak berstruktur dan merangka skrip pembuka jualan B2B tanpa menyentuh logik matematik penghalaan."
     },
     "validatedOutcome": {
-      "en": "< 10s Speed-to-Lead SLA sync to HubSpot CRM and instant Telegram enterprise sales alert queue at RM 0/mo middleware cost.",
-      "bm": "Penyegerakan SLA < 10 saat terus ke HubSpot CRM serta makluman segera Telegram pada kos perantara RM 0/bulan."
+      "en": "< 10s Speed-to-Lead SLA sync to HubSpot CRM with instant Gmail SLA alert (4.44s recorded), 1-click pre-filled WhatsApp opener, and personalized Gmail auto-draft at RM 0/mo middleware cost.",
+      "bm": "Penyegerakan SLA < 10 saat terus ke HubSpot CRM bersama makluman segera Gmail (rekod 4.44s), pembuka WhatsApp 1-klik pra-isi dan draf auto Gmail pada kos perantara RM 0/bln."
     },
-    "stack": ["Google Forms", "Google Sheets", "Apps Script", "Gemini API", "HubSpot CRM API", "Telegram Bot API"],
-    "pipelineNodes": ["Inbound Form Webhook", "HTTP Domain & Budget Gate", "Gemini Context Scorer", "PII-Safe Lead Mart", "HubSpot + Telegram Alert"],
+    "stack": ["Google Forms", "Google Sheets", "Apps Script", "Gemini API", "HubSpot CRM API", "Gmail API & Drafts", "1-Click WhatsApp (wa.me)"],
+    "pipelineNodes": [
+      { "en": "Inbound Form Webhook", "bm": "Webhook Borang Masuk" },
+      { "en": "HTTP Domain & Budget Gate", "bm": "Kawalan Domain HTTP & Bajet" },
+      { "en": "Gemini Context Scorer", "bm": "Penilai Konteks Gemini" },
+      { "en": "PII-Safe Lead Mart", "bm": "Hab Data Prospek Selamat PII" },
+      { "en": "HubSpot CRM + Gmail & WhatsApp", "bm": "HubSpot CRM + Gmail & WhatsApp" }
+    ],
+    "pipelineStepDetails": [
+      {
+        "stepNumber": 1,
+        "role": { "en": "1. Trigger / Input", "bm": "1. Pencetus / Input" },
+        "summary": {
+          "en": "Google Form submission fires an Apps Script installable trigger capturing company URL, work email, ad spend band, and funnel bottleneck.",
+          "bm": "Penyerahan Borang Google mencetuskan skrip Apps Script untuk merekodkan URL syarikat, e-mel kerja, julat bajet iklan dan kekangan corong jualan."
+        }
+      },
+      {
+        "stepNumber": 2,
+        "role": { "en": "2. Deterministic Gate", "bm": "2. Kawalan Deterministik" },
+        "summary": {
+          "en": "Executes live HTTP reachability check on the corporate URL, filters free/spam domains, enforces spend-tier rules, and starts the sub-10s SLA clock.",
+          "bm": "Menjalankan semakan HTTP langsung pada URL korporat, menapis domain percuma/spam, menguatkuasakan aras bajet dan memulakan pemasa SLA bawah 10 saat."
+        }
+      },
+      {
+        "stepNumber": 3,
+        "role": { "en": "3. Bounded AI / Signal Router", "bm": "3. AI Berbatas / Penghala Isyarat" },
+        "summary": {
+          "en": "Fetches public website context so Gemini Flash scores ICP fit (0–100) and drafts a tailored email plus 3-sentence WhatsApp opener without altering tier rules.",
+          "bm": "Mengambil konteks laman web awam supaya Gemini Flash menilai kesesuaian ICP (0–100) serta merangka draf e-mel dan skrip WhatsApp 3 ayat tanpa mengubah peraturan tier."
+        }
+      },
+      {
+        "stepNumber": 4,
+        "role": { "en": "4. PII-Safe Mart", "bm": "4. Hab Data Selamat PII" },
+        "summary": {
+          "en": "Logs Tier 1–3 classification, fit score, and execution latency seconds into Form_Responses and Looker BI without exposing raw credentials.",
+          "bm": "Merekodkan klasifikasi Tier 1–3, skor kesesuaian dan masa latensi saat ke dalam Form_Responses serta Looker BI tanpa mendedahkan kelayakan sensitif."
+        }
+      },
+      {
+        "stepNumber": 5,
+        "role": { "en": "5. Measurable Outcome", "bm": "5. Hasil Boleh Ukur" },
+        "summary": {
+          "en": "Upserts verified contacts to HubSpot CRM, dispatches the instant Gmail SLA alert (4.44s recorded), stages a Gmail draft, and generates a 1-click WhatsApp link.",
+          "bm": "Menyelaraskan kenalan sah ke HubSpot CRM, menghantar e-mel makluman SLA segera (rekod 4.44s), menyediakan draf Gmail dan menjana pautan WhatsApp 1-klik."
+        }
+      }
+    ],
+    "formulas": [
+      {
+        "name": { "en": "Speed-to-Lead SLA Latency", "bm": "Latensi SLA Pantas-ke-Prospek" },
+        "formula": "SLA_Seconds = (t_crm_and_alert_dispatch - t_form_submit) / 1000  [Target: < 10.0s]",
+        "note": {
+          "en": "Measured end-to-end across 17 sandbox leads (7.8s average; 6.42s dashboard latency and 4.44s Gmail alert for Kaneka Malaysia).",
+          "bm": "Diukur secara menyeluruh merentasi 17 prospek sandbox (purata 7.8s; latensi papan pemuka 6.42s dan makluman Gmail 4.44s untuk Kaneka Malaysia)."
+        }
+      },
+      {
+        "name": { "en": "Deterministic Qualification & Tier Gate", "bm": "Kawalan Kelayakan & Aras Tier Deterministik" },
+        "formula": "Tier 1 = (HTTP_Status == 200) && (Corporate_Domain == TRUE) && (Ad_Spend >= RM 5,000/mo)",
+        "note": {
+          "en": "Prevents low-intent consumer or spam domains (e.g., Tier 3 fit score 10) from entering priority sales alerts.",
+          "bm": "Mengelakkan domain pengguna biasa atau spam (cth. Tier 3 skor 10) daripada mencetuskan makluman jualan berkeutamaan tinggi."
+        }
+      }
+    ],
     "processVisuals": [
-      { "stage": "01", "src": "/assets/projects/prj-01/slide-01.jpg", "caption": { "en": "Executive RevOps Dashboard — Main Hook", "bm": "Papan Pemuka Eksekutif RevOps — Hook Utama" } },
-      { "stage": "02", "src": "/assets/projects/prj-01/slide-02.jpg", "caption": { "en": "Inbound Entry — B2B Diagnostic Form", "bm": "Pintu Masuk — Borang Diagnostik B2B" } },
-      { "stage": "03", "src": "/assets/projects/prj-01/slide-03.jpg", "caption": { "en": "Database & Tier 1 to Tier 3 AI Screening", "bm": "Pangkalan Data & Saringan AI Tier 1 hingga Tier 3" } },
-      { "stage": "04", "src": "/assets/projects/prj-01/slide-04.jpg", "caption": { "en": "Rapid Sales Alert — 4.44s Record in Gmail", "bm": "Penggera Jualan Pantas — Rekod 4.44 Saat di Gmail" } },
-      { "stage": "05", "src": "/assets/projects/prj-01/slide-05.jpg", "caption": { "en": "Instant Action — 1-Click Pre-Filled WhatsApp Script", "bm": "Tindakan Segera — Skrip WhatsApp Siap Isi 1-Klik" } },
-      { "stage": "06", "src": "/assets/projects/prj-01/slide-06.jpg", "caption": { "en": "Web Extraction Proof — Industry-Specific Email Draft", "bm": "Bukti Ekstraksi Web — Draf E-mel Spesifik Industri" } },
-      { "stage": "07", "src": "/assets/projects/prj-01/slide-07.jpg", "caption": { "en": "Pipeline Control — Clean HubSpot CRM Sync", "bm": "Kawalan Pipeline — Penyelarasan Bersih HubSpot CRM" } }
+      {
+        "stage": "01",
+        "src": "/assets/projects/prj-01/slide-01.jpg",
+        "caption": { "en": "Executive RevOps Dashboard — Outcome Summary", "bm": "Papan Pemuka Eksekutif RevOps — Paparan Utama Eksekutif" },
+        "flowStep": { "en": "Executive Outcome Preview (Before Steps)", "bm": "Pratonton Hasil Eksekutif (Sebelum Langkah)" },
+        "takeaway": {
+          "en": "Across 17 sandbox leads, 7 Tier 1 MQLs (41.2%) were qualified at an average 7.8s SLA and RM 109.29 CPQL — proving fast sub-10s triage while isolating low-fit Tier 3 noise (23.5%).",
+          "bm": "Merentasi 17 prospek sandbox, 7 MQL Tier 1 (41.2%) dilayakkan pada purata SLA 7.8s dan CPQL RM 109.29 — membuktikan saringan pantas bawah 10 saat sambil mengasingkan hingar Tier 3 (23.5%)."
+        }
+      },
+      {
+        "stage": "02",
+        "src": "/assets/projects/prj-01/slide-02.jpg",
+        "caption": { "en": "Inbound Entry — B2B Diagnostic Form", "bm": "Pintu Masuk — Borang Diagnostik B2B" },
+        "flowStep": { "en": "Step 1 · Trigger / Input", "bm": "Langkah 1 · Pencetus / Input" },
+        "takeaway": {
+          "en": "Captures structured B2B intent fields (work email, company URL, monthly ad spend band, and funnel bottleneck) so every form submit triggers the Apps Script webhook immediately.",
+          "bm": "Merekodkan medan niat B2B berstruktur (e-mel kerja, URL syarikat, julat bajet iklan bulanan dan kekangan corong) supaya setiap penyerahan borang terus mencetuskan webhook Apps Script."
+        }
+      },
+      {
+        "stage": "03",
+        "src": "/assets/projects/prj-01/slide-03.jpg",
+        "caption": { "en": "Database & Tier 1 to Tier 3 Qualification", "bm": "Pangkalan Data & Pengkelasan Tier 1 hingga Tier 3" },
+        "flowStep": { "en": "Step 2 · Deterministic Gate & Scoring", "bm": "Langkah 2 · Kawalan Deterministik & Penilaian" },
+        "takeaway": {
+          "en": "Separates enterprise spenders (RM 25,000+/mo Tier 1) from SMEs (Tier 2) and low-intent/spam submissions (e.g., 'Buy 10,000 backlinks' Tier 3) before reps ever dial.",
+          "bm": "Mengasingkan pengiklan korporat (RM 25,000+/bln Tier 1) daripada PKS (Tier 2) dan penyerahan spam/niat rendah (cth. Tier 3) sebelum wakil jualan membuat panggilan."
+        }
+      },
+      {
+        "stage": "04",
+        "src": "/assets/projects/prj-01/slide-04.jpg",
+        "caption": { "en": "Rapid Sales Alert — 4.44s Record in Gmail", "bm": "Makluman Jualan Pantas — Rekod 4.44 Saat di Gmail" },
+        "flowStep": { "en": "Step 3 · Instant Rep Dispatch", "bm": "Langkah 3 · Penghantaran Makluman Segera" },
+        "takeaway": {
+          "en": "Dispatches a 4.44s SLA Gmail alert for Tier 1 lead Kaneka Malaysia (90/100 ICP score, RM 25,000+/mo spend) complete with HubSpot Contact ID, ICP reasoning, and a 1-click WhatsApp CTA button.",
+          "bm": "Menghantar makluman Gmail SLA 4.44s bagi prospek Tier 1 Kaneka Malaysia (skor ICP 90/100, bajet RM 25,000+/bln) lengkap dengan ID HubSpot, huraian ICP dan butang WhatsApp 1-klik."
+        }
+      },
+      {
+        "stage": "05",
+        "src": "/assets/projects/prj-01/slide-05.jpg",
+        "caption": { "en": "Instant Action — 1-Click Pre-Filled WhatsApp Script", "bm": "Tindakan Segera — Skrip WhatsApp Siap Isi 1-Klik" },
+        "flowStep": { "en": "Step 4 · Frictionless Rep Follow-Up", "bm": "Langkah 4 · Susulan Pantas Tanpa Halangan" },
+        "takeaway": {
+          "en": "Opens wa.me with a pre-filled 3-sentence B2B opener tailored to the prospect's industry, eliminating copy-paste delay inside the critical 5-minute conversion window.",
+          "bm": "Membuka wa.me bersama skrip pembuka B2B 3 ayat yang siap diisi mengikut industri prospek, menghapuskan kelewatan salin-tampal dalam tetingkap penukaran kritikal 5 minit."
+        }
+      },
+      {
+        "stage": "06",
+        "src": "/assets/projects/prj-01/slide-06.jpg",
+        "caption": { "en": "Web Extraction Proof — Industry-Specific Email Draft", "bm": "Bukti Pengekstrakan Web — Draf E-mel Khusus Industri" },
+        "flowStep": { "en": "Step 4B · Context-Enriched Gmail Draft", "bm": "Langkah 4B · Draf Gmail Diperkaya Konteks" },
+        "takeaway": {
+          "en": "Apps Script extracts live website context (e.g., PVC paste resins & MS polymers) so Gemini stages a ready-to-send Gmail draft with zero manual prospect research.",
+          "bm": "Apps Script mengekstrak konteks laman web sebenar (cth. resin pes PVC & polimer MS) supaya Gemini menyediakan draf Gmail sedia hantar tanpa kajian manual."
+        }
+      },
+      {
+        "stage": "07",
+        "src": "/assets/projects/prj-01/slide-07.jpg",
+        "caption": { "en": "Channel Control — Clean HubSpot CRM Sync", "bm": "Kawalan Saluran — Penyelarasan Bersih HubSpot CRM" },
+        "flowStep": { "en": "Step 5 · Measurable CRM Outcome", "bm": "Langkah 5 · Hasil CRM Boleh Ukur" },
+        "takeaway": {
+          "en": "Qualified leads sync directly into HubSpot Contacts (27 contacts logged) with clean work-email attribution and zero recurring middleware subscription cost.",
+          "bm": "Prospek layak disegerakkan terus ke HubSpot Contacts (27 kenalan direkodkan) dengan atribusi e-mel kerja yang bersih pada kos langganan perantara sifar."
+        }
+      }
     ],
     "lookerUrl": "",
     "liveAppUrl": "",
@@ -51,6 +188,14 @@
       "en": "Paid Ads POAS & Broken-URL Sentinel Guardrail",
       "bm": "Sistem Kawalan Paid Ads POAS & Pemantau Pautan Rosak"
     },
+    "businessObjective": {
+      "en": "Checks live ad landing pages hourly for 404/500 errors and audits true profit-after-product-cost (Net POAS) daily so broken links or inflated Meta ROAS never drain ad spend.",
+      "bm": "Menyemak halaman pendaratan iklan setiap jam untuk mengesan ralat 404/500 serta mengaudit keuntungan sebenar selepas kos produk (Net POAS) setiap hari supaya pautan rosak atau ROAS Meta yang mengelirukan tidak membazirkan bajet."
+    },
+    "martechInsight": {
+      "en": "Platform-reported Meta ROAS ignores COGS, fees, and landing-page failures ('Ghost ROAS'): in sandbox tests, Ad 120210004 showed 3.51x Meta ROAS while verified Net POAS was 0.55x (-RM 247 net loss), and HTTP 404 Ad 120210001 dropped Connect Rate to 8.04% vs 83–88% on healthy ads. Combining sample-size floors with Hook/Hold Rate diagnostics prevents both false alarms and silent budget bleed.",
+      "bm": "ROAS yang dilaporkan oleh platform Meta mengabaikan COGS, caj platform dan kegagalan halaman pendaratan ('Ghost ROAS'): dalam ujian sandbox, iklan 120210004 memaparkan 3.51x Meta ROAS sedangkan Net POAS sebenar hanyalah 0.55x (rugi -RM 247), manakala iklan HTTP 404 (120210001) menjatuhkan Connect Rate kepada 8.04% berbanding 83–88%. Gabungan lantai sampel minimum dengan diagnostik Hook/Hold Rate mengelakkan penggera palsu serta kebocoran bajet senyap."
+    },
     "headlineMetric": "Automated POAS & 404/500 Spend Cutoff",
     "commercialLeak": {
       "en": "Silent ad spend bleed on broken destination URLs (HTTP 404/500), creative fatigue, and sub-floor gross ROAS campaigns that lose money after COGS.",
@@ -58,24 +203,135 @@
     },
     "deterministicGate": {
       "en": "Deterministic HTTP status check, minimum spend/impression sample-size gates, and post-COGS Net POAS calculation.",
-      "bm": "Semakan status HTTP deterministik, syarat sampel minimum belanja/impresi, dan kiraan Net POAS selepas tolak kos barang (COGS)."
+      "bm": "Semakan status HTTP deterministik, syarat sampel minimum belanja/impresi, dan kiraan Net POAS selepas tolak kos produk (COGS)."
     },
     "boundedAiRole": {
       "en": "Generates root-cause creative fatigue diagnostics and structured ad iteration briefs only after deterministic flags trigger.",
-      "bm": "Menjana diagnosis punca kelesuan kreatif dan cadangan variasi iklan baharu hanya selepas syarat deterministik dicetuskan."
+      "bm": "Menjana diagnosis punca kelesuan kreatif dan ringkasan iterasi iklan berstruktur hanya selepas syarat deterministik dicetuskan."
     },
     "validatedOutcome": {
-      "en": "Automated sub-floor POAS & dead-link detection gated against small-sample false alarms.",
-      "bm": "Pengesanan automatik pautan mati & kempen bawah had POAS tanpa penggera palsu sampel kecil."
+      "en": "Automated sub-floor POAS & dead-link detection gated against small-sample false alarms, flagging RM 692.34 in at-risk 7-day spend out of RM 2,691.",
+      "bm": "Pengesanan automatik pautan mati & kempen bawah had POAS tanpa penggera palsu sampel kecil, menyelamatkan RM 692.34 bajet berisiko daripada RM 2,691 belanja 7 hari."
     },
     "stack": ["Meta Marketing API", "Google Sheets", "Apps Script", "Gemini API", "Telegram Sentinel", "Looker Studio"],
-    "pipelineNodes": ["Meta Ads Insights Pull", "Sample Gate + HTTP + POAS Math", "Creative Fatigue Diagnostic", "Aggregated Ad Ops Mart", "Telegram Alert + Looker BI"],
+    "pipelineNodes": [
+      { "en": "Meta Ads Insights Pull", "bm": "Tarikan Data Meta Ads" },
+      { "en": "Sample Gate + HTTP + POAS Math", "bm": "Syarat Sampel + HTTP + Kiraan POAS" },
+      { "en": "Creative Fatigue Diagnostic", "bm": "Diagnostik Kelesuan Kreatif" },
+      { "en": "Aggregated Ad Ops Mart", "bm": "Hab Data Ad Ops Teragregat" },
+      { "en": "Telegram Alert + Looker BI", "bm": "Amaran Telegram + Looker BI" }
+    ],
+    "pipelineStepDetails": [
+      {
+        "stepNumber": 1,
+        "role": { "en": "1. Trigger / Input", "bm": "1. Pencetus / Input" },
+        "summary": {
+          "en": "Time-driven Apps Script triggers pull 7-day Meta Ads insights (spend, Hook/Hold rate, 3D vs 7D CTR, Connect Rate) and destination URLs into Raw_Meta_Ingest.",
+          "bm": "Pencetus masa Apps Script menarik metrik 7-hari Meta Ads (belanja, Hook/Hold rate, CTR 3H vs 7H, Connect Rate) serta URL destinasi ke dalam Raw_Meta_Ingest."
+        }
+      },
+      {
+        "stepNumber": 2,
+        "role": { "en": "2. Deterministic Gate", "bm": "2. Kawalan Deterministik" },
+        "summary": {
+          "en": "Runs live HTTP status validation (pausing 404s), checks Config_Thresholds sample floors + SKU inventory stock, and computes verified post-COGS Net POAS.",
+          "bm": "Menjalankan pengesahan status HTTP langsung (menghentikan 404), menyemak lantai sampel Config_Thresholds serta baki stok SKU, dan mengira Net POAS selepas COGS."
+        }
+      },
+      {
+        "stepNumber": 3,
+        "role": { "en": "3. Bounded AI / Signal Router", "bm": "3. AI Berbatas / Penghala Isyarat" },
+        "summary": {
+          "en": "When ITERATE_HOOK or ROTATE_CREATIVE_FATIGUE triggers, Gemini generates a root-cause Google Docs brief with 3 shoot-ready BM hook scripts.",
+          "bm": "Apabila status ITERATE_HOOK atau ROTATE_CREATIVE_FATIGUE dicetuskan, Gemini menjana ringkasan Google Docs bersama 3 skrip tajuk iklan BM sedia rakam."
+        }
+      },
+      {
+        "stepNumber": 4,
+        "role": { "en": "4. PII-Safe Mart", "bm": "4. Hab Data Selamat PII" },
+        "summary": {
+          "en": "Writes ad-level action flags (PAUSE_BROKEN_URL, BLOCK_GHOST_ROAS, SCALE_BUDGET_20PCT) and Budget_At_Risk_Saved_RM into Guardrail_Telemetry.",
+          "bm": "Menulis penanda tindakan iklan (PAUSE_BROKEN_URL, BLOCK_GHOST_ROAS, SCALE_BUDGET_20PCT) dan Budget_At_Risk_Saved_RM ke dalam Guardrail_Telemetry."
+        }
+      },
+      {
+        "stepNumber": 5,
+        "role": { "en": "5. Measurable Outcome", "bm": "5. Hasil Boleh Ukur" },
+        "summary": {
+          "en": "Dispatches an actionable Telegram Sentinel digest with direct Auto-Brief doc links and updates the Looker Studio Command Center.",
+          "bm": "Menghantar ringkasan amaran Telegram berserta pautan terus ke dokumen Auto-Brief dan mengemas kini Papan Pemuka Looker Studio."
+        }
+      }
+    ],
+    "formulas": [
+      {
+        "name": { "en": "Post-COGS Net POAS & Ghost ROAS Check", "bm": "Net POAS Selepas COGS & Semakan Ghost ROAS" },
+        "formula": "Net_POAS = (Verified_Revenue - COGS - Platform_Fees) / Ad_Spend_RM\nNet_Contribution = Verified_Revenue - COGS - Fees - Ad_Spend_RM",
+        "note": {
+          "en": "Exposed Ad 120210004's 'Ghost ROAS' (3.51x Meta ROAS vs 0.55x verified POAS and -RM 247 net contribution) while greenlighting Ad 120210005 (3.04x POAS, 207 stock units).",
+          "bm": "Mendedahkan 'Ghost ROAS' iklan 120210004 (3.51x ROAS Meta berbanding 0.55x POAS sebenar dan sumbangan bersih -RM 247) sambil meluluskan skala iklan 120210005 (3.04x POAS, 207 unit stok)."
+        }
+      },
+      {
+        "name": { "en": "Broken-URL & 3-Day Creative Fatigue Gate", "bm": "Kawalan Pautan Rosak & Kelesuan Kreatif 3-Hari" },
+        "formula": "IF HTTP_Status != 200 -> PAUSE_BROKEN_URL\nELSE IF (Impr >= Floor && CTR_Decay_3D >= 25% && Freq >= 3.0) -> ROTATE_CREATIVE_FATIGUE",
+        "note": {
+          "en": "Caught HTTP 404 (8.04% Connect Rate) on Ad 120210001 and 39.25% 3-day CTR drop at 3.31 frequency on Ad 120210003.",
+          "bm": "Mengesan ralat HTTP 404 (Connect Rate 8.04%) pada iklan 120210001 dan kejatuhan CTR 3-hari sebanyak 39.25% pada kekerapan 3.31 untuk iklan 120210003."
+        }
+      }
+    ],
     "processVisuals": [
-      { "stage": "01", "src": "/assets/projects/prj-02/slide-01.jpg", "caption": { "en": "Executive Dashboard (Looker Studio)", "bm": "Papan Pemuka Eksekutif (Looker Studio)" } },
-      { "stage": "02", "src": "/assets/projects/prj-02/slide-02.jpg", "caption": { "en": "Telemetry & Unit Economics Base (Google Sheets)", "bm": "Pangkalan Telemetri & Ekonomi Unit (Google Sheets)" } },
-      { "stage": "03", "src": "/assets/projects/prj-02/slide-03.jpg", "caption": { "en": "Automated Creative Auto-Brief Output (Google Docs)", "bm": "Output Auto-Brief Kreatif (Google Docs)" } },
-      { "stage": "04", "src": "/assets/projects/prj-02/slide-04.jpg", "caption": { "en": "Daily Alerts & Quick Action Buttons (Telegram Bot)", "bm": "Amaran Harian & Butang Tindakan Pantas (Telegram Bot)" } },
-      { "stage": "05", "src": "/assets/projects/prj-02/slide-05.jpg", "caption": { "en": "Autonomous Automation Schedule (Apps Script Triggers)", "bm": "Jadual Automasi Berautonomi (Google Apps Script Triggers)" } }
+      {
+        "stage": "01",
+        "src": "/assets/projects/prj-02/slide-01.jpg",
+        "caption": { "en": "Executive Dashboard (Looker Studio)", "bm": "Papan Pemuka Eksekutif (Looker Studio)" },
+        "flowStep": { "en": "Executive Outcome Preview (Before Steps)", "bm": "Pratonton Hasil Eksekutif (Sebelum Langkah)" },
+        "takeaway": {
+          "en": "Compares Meta_ROAS_Gross vs POAS_Verified across RM 2,691 7-day spend, highlighting RM 1,229 net contribution and RM 692.34 at-risk budget blocked from scaling unprofitable ads.",
+          "bm": "Membandingkan Meta_ROAS_Gross dengan POAS_Verified merentasi RM 2,691 belanja 7-hari, memaparkan sumbangan bersih RM 1,229 serta RM 692.34 bajet berisiko yang disekat."
+        }
+      },
+      {
+        "stage": "02",
+        "src": "/assets/projects/prj-02/slide-02.jpg",
+        "caption": { "en": "Telemetry & Unit Economics Base (Google Sheets)", "bm": "Pangkalan Telemetri & Ekonomi Unit (Google Sheets)" },
+        "flowStep": { "en": "Step 2 · Deterministic Gate & Unit Math", "bm": "Langkah 2 · Kawalan Deterministik & Ekonomi Unit" },
+        "takeaway": {
+          "en": "4-tab workbook (Config_Thresholds, Creative_DNA_SKU, Raw_Meta_Ingest, Guardrail_Telemetry) proves Ad 120210001's 8.04% Connect Rate from HTTP 404 and Ad 120210004's -RM 247 net loss despite 3.51x Meta ROAS.",
+          "bm": "Buku kerja 4-tab membuktikan Connect Rate 8.04% akibat HTTP 404 pada iklan 120210001 serta kerugian bersih -RM 247 pada iklan 120210004 walaupun ROAS Meta mencatat 3.51x."
+        }
+      },
+      {
+        "stage": "03",
+        "src": "/assets/projects/prj-02/slide-03.jpg",
+        "caption": { "en": "Automated Creative Auto-Brief Output (Google Docs)", "bm": "Output Ringkasan Kreatif Automatik (Google Docs)" },
+        "flowStep": { "en": "Step 3 · Bounded AI Creative Brief", "bm": "Langkah 3 · Ringkasan Kreatif AI Berbatas" },
+        "takeaway": {
+          "en": "Triggered only after deterministic thresholds flag Ad 120210002 (Hook Rate 15.6%, Hold Rate 22.01%, P50 drop 56.98%, POAS 0.58x), generating 3 shoot-ready BM hook script replacements.",
+          "bm": "Dicetuskan hanya selepas ambang deterministik mengesan iklan 120210002 (Hook Rate 15.6%, Hold Rate 22.01%, kejatuhan P50 56.98%, POAS 0.58x), lalu menjana 3 skrip pembuka BM sedia rakam."
+        }
+      },
+      {
+        "stage": "04",
+        "src": "/assets/projects/prj-02/slide-04.jpg",
+        "caption": { "en": "Daily Alerts & Quick Action Buttons (Telegram Bot)", "bm": "Amaran Harian & Butang Tindakan Pantas (Bot Telegram)" },
+        "flowStep": { "en": "Step 5 · Actionable Sentinel Digest", "bm": "Langkah 5 · Ringkasan Amaran Tindakan Pantas" },
+        "takeaway": {
+          "en": "Delivers clear verdicts — ITERATE_HOOK (0.58x POAS), ROTATE_CREATIVE_FATIGUE (39.25% CTR drop), BLOCK_GHOST_ROAS (0.55x POAS), SCALE_BUDGET_20PCT (3.04x POAS, 207 stock) — with direct Auto-Brief buttons.",
+          "bm": "Menyampaikan keputusan jelas — ITERATE_HOOK, ROTATE_CREATIVE_FATIGUE (CTR jatuh 39.25%), BLOCK_GHOST_ROAS (0.55x POAS), SCALE_BUDGET_20PCT (3.04x POAS, stok 207) — bersama butang buka Auto-Brief."
+        }
+      },
+      {
+        "stage": "05",
+        "src": "/assets/projects/prj-02/slide-05.jpg",
+        "caption": { "en": "Autonomous Automation Schedule (Apps Script Triggers)", "bm": "Jadual Automasi Berautonomi (Pencetus Apps Script)" },
+        "flowStep": { "en": "Step 1 · Dual Time-Driven Schedule", "bm": "Langkah 1 · Jadual Pencetus Masa Dwi-Kekerapan" },
+        "takeaway": {
+          "en": "Shows the dual schedule separating full daily POAS/creative audits (runPaidAdsGuardrail) from hourly link monitoring (runDestinationHealthCheckOnly at 0% error rate); note that this sandbox capture reflects an earlier runPaidAdsGuardrail test run at 100% error rate.",
+          "bm": "Memaparkan dwi-jadual yang memisahkan audit POAS/kreatif harian (runPaidAdsGuardrail) daripada semakan pautan setiap jam (runDestinationHealthCheckOnly pada kadar ralat 0%); tangkapan sandbox ini turut merekodkan ujian awal runPaidAdsGuardrail dengan kadar ralat 100%."
+        }
+      }
     ],
     "lookerUrl": "",
     "liveAppUrl": "",
@@ -91,6 +347,14 @@
       "en": "DTC Retention, RFM Churn Z-Score & VIP CAPI Signal Engine",
       "bm": "Enjin Pengekalan DTC, Z-Score Risiko Pelanggan & Isyarat VIP CAPI"
     },
+    "businessObjective": {
+      "en": "Spots when profitable repeat buyers are overdue to reorder based on their product usage cycle, sends margin-safe WhatsApp win-backs, and feeds only high-profit VIP buyers back to Meta Ads.",
+      "bm": "Mengesan apabila pelanggan ulangan berkeuntungan tinggi lewat membuat belian semula mengikut kitaran guna produk, menghantar mesej WhatsApp bermargin selamat, dan menyalurkan hanya pembeli VIP bernilai tinggi kembali ke Meta Ads."
+    },
+    "martechInsight": {
+      "en": "Rising CAC cannot be solved with blanket discounts: margin-gated coupons (approving KEMBALI10 10% for MARGIN_WINBACK while blocking promos on VIP_FULL_PRICE) protect net profit, COD_BLACKLIST flags repeat COD-returners (-RM 15 courier penalty), and SKU replenishment cycles (30d/60d) + Z-Score flag overdue buyers early while SHA-256 VIP CAPI v21.0 trains Meta toward repeat LTV.",
+      "bm": "Kenaikan CAC tidak boleh diselesaikan dengan diskaun pukal: kupon berpagar margin (meluluskan KEMBALI10 10% bagi MARGIN_WINBACK tetapi menyekat promo pada VIP_FULL_PRICE) melindungi untung bersih, COD_BLACKLIST menandakan pemulang COD berulang (-RM 15 penalti kurier), manakala kitaran produk (30h/60h) + Z-Score mengesan kelewatan awal dan CAPI VIP SHA-256 melatih Meta mencari pembeli berulang bernilai tinggi."
+    },
     "headlineMetric": "Z-Score Churn Anomaly + Meta CAPI v21.0",
     "commercialLeak": {
       "en": "Rising acquisition costs from one-time discount buyers and missed repeat-order windows among high-margin VIP customers.",
@@ -98,26 +362,155 @@
     },
     "deterministicGate": {
       "en": "Deterministic RFM scoring matrix, inter-purchase Z-score churn anomaly math, and post-refund Net LTV calculation.",
-      "bm": "Matriks skor RFM deterministik, kiraan anomali sela masa belian (Z-score), dan kiraan Net LTV bersih selepas pulangan bayaran."
+      "bm": "Matriks skor RFM deterministik, kiraan anomali sela masa belian (Z-score), dan kiraan Net LTV bersih selepas pulangan & bayaran balik (refund)."
     },
     "boundedAiRole": {
       "en": "Unsigned-byte SHA-256 hashed VIP cohort signals pushed cleanly to Meta Conversions API v21.0 for high-LTV lookalike seeding.",
-      "bm": "Isyarat kohort VIP di-hash dengan SHA-256 (unsigned-byte) dan dihantar ke Meta CAPI v21.0 untuk suapan algoritma bernilai tinggi."
+      "bm": "Isyarat kohort VIP dihashkan dengan SHA-256 (unsigned-byte) dan dihantar ke Meta CAPI v21.0 untuk suapan algoritma bernilai tinggi."
     },
     "validatedOutcome": {
       "en": "Automated at-risk VIP cohort detection and PDPA-safe high-LTV seed feedback loop.",
       "bm": "Pengesanan automatik kohort VIP berisiko lari dan suapan balik isyarat LTV tinggi patuh PDPA 2024."
     },
     "stack": ["Google Sheets Mart", "Apps Script", "RFM + Z-Score Math", "Meta CAPI v21.0", "SHA-256 Hashing", "Looker Studio"],
-    "pipelineNodes": ["Order Ledger Ingestion", "RFM + Z-Score + Net LTV Math", "SHA-256 VIP CAPI v21.0 Push", "Zero-PII Cohort Mart", "Retention Playbook + Looker"],
+    "pipelineNodes": [
+      { "en": "Order Ledger Ingestion", "bm": "Kemasukan Lejar Pesanan" },
+      { "en": "RFM + Z-Score + Net LTV Math", "bm": "Kiraan RFM + Z-Score + Net LTV" },
+      { "en": "SHA-256 VIP CAPI v21.0 Push", "bm": "Hantaran CAPI VIP v21.0 SHA-256" },
+      { "en": "Zero-PII Cohort Mart", "bm": "Hab Data Kohort Sifar-PII" },
+      { "en": "Retention Guide + Looker", "bm": "Panduan Pengekalan + Looker" }
+    ],
+    "pipelineStepDetails": [
+      {
+        "stepNumber": 1,
+        "role": { "en": "1. Trigger / Input", "bm": "1. Pencetus / Input" },
+        "summary": {
+          "en": "Daily time-driven trigger (runDailyChurnWinbackScan) ingests Orders_Ledger transactions, COD return statuses, and SKU_Economics replenishment cycles (30d/60d).",
+          "bm": "Pencetus masa harian (runDailyChurnWinbackScan) menyerap transaksi Orders_Ledger, status pulangan COD dan kitaran ulangan SKU_Economics (30h/60h)."
+        }
+      },
+      {
+        "stepNumber": 2,
+        "role": { "en": "2. Deterministic Gate", "bm": "2. Kawalan Deterministik" },
+        "summary": {
+          "en": "Computes post-COGS/post-RTS Net LTV, assigns RFM codes & segments (VIP_FULL_PRICE, MARGIN_WINBACK, COD_BLACKLIST), and enforces coupon margin eligibility.",
+          "bm": "Mengira Net LTV selepas COGS/RTS, menetapkan kod RFM & segmen (VIP_FULL_PRICE, MARGIN_WINBACK, COD_BLACKLIST) serta menguatkuasakan kelayakan margin kupon."
+        }
+      },
+      {
+        "stepNumber": 3,
+        "role": { "en": "3. Bounded AI / Signal Router", "bm": "3. AI Berbatas / Penghala Isyarat" },
+        "summary": {
+          "en": "Hashes eligible high-LTV VIP records via unsigned-byte SHA-256 to Meta CAPI v21.0 and drafts personalized BM replenishment messages only for approved win-backs.",
+          "bm": "Menyulitkan rekod VIP ber-LTV tinggi menggunakan SHA-256 ke Meta CAPI v21.0 serta merangka mesej BM hanya bagi kohort pemulihan yang diluluskan."
+        }
+      },
+      {
+        "stepNumber": 4,
+        "role": { "en": "4. PII-Safe Mart", "bm": "4. Hab Data Selamat PII" },
+        "summary": {
+          "en": "Updates Customer_RFM_Master and Signal_Audit_Log with masked phone numbers, coupon status, and HTTP 200 CAPI audit hashes.",
+          "bm": "Mengemas kini Customer_RFM_Master dan Signal_Audit_Log dengan nombor telefon bertopeng, status kupon serta rekod hash audit CAPI HTTP 200."
+        }
+      },
+      {
+        "stepNumber": 5,
+        "role": { "en": "5. Measurable Outcome", "bm": "5. Hasil Boleh Ukur" },
+        "summary": {
+          "en": "Dispatches Telegram action cards with 1-click pre-filled WhatsApp recovery links (KEMBALI10) and updates Looker Studio LTV & CAPI telemetry.",
+          "bm": "Menghantar kad tindakan Telegram bersama pautan pemulihan WhatsApp 1-klik pra-isi (KEMBALI10) serta mengemas kini telemetri LTV & CAPI Looker Studio."
+        }
+      }
+    ],
+    "formulas": [
+      {
+        "name": { "en": "Replenishment-Cycle Churn Z-Score", "bm": "Z-Score Risiko Lari Kitaran Ulangan" },
+        "formula": "Z = (Days_Since_Last_Order - Effective_IPT_Days) / Cohort_StdDev_Days",
+        "note": {
+          "en": "Benchmarks each buyer against their SKU's real usage cycle (30d serum vs 60d bundle) so reminders fire at ~74.3% churn score before habits break.",
+          "bm": "Menanda aras setiap pembeli berbanding kitaran guna SKU sebenar (30h serum vs 60h pek kombo) supaya peringatan dihantar pada skor ~74.3% sebelum pelanggan beralih."
+        }
+      },
+      {
+        "name": { "en": "Post-RTS Net LTV & Coupon Margin Gate", "bm": "Net LTV Selepas RTS & Kawalan Margin Kupon" },
+        "formula": "Net_LTV = Σ(Gross - COGS - Courier_Subsidy - Discount - RTS_Penalty)\nCoupon_KEMBALI10 = APPROVED only if Segment == MARGIN_WINBACK && COD_Penalty == 0",
+        "note": {
+          "en": "Blocks vouchers on COD_BLACKLIST (-RM 15 RTS penalty) and protects full-margin VIP_FULL_PRICE buyers (RM 384.15 Net LTV) from unnecessary discounting.",
+          "bm": "Menyekat baucar pada COD_BLACKLIST (penalti RTS -RM 15) dan melindungi pembeli margin penuh VIP_FULL_PRICE (Net LTV RM 384.15) daripada diskaun tidak perlu."
+        }
+      }
+    ],
     "processVisuals": [
-      { "stage": "01", "src": "/assets/projects/prj-03/slide-01.jpg", "caption": { "en": "Executive Looker Studio Dashboard", "bm": "Papan Pemuka Eksekutif Looker Studio" } },
-      { "stage": "02", "src": "/assets/projects/prj-03/slide-02.jpg", "caption": { "en": "Telegram Bot Action Card & Recovery Link", "bm": "Kad Tindakan Bot Telegram & Pautan Pemulihan" } },
-      { "stage": "03", "src": "/assets/projects/prj-03/slide-03.jpg", "caption": { "en": "1-Click Pre-Filled WhatsApp Recovery Message", "bm": "Mesej Pra-Isi Satu-Klik WhatsApp" } },
-      { "stage": "04", "src": "/assets/projects/prj-03/slide-04.jpg", "caption": { "en": "Customer_RFM_Master Scoring Table", "bm": "Jadual Induk Customer_RFM_Master" } },
-      { "stage": "05", "src": "/assets/projects/prj-03/slide-05.jpg", "caption": { "en": "Orders_Ledger Transaction Log", "bm": "Lejar Transaksi Orders_Ledger" } },
-      { "stage": "06", "src": "/assets/projects/prj-03/slide-06.jpg", "caption": { "en": "SKU_Economics Unit Cost Reference", "bm": "Rujukan Kos Unit SKU_Economics" } },
-      { "stage": "07", "src": "/assets/projects/prj-03/slide-07.jpg", "caption": { "en": "Daily Apps Script Time-Driven Automation", "bm": "Automasi Pencetus Masa Harian Apps Script" } }
+      {
+        "stage": "01",
+        "src": "/assets/projects/prj-03/slide-01.jpg",
+        "caption": { "en": "Executive Looker Studio Dashboard", "bm": "Papan Pemuka Eksekutif Looker Studio" },
+        "flowStep": { "en": "Executive Outcome Preview (Before Steps)", "bm": "Pratonton Hasil Eksekutif (Sebelum Langkah)" },
+        "takeaway": {
+          "en": "Surfaces RM 1,049 gross revenue, ~RM 713.50 overall net LTV, RM 15 COD penalty, and 76.99% repeat-order rate alongside CAPI audit logs (RM 384.15 VIP signal at HTTP 200).",
+          "bm": "Memaparkan hasil kasar RM 1,049, Net LTV keseluruhan, penalti COD RM 15 dan kadar belian ulangan 76.99% bersama log audit CAPI (isyarat VIP RM 384.15 pada HTTP 200)."
+        }
+      },
+      {
+        "stage": "02",
+        "src": "/assets/projects/prj-03/slide-02.jpg",
+        "caption": { "en": "Telegram Bot Action Card & Recovery Link", "bm": "Kad Tindakan Bot Telegram & Pautan Pemulihan" },
+        "flowStep": { "en": "Step 5A · Margin-Gated Telegram Alert", "bm": "Langkah 5A · Amaran Telegram Berpagar Margin" },
+        "takeaway": {
+          "en": "Flags customer Siti Rahmah (MARGIN_WINBACK, 74.3% churn score) with Coupon Policy APPROVED (KEMBALI10 48-hour 10% code) and an instant pre-filled WhatsApp launch link.",
+          "bm": "Menandakan pelanggan Siti Rahmah (MARGIN_WINBACK, skor risiko 74.3%) dengan Polisi Kupon LULUS (kod KEMBALI10 10% 48 jam) serta pautan WhatsApp siap isi."
+        }
+      },
+      {
+        "stage": "03",
+        "src": "/assets/projects/prj-03/slide-03.jpg",
+        "caption": { "en": "1-Click Pre-Filled WhatsApp Recovery Message", "bm": "Mesej Pemulihan Satu-Klik WhatsApp Pra-Isi" },
+        "flowStep": { "en": "Step 5B · 1-Click Retention Execution", "bm": "Langkah 5B · Pelaksanaan Pengekalan 1-Klik" },
+        "takeaway": {
+          "en": "Launches WhatsApp with a natural BM replenishment reminder referencing the exact 30ml serum bought earlier and the time-limited KEMBALI10 code.",
+          "bm": "Membuka WhatsApp bersama peringatan ulangan BM yang semula jadi merujuk serum 30ml yang dibeli sebelum ini serta kod terhad 48 jam KEMBALI10."
+        }
+      },
+      {
+        "stage": "04",
+        "src": "/assets/projects/prj-03/slide-04.jpg",
+        "caption": { "en": "Customer_RFM_Master Scoring Table", "bm": "Jadual Induk Penilaian Customer_RFM_Master" },
+        "flowStep": { "en": "Step 2B · RFM Segmentation & Churn Matrix", "bm": "Langkah 2B · Segmentasi RFM & Matriks Risiko" },
+        "takeaway": {
+          "en": "Computes effective IPT (30d vs 60d), churn score (0.0466 for VIP_FULL_PRICE vs 0.7433 for overdue MARGIN_WINBACK), and assigns COD_BLACKLIST on repeat returners.",
+          "bm": "Mengira sela belian berkesan (30h vs 60h), skor keciciran (0.0466 bagi VIP_FULL_PRICE vs 0.7433 bagi MARGIN_WINBACK) dan menandakan COD_BLACKLIST."
+        }
+      },
+      {
+        "stage": "05",
+        "src": "/assets/projects/prj-03/slide-05.jpg",
+        "caption": { "en": "Orders_Ledger Transaction Log", "bm": "Lejar Transaksi Orders_Ledger" },
+        "flowStep": { "en": "Step 1B · Idempotent Order Ingestion", "bm": "Langkah 1B · Kemasukan Pesanan Idempoten" },
+        "takeaway": {
+          "en": "Enforces idempotency keys (e.g., ORD-5705_PAID, ORD-8753_COD_RETURNED) and deducts promo discounts + RM 15 COD penalties so Net Profit reflects real cash.",
+          "bm": "Menguatkuasakan kunci idempotensi (cth. ORD-5705_PAID, ORD-8753_COD_RETURNED) serta menolak diskaun dan penalti COD -RM 15 bagi mengira untung bersih sebenar."
+        }
+      },
+      {
+        "stage": "06",
+        "src": "/assets/projects/prj-03/slide-06.jpg",
+        "caption": { "en": "SKU_Economics Unit Cost Reference", "bm": "Rujukan Kos Unit SKU_Economics" },
+        "flowStep": { "en": "Step 2A · SKU Cost & Replenishment Baseline", "bm": "Langkah 2A · Asas Kos SKU & Kitaran Ulangan" },
+        "takeaway": {
+          "en": "Maps COGS (RM 28 / RM 72), courier subsidies (RM 7 / RM 8), RTS penalties (RM 15 / RM 16.50), and baseline cycle days (30d vs 60d) per SKU.",
+          "bm": "Memetakan COGS (RM 28 / RM 72), subsidi kurier (RM 7 / RM 8), penalti RTS (RM 15 / RM 16.50) dan hari kitaran asas (30h vs 60h) bagi setiap SKU."
+        }
+      },
+      {
+        "stage": "07",
+        "src": "/assets/projects/prj-03/slide-07.jpg",
+        "caption": { "en": "Daily Apps Script Time-Driven Automation", "bm": "Automasi Pencetus Masa Harian Apps Script" },
+        "flowStep": { "en": "Step 1A · Daily Retention Cron Trigger", "bm": "Langkah 1A · Pencetus Harian Pengekalan" },
+        "takeaway": {
+          "en": "Runs runDailyChurnWinbackScan automatically every day on Google Apps Script at RM 0/mo middleware cost.",
+          "bm": "Menjalankan fungsi runDailyChurnWinbackScan secara automatik setiap hari di Google Apps Script pada kos perantara RM 0/bln."
+        }
+      }
     ],
     "lookerUrl": "",
     "liveAppUrl": "",
@@ -133,6 +526,14 @@
       "en": "Closed-Loop WhatsApp-to-Cash & Offline CAPI Attribution Engine",
       "bm": "Enjin Atribusi Tertutup WhatsApp-ke-Tunai & CAPI Luar Talian"
     },
+    "businessObjective": {
+      "en": "Connects Click-to-WhatsApp and Google Search ad clicks to verified clinic/store counter receipts so ad algorithms optimize for high-margin cash sales rather than cheap chats or excessive discounts.",
+      "bm": "Menghubungkan klik iklan Click-to-WhatsApp dan Google Search kepada resit tunai sebenar di kaunter supaya algoritma iklan mengoptimumkan jualan tunai bermargin sihat, bukan sekadar sembang murah atau diskaun berlebihan."
+    },
+    "martechInsight": {
+      "en": "Optimizing ad accounts on raw WhatsApp leads trains Meta/Google on low-intent price shoppers (e.g., META_AD_SCALING_PROMO delivered 0.05x Net POAS and -RM 1,000 net profit vs META_AD_IMPLANT at 3.14x Net POAS and +RM 6,000). Blocking below-floor deals with HTTP 204 (7 loss/breach cases blocked), enforcing a 5-min coordinator SLA (87.1%) to save the 72h CTWA RM 0.00 template window, and falling back from 7-day ctwa_clid to physical_store SHA-256 keeps pixel feedback clean.",
+      "bm": "Mengoptimumkan akaun iklan berdasarkan klik WhatsApp mentah melatih Meta/Google mengejar pemburu diskaun (cth. META_AD_SCALING_PROMO mencatat Net POAS 0.05x / rugi -RM 1,000 berbanding META_AD_IMPLANT 3.14x / +RM 6,000). Sekatan HTTP 204 ke atas jualan bawah lantai margin (7 kes disekat), disiplin SLA 5-minit (87.1%) untuk memanfaatkan tetingkap percuma CTWA 72 jam (RM 0.00), serta sandaran physical_store SHA-256 selepas 7 hari memastikan isyarat piksel kekal bersih."
+    },
     "headlineMetric": "HTTP 204 Margin Gate + Dual CAPI Sync",
     "commercialLeak": {
       "en": "Service & retail campaigns optimizing for cheap Click-to-WhatsApp leads while ad pixels remain blind to actual counter receipts and breached staff discounts.",
@@ -144,25 +545,181 @@
     },
     "boundedAiRole": {
       "en": "Routes <=7-day conversions via Meta Business Messaging CAPI, auto-falls back to physical_store SHA-256 (>7 days), and syncs Google Data Manager API v1.",
-      "bm": "Menghantar jualan <=7 hari melalui Meta Business Messaging CAPI, bertukar automatik ke mod physical_store SHA-256 (>7 hari), serta Google Data Manager API v1."
+      "bm": "Menghantar jualan <=7 hari melalui Meta Business Messaging CAPI, bertukar automatik ke mod physical_store SHA-256 (>7 hari), serta menyegerakkan Google Data Manager API v1."
     },
     "validatedOutcome": {
-      "en": "Closed-loop Click-to-WhatsApp to verified cash attribution with zero pixel pollution from sub-floor discounted deals.",
-      "bm": "Atribusi lengkap daripada klik WhatsApp ke resit tunai disahkan tanpa pencemaran piksel daripada transaksi diskaun rugi."
+      "en": "Closed-loop Click-to-WhatsApp to verified cash attribution with zero pixel pollution from sub-floor discounted deals (Blended MER 3.42x, Blended Net POAS 1.89x, Verified Net Margin RM 18,700).",
+      "bm": "Atribusi lengkap daripada klik WhatsApp ke resit tunai disahkan tanpa pencemaran piksel daripada transaksi diskaun rugi (MER Gabungan 3.42x, Net POAS Gabungan 1.89x, Margin Bersih Sah RM 18,700)."
     },
     "stack": ["Cloudflare Pages", "Google Sheets", "Apps Script Webhook", "Meta Business Messaging CAPI", "Google Data Manager API v1", "Looker Studio"],
-    "pipelineNodes": ["Cloudflare POS / WA Form", "Discount Floor Gate (HTTP 204)", "7d CTWA / Physical Store CAPI", "Masked Attribution Mart", "Channel Net Cash Scorecard"],
+    "pipelineNodes": [
+      { "en": "Cloudflare POS / WA Form", "bm": "Borang POS / WA Cloudflare" },
+      { "en": "Discount Floor Gate (HTTP 204)", "bm": "Kawalan Lantai Diskaun (HTTP 204)" },
+      { "en": "7d CTWA / Physical Store CAPI", "bm": "CAPI CTWA 7h / Kedai Fizikal" },
+      { "en": "Masked Attribution Mart", "bm": "Hab Data Atribusi Bertopeng" },
+      { "en": "Channel Net Cash Scorecard", "bm": "Kad Skor Tunai Bersih Saluran" }
+    ],
+    "pipelineStepDetails": [
+      {
+        "stepNumber": 1,
+        "role": { "en": "1. Trigger / Input", "bm": "1. Pencetus / Input" },
+        "summary": {
+          "en": "Cloudflare Pages intake pad captures incoming ctwa_clid / Google GCLID click tokens, branch code, and 5-minute coordinator SLA timestamps.",
+          "bm": "Pad kemasukan Cloudflare Pages merekodkan token klik ctwa_clid / Google GCLID, kod cawangan dan cap masa SLA penyelaras 5 minit."
+        }
+      },
+      {
+        "stepNumber": 2,
+        "role": { "en": "2. Deterministic Gate", "bm": "2. Kawalan Deterministik" },
+        "summary": {
+          "en": "Validates verified counter receipt numbers against 02_Spend_and_Offer_Catalog min_margin_floor and max_staff_discount; blocks breaches with HTTP 204.",
+          "bm": "Mengesahkan nombor resit kaunter terhadap lantai margin minimum serta had diskaun staf; menyekat pelanggaran dengan status HTTP 204."
+        }
+      },
+      {
+        "stepNumber": 3,
+        "role": { "en": "3. Bounded AI / Signal Router", "bm": "3. AI Berbatas / Penghala Isyarat" },
+        "summary": {
+          "en": "Routes <=7-day clicks via Meta Business Messaging CAPI (ctwa_clid), falls back >7d to physical_store SHA-256, and dispatches Google Data Manager API v1 GCLIDs.",
+          "bm": "Menghala klik <=7 hari melalui Meta Business Messaging CAPI, beralih ke physical_store SHA-256 (>7 hari) serta menghantar GCLID ke Google Data Manager API v1."
+        }
+      },
+      {
+        "stepNumber": 4,
+        "role": { "en": "4. PII-Safe Mart", "bm": "4. Hab Data Selamat PII" },
+        "summary": {
+          "en": "Records masked phones, PDPA consent, SHA-256 hashes, and HTTP 200/204 statuses in 04_Dual_Signal_Audit_Log and 05_Looker_Campaign_Mart.",
+          "bm": "Merekodkan telefon bertopeng, persetujuan PDPA, hash SHA-256 dan status HTTP 200/204 dalam 04_Dual_Signal_Audit_Log serta 05_Looker_Campaign_Mart."
+        }
+      },
+      {
+        "stepNumber": 5,
+        "role": { "en": "5. Measurable Outcome", "bm": "5. Hasil Boleh Ukur" },
+        "summary": {
+          "en": "Delivers Telegram CFO Memos (Blended MER 3.42x, Net POAS 1.89x, RM 18,700 Net Margin, 7 loss signals blocked) and 72h CTWA window saver alerts.",
+          "bm": "Menghantar Memo Eksekutif CFO di Telegram (MER 3.42x, Net POAS 1.89x, Margin Bersih RM 18,700, 7 kes rugi disekat) serta amaran tetingkap percuma 72 jam."
+        }
+      }
+    ],
+    "formulas": [
+      {
+        "name": { "en": "HTTP 204 Margin & Discount Breach Gate", "bm": "Sekatan HTTP 204 Lantai Margin & Diskaun" },
+        "formula": "IF (Realized_Net_Margin >= Min_Margin_Floor && Staff_Discount <= Max_Pct && Finance_Status == VERIFIED_CASH)\n   -> HTTP 200 Dispatch Purchase CAPI\nELSE -> HTTP 204 BLOCKED_DISCOUNT_BREACH / BLOCKED_BELOW_MARGIN_FLOOR",
+        "note": {
+          "en": "Blocked 7 low-margin / breach deals (e.g., RM 600 unauthorized implant discount & RM 85 scaling promo loss leader) from training ad algorithms.",
+          "bm": "Menyekat 7 transaksi bermargin rendah atau melanggar had diskaun (cth. potongan RM 600 dan promo rugi RM 85) daripada melatih algoritma iklan."
+        }
+      },
+      {
+        "name": { "en": "7-Day CTWA Expiry & Dual-Channel Router", "bm": "Penghala Tetingkap CTWA 7-Hari & Dwi-Saluran" },
+        "formula": "Click_Age <= 7.0d ? Meta_Business_Messaging_CAPI(ctwa_clid)\n                  : Meta_Physical_Store_CAPI(SHA256_Phone)\nGoogle_Search_GCLID -> Google_Data_Manager_API_v1(E164_SHA256)",
+        "note": {
+          "en": "Preserves attribution accuracy when clinic consultations close 9–12 days after the initial WhatsApp click (verified in 04_Dual_Signal_Audit_Log).",
+          "bm": "Mengekalkan ketepatan atribusi apabila rawatan klinik ditutup 9–12 hari selepas klik WhatsApp asal (disahkan dalam 04_Dual_Signal_Audit_Log)."
+        }
+      }
+    ],
     "processVisuals": [
-      { "stage": "01", "src": "/assets/projects/prj-04/slide-01.jpg", "caption": { "en": "CFO Impact Hook & 72-Hour Window Saver", "bm": "Hook Impak CFO & Penyelamat Tingkap 72 Jam" } },
-      { "stage": "02", "src": "/assets/projects/prj-04/slide-02.jpg", "caption": { "en": "Workflow #1 — Inbound Ad Click Capture", "bm": "Aliran Kerja #1 — Tangkapan Klik Iklan Masuk" } },
-      { "stage": "03", "src": "/assets/projects/prj-04/slide-03.jpg", "caption": { "en": "Workflow #2 — Rapid Cloud Staff Triage & RM 0.00 Stack", "bm": "Aliran Kerja #2 — Triage Pantas Staf di Cloud & Arbitraj RM 0.00" } },
-      { "stage": "04", "src": "/assets/projects/prj-04/slide-04.jpg", "caption": { "en": "Workflow #3 — Intake Database & PDPA Privacy Shield", "bm": "Aliran Kerja #3 — Pangkalan Data Kemasukan & Privasi PDPA" } },
-      { "stage": "05", "src": "/assets/projects/prj-04/slide-05.jpg", "caption": { "en": "Workflow #4 — Unit Economics Catalogue & Margin Floor", "bm": "Aliran Kerja #4 — Katalog Ekonomi Unit & Lantai Margin" } },
-      { "stage": "06", "src": "/assets/projects/prj-04/slide-06.jpg", "caption": { "en": "Workflow #5 — Cash Receipt Verification & Discount Leak Block", "bm": "Aliran Kerja #5 — Pengesahan Resit Tunai & Sekatan Kebocoran Diskaun" } },
-      { "stage": "07", "src": "/assets/projects/prj-04/slide-07.jpg", "caption": { "en": "Workflow #6 — Zero-Subscription Backend Engine", "bm": "Aliran Kerja #6 — Enjin Backend Tanpa Langganan Bulanan" } },
-      { "stage": "08", "src": "/assets/projects/prj-04/slide-08.jpg", "caption": { "en": "Workflow #7 — Dual-Signal Ad Algorithm Sync", "bm": "Aliran Kerja #7 — Penghantaran Dwi-Isyarat Ke Algoritma Iklan" } },
-      { "stage": "09", "src": "/assets/projects/prj-04/slide-09.jpg", "caption": { "en": "Workflow #8 — Executive Campaign Profit & Loss Table", "bm": "Aliran Kerja #8 — Jadual Eksekutif Untung Rugi Kempen" } },
-      { "stage": "10", "src": "/assets/projects/prj-04/slide-10.jpg", "caption": { "en": "Workflow #9 — Branch Audit & 5-Minute SLA Discipline Impact", "bm": "Aliran Kerja #9 — Audit Cawangan & Impak Disiplin SLA 5 Minit" } }
+      {
+        "stage": "01",
+        "src": "/assets/projects/prj-04/slide-01.jpg",
+        "caption": { "en": "CFO Executive Impact & 72-Hour Window Saver", "bm": "Impak Eksekutif CFO & Penyelamat Tetingkap 72 Jam" },
+        "flowStep": { "en": "Executive Outcome Preview (Before Steps)", "bm": "Pratonton Hasil Eksekutif (Sebelum Langkah)" },
+        "takeaway": {
+          "en": "Summarizes RM 33,855 gross sales, RM 18,700 verified net margin (Blended MER 3.42x, Net POAS 1.89x), 87.1% 5-min SLA compliance, 7 loss signals blocked, and 9.3h remaining on a RM 0.00 CTWA free-reply window.",
+          "bm": "Merumuskan jualan kasar RM 33,855, margin bersih sah RM 18,700 (MER 3.42x, Net POAS 1.89x), pematuhan SLA 5-minit 87.1%, 7 isyarat rugi disekat dan baki 9.3 jam tetingkap percuma CTWA RM 0.00."
+        }
+      },
+      {
+        "stage": "02",
+        "src": "/assets/projects/prj-04/slide-02.jpg",
+        "caption": { "en": "Workflow #1 — Inbound Ad Click Capture", "bm": "Aliran Kerja #1 — Tangkapan Klik Iklan Masuk" },
+        "flowStep": { "en": "Step 1 · Trigger / Ad Click Capture", "bm": "Langkah 1 · Pencetus / Tangkapan Klik Iklan" },
+        "takeaway": {
+          "en": "Cloudflare Pages intake pad captures raw ctwa_clid / Google GCLID parameters and branch assignment at entry before any chat goes untracked.",
+          "bm": "Pad kemasukan Cloudflare Pages merekodkan parameter ctwa_clid / Google GCLID serta cawangan klinik sebaik sahaja prospek masuk sebelum perbualan terlepas jejak."
+        }
+      },
+      {
+        "stage": "03",
+        "src": "/assets/projects/prj-04/slide-03.jpg",
+        "caption": { "en": "Workflow #2 — Rapid Cloud Staff Triage & Zero-Cost Stack", "bm": "Aliran Kerja #2 — Saringan Pantas Staf di Cloud & Susunan Tanpa Kos Langganan (RM 0.00)" },
+        "flowStep": { "en": "Step 1B · Coordinator Triage & 72h CTWA Free Reply", "bm": "Langkah 1B · Saringan Penyelaras & Tetingkap Percuma 72 Jam" },
+        "takeaway": {
+          "en": "Front-desk coordinators stop the 5-minute SLA clock, log QualifiedLead CAPI events, and send RM 0.00 slot-confirmation templates inside the 72-hour CTWA free window.",
+          "bm": "Penyelaras kaunter menghentikan pemasa SLA 5-minit, menghantar acara CAPI QualifiedLead dan menghantar templat pengesahan slot RM 0.00 dalam tempoh 72 jam."
+        }
+      },
+      {
+        "stage": "04",
+        "src": "/assets/projects/prj-04/slide-04.jpg",
+        "caption": { "en": "Workflow #3 — Intake Database & PDPA Privacy Shield", "bm": "Aliran Kerja #3 — Pangkalan Data Kemasukan & Perisai Privasi PDPA" },
+        "flowStep": { "en": "Step 2A · PII Masking & SHA-256 Prep", "bm": "Langkah 2A · Penopeng PII & Penyediaan SHA-256" },
+        "takeaway": {
+          "en": "01_Attribution_Intake masks patient phone numbers (+6012****10), logs PDPA consent, pre-computes Meta/Google SHA-256 hashes, and tracks Free_72h_Expiry and Reply_SLA_Min.",
+          "bm": "01_Attribution_Intake menopengkan nombor telefon pesakit (+6012****10), merekodkan izin PDPA, menjana hash SHA-256 serta menjejak tamat tempoh 72 jam dan SLA balasan."
+        }
+      },
+      {
+        "stage": "05",
+        "src": "/assets/projects/prj-04/slide-05.jpg",
+        "caption": { "en": "Workflow #4 — Unit Economics Catalogue & Margin Floor", "bm": "Aliran Kerja #4 — Katalog Ekonomi Unit & Lantai Margin" },
+        "flowStep": { "en": "Step 2B · Margin Floor & Discount Policy Table", "bm": "Langkah 2B · Jadual Lantai Margin & Had Diskaun" },
+        "takeaway": {
+          "en": "02_Spend_and_Offer_Catalog locks Doctor_Lab_Cost, Max_Staff_Discount (0%–10%), and Min_Margin_Floor per SKU (e.g., RM 1,800 floor on Implants vs RM 160 on Scaling Promo).",
+          "bm": "02_Spend_and_Offer_Catalog mengunci kos doktor/makmal, had diskaun staf (0%–10%) dan lantai margin minimum setiap SKU (cth. RM 1,800 untuk Implan berbanding RM 160 promo)."
+        }
+      },
+      {
+        "stage": "06",
+        "src": "/assets/projects/prj-04/slide-06.jpg",
+        "caption": { "en": "Workflow #5 — Cash Receipt Verification & Discount Leak Block", "bm": "Aliran Kerja #5 — Pengesahan Resit Tunai & Sekatan Kebocoran Diskaun" },
+        "flowStep": { "en": "Step 2C · Deterministic Margin Gate Enforcement", "bm": "Langkah 2C · Penguatkuasaan Kawalan Margin Deterministik" },
+        "takeaway": {
+          "en": "03_Verified_Deal_Economics matches each invoice receipt to realized net margin and sets Signal_Gate_Status to BLOCKED_DISCOUNT_BREACH (e.g., RM 600 staff discount) or BLOCKED_BELOW_MARGIN_FLOOR.",
+          "bm": "03_Verified_Deal_Economics memadankan resit invois dengan margin bersih sebenar dan menyekat transaksi melanggar had diskaun (cth. RM 600) atau bawah lantai margin."
+        }
+      },
+      {
+        "stage": "07",
+        "src": "/assets/projects/prj-04/slide-07.jpg",
+        "caption": { "en": "Workflow #6 — Zero-Subscription Backend Engine (Code.gs)", "bm": "Aliran Kerja #6 — Enjin Backend Tanpa Langganan Bulanan (Code.gs)" },
+        "flowStep": { "en": "Step 3A · Deterministic Apps Script Math Engine", "bm": "Langkah 3A · Enjin Matematik Apps Script Deterministik" },
+        "takeaway": {
+          "en": "Executes all MER, campaign Net POAS, SLA compliance percentage, and HTTP 204 suppression logic in deterministic JavaScript (Code.gs) at RM 0/mo middleware cost.",
+          "bm": "Melaksanakan semua kiraan MER, Net POAS kempen, peratus pematuhan SLA dan logik sekatan HTTP 204 dalam kod JavaScript deterministik (Code.gs) pada kos RM 0/bln."
+        }
+      },
+      {
+        "stage": "08",
+        "src": "/assets/projects/prj-04/slide-08.jpg",
+        "caption": { "en": "Workflow #7 — Dual-Signal Ad Algorithm Sync", "bm": "Aliran Kerja #7 — Penghantaran Dwi-Isyarat ke Algoritma Iklan" },
+        "flowStep": { "en": "Step 3B · Dual CAPI & HTTP 204 Audit Log", "bm": "Langkah 3B · Log Audit Dwi-CAPI & Sekatan HTTP 204" },
+        "takeaway": {
+          "en": "04_Dual_Signal_Audit_Log proves <=7d CTWA routing (HTTP 200), automatic >7d fallback to physical_store SHA-256 (9.25d–12.56d), Google Data Manager API v1 GCLID syncs, and HTTP 204 blocks.",
+          "bm": "04_Dual_Signal_Audit_Log membuktikan penghalaan CTWA <=7h (HTTP 200), peralihan automatik ke physical_store SHA-256 (>7h), segerak Google Data Manager API v1 dan sekatan HTTP 204."
+        }
+      },
+      {
+        "stage": "09",
+        "src": "/assets/projects/prj-04/slide-09.jpg",
+        "caption": { "en": "Workflow #8 — Executive Campaign Profit & Loss Table", "bm": "Aliran Kerja #8 — Jadual Eksekutif Untung Rugi Kempen" },
+        "flowStep": { "en": "Step 4 · PII-Safe Campaign P&L Mart", "bm": "Langkah 4 · Hab Data Untung Rugi Kempen Selamat PII" },
+        "takeaway": {
+          "en": "05_Looker_Campaign_Mart reveals META_AD_IMPLANT at 3.14x Net POAS (+RM 6,000 net profit) vs META_AD_SCALING_PROMO at 0.05x Net POAS (-RM 1,000 net loss with 5 blocked signals).",
+          "bm": "05_Looker_Campaign_Mart mendedahkan META_AD_IMPLANT meraih 3.14x Net POAS (+RM 6,000 untung bersih) berbanding META_AD_SCALING_PROMO pada 0.05x (-RM 1,000 rugi bersih, 5 isyarat disekat)."
+        }
+      },
+      {
+        "stage": "10",
+        "src": "/assets/projects/prj-04/slide-10.jpg",
+        "caption": { "en": "Workflow #9 — Branch Audit & 5-Minute SLA Discipline Impact", "bm": "Aliran Kerja #9 — Audit Cawangan & Impak Disiplin SLA 5 Minit" },
+        "flowStep": { "en": "Step 5 · Branch SLA & Funnel Outcome Audit", "bm": "Langkah 5 · Audit SLA Cawangan & Hasil Corong" },
+        "takeaway": {
+          "en": "06_Looker_Funnel_Ledger links coordinator response speed (PATUH_5MIN vs LEWAT_SLA at 11.4–14.5 mins) directly to conversion outcome across Kemaman, Kuantan, and Dungun branches.",
+          "bm": "06_Looker_Funnel_Ledger mengaitkan kelajuan respons penyelaras (PATUH_5MIN vs LEWAT_SLA 11.4–14.5 minit) terus kepada hasil penukaran merentasi cawangan Kemaman, Kuantan dan Dungun."
+        }
+      }
     ],
     "lookerUrl": "",
     "liveAppUrl": "",
@@ -178,37 +735,210 @@
       "en": "TikTok Shop & Shopee Order-to-Settlement Reconciler, GMV Max Guardrail & Affiliate ROI Engine",
       "bm": "Enjin Penyesuaian Pesanan-ke-Penyelesaian TikTok Shop & Shopee, Kawalan GMV Max & ROI Affiliate"
     },
+    "businessObjective": {
+      "en": "Reconciles every TikTok Shop and Shopee order down to actual bank payout after platform fees, 8% SST, vouchers, returns, GMV Max ad burn, and creator free samples so brands never scale loss-making campaigns.",
+      "bm": "Menyelaraskan setiap pesanan TikTok Shop dan Shopee hingga ke bayaran masuk bank sebenar selepas caj platform, SST 8%, baucar, pulangan RTS, belanja iklan GMV Max serta sampel percuma supaya jenama tidak menaikkan bajet kempen yang rugi."
+    },
+    "martechInsight": {
+      "en": "Marketplace Seller Centers celebrate 'Paper GMV' (RM 3,253.40) and 'Paper ROAS' (2.88x–4.07x) while hiding true cash erosion: after RM 189 seller discounts, RM 235.11 platform fees + 8% SST, RM 191.74 affiliate commissions, RM 855 ad/live burn, and RM 422 free samples, real net profit was -RM 643.55. Enforcing a RM 0.00 audit variance waterfall, anti-noise spend floors (<RM 80 / <5,000 impr), and creator sample gates stops freebie hunters and 50%-RTS creators.",
+      "bm": "Papan pemuka marketplace menonjolkan 'Paper GMV' (RM 3,253.40) dan 'Paper ROAS' (2.88x–4.07x) tetapi menyembunyikan hakisan tunai sebenar: selepas diskaun penjual RM 189, caj platform + SST 8% RM 235.11, komisen affiliate RM 191.74, belanja iklan/studio langsung RM 855 dan kos sampel RM 422, untung bersih sebenar ialah -RM 643.55. Aliran tunai varians RM 0.00, penapis anti-hingar (<RM 80 / <5,000 tayangan) dan sekatan sampel menghentikan pemburu sampel percuma serta pencipta berpulangan RTS 50%."
+    },
     "headlineMetric": "RM 0.00 Order-to-Settlement Audit Variance",
     "commercialLeak": {
       "en": "Scaling GMV Max ads and creator free samples on vanity 'Paper GMV' while losing net cash after platform fees, 8% SST, voucher co-funding, COGS, and RTS/refund clawbacks.",
-      "bm": "Menaikkan bajet GMV Max dan sampel percuma affiliate berdasarkan 'Paper GMV' sedangkan tunai bersih rugi selepas ditolak komisen platform, SST, baucar bersama, COGS dan pulangan RTS."
+      "bm": "Menaikkan bajet GMV Max dan sampel percuma affiliate berdasarkan 'Paper GMV' sedangkan tunai bersih rugi selepas ditolak komisen platform, SST 8%, baucar bersama, COGS dan pulangan RTS."
     },
     "deterministicGate": {
-      "en": "6-tab relational schema reconciling Paper GMV to Realized Net Cash (RM 0.00 audit variance), GMV Max burn gates, and creator sample net ROI.",
-      "bm": "Skema hubungan 6-tab menyelaraskan Paper GMV kepada Tunai Bersih Sebenar (varians audit RM 0.00), had bakar GMV Max, dan ROI bersih sampel affiliate."
+      "en": "7-tab relational schema reconciling Paper GMV to Realized Net Cash (RM 0.00 audit variance), GMV Max burn gates, and creator sample net ROI.",
+      "bm": "Skema relasi 7-tab menyelaraskan Paper GMV kepada Tunai Bersih Sebenar (varians audit RM 0.00), had bakar GMV Max, dan ROI bersih sampel affiliate."
     },
     "boundedAiRole": {
       "en": "Synthesizes executive settlement discrepancy briefings and creator seeding cut/scale action plans from deterministic ledger outputs.",
-      "bm": "Merumuskan laporan audit penyelesaian bayaran eksekutif dan pelan tindakan henti/skala sampel pencipta kandungan."
+      "bm": "Merumuskan laporan audit penyelesaian bayaran eksekutif dan pelan tindakan henti/skala sampel pencipta kandungan daripada output lejar deterministik."
     },
     "validatedOutcome": {
       "en": "RM 0.00 Order-to-Settlement reconciliation variance and automated negative-margin creator seeding cutoff.",
-      "bm": "Varians penyesuaian Pesanan-ke-Penyelesaian RM 0.00 serta pemberhentian automatik sampel affiliate bermargin negatif."
+      "bm": "Varians penyesuaian Pesanan-ke-Penyelesaian RM 0.00 serta penghentian automatik sampel affiliate bermargin negatif."
     },
-    "stack": ["6-Tab Sheets Schema", "Apps Script", "Cloudflare Pages", "Gemini API", "TikTok Shop / Shopee Adapter", "Telegram Bot", "Looker Studio"],
-    "pipelineNodes": ["Order & Settlement Ingestion", "6-Tab Fee/SST/RTS Reconciler", "Executive Audit Synthesis", "SKU & Creator Net Cash Mart", "Cloudflare UI + Looker BI"],
+    "stack": ["7-Tab Sheets Schema", "Apps Script", "Cloudflare Pages", "Gemini API", "TikTok Shop / Shopee Adapter", "Telegram Bot", "Looker Studio"],
+    "pipelineNodes": [
+      { "en": "Order & Settlement Ingestion", "bm": "Kemasukan Pesanan & Penyelesaian" },
+      { "en": "7-Tab Fee/SST/RTS Reconciler", "bm": "Penyesuai Caj/SST/RTS 7-Tab" },
+      { "en": "Executive Audit Synthesis", "bm": "Rumusan Audit Eksekutif" },
+      { "en": "SKU & Creator Net Cash Mart", "bm": "Hab Data Tunai Bersih SKU & Pencipta" },
+      { "en": "Cloudflare UI + Looker BI", "bm": "UI Cloudflare + Looker BI" }
+    ],
+    "pipelineStepDetails": [
+      {
+        "stepNumber": 1,
+        "role": { "en": "1. Trigger / Input", "bm": "1. Pencetus / Input" },
+        "summary": {
+          "en": "Ingests TikTok Shop & Shopee order settlements (FACT_ORDER_SETTLEMENT), daily GMV Max & live studio costs (FACT_AD_AND_LIVE_BURN), and Cloudflare sample requests.",
+          "bm": "Menyerap penyelesaian pesanan TikTok Shop & Shopee (FACT_ORDER_SETTLEMENT), kos GMV Max & studio siaran langsung (FACT_AD_AND_LIVE_BURN) serta permohonan sampel Cloudflare."
+        }
+      },
+      {
+        "stepNumber": 2,
+        "role": { "en": "2. Deterministic Gate", "bm": "2. Kawalan Deterministik" },
+        "summary": {
+          "en": "Reconciles Gross Paper GMV down to bank payout + escrow (RM 0.00 variance), applies RM 80 / 5,000-impression anti-noise floors, and enforces 4 creator sample gating rules.",
+          "bm": "Menyelaraskan Paper GMV hingga ke bayaran bank + escrow (varians RM 0.00), menguatkuasakan penapis anti-hingar RM 80 / 5,000 tayangan dan 4 peraturan sekatan sampel pencipta."
+        }
+      },
+      {
+        "stepNumber": 3,
+        "role": { "en": "3. Bounded AI / Signal Router", "bm": "3. AI Berbatas / Penghala Isyarat" },
+        "summary": {
+          "en": "Synthesizes CFO discrepancy memos explaining the Paper-GMV-to-Net-Loss gap strictly from deterministic MART_SETTLEMENT_WATERFALL and MART_CREATOR_ROI outputs.",
+          "bm": "Merumuskan memo audit jurang Paper GMV berbanding Untung Bersih untuk CFO secara terhad berdasarkan output deterministik MART_SETTLEMENT_WATERFALL dan MART_CREATOR_ROI."
+        }
+      },
+      {
+        "stepNumber": 4,
+        "role": { "en": "4. PII-Safe Mart", "bm": "4. Hab Data Selamat PII" },
+        "summary": {
+          "en": "Maintains 7 relational tabs (REF_SKU_CATALOG, REF_CREATOR_LEDGER, FACT_*, MART_*, LOG_CFO_BRIEFINGS) with server-masked creator WhatsApp numbers.",
+          "bm": "Mengurus 7 tab relasi (REF_SKU_CATALOG, REF_CREATOR_LEDGER, FACT_*, MART_*, LOG_CFO_BRIEFINGS) bersama nombor WhatsApp pencipta bertopeng di pelayan."
+        }
+      },
+      {
+        "stepNumber": 5,
+        "role": { "en": "5. Measurable Outcome", "bm": "5. Hasil Boleh Ukur" },
+        "summary": {
+          "en": "Blocks negative-ROI creators on Cloudflare Pages, suppresses noisy ad alerts, and dispatches Telegram CFO memos with RM 0.00 verified reconciliation.",
+          "bm": "Menyekat pencipta ber-ROI negatif di Cloudflare Pages, menapis amaran palsu dan menghantar memo CFO Telegram dengan pengesahan penyesuaian RM 0.00."
+        }
+      }
+    ],
+    "formulas": [
+      {
+        "name": { "en": "Paper GMV-to-Bank Settlement Waterfall", "bm": "Aliran Tunai (Waterfall) Paper GMV ke Bank" },
+        "formula": "Realized_Net_Profit = Bank_Payout + Expected_Escrow - COGS - Pick_Pack - Ad_Live_Burn - Sample_Sunk_Cost\nAudit_Variance = (Gross_GMV - Seller_Vouchers - Fees_8pct_SST - Affiliate_Comm - RTS) - (Bank + Escrow) == RM 0.00",
+        "note": {
+          "en": "Reconciled RM 3,253.40 Paper GMV to RM 1,224.35 bank payout + RM 303.23 escrow -> -RM 643.55 true net profit at RM 0.00 variance.",
+          "bm": "Menyelaraskan RM 3,253.40 Paper GMV kepada RM 1,224.35 bayaran bank + RM 303.23 escrow -> untung bersih sebenar -RM 643.55 pada varians RM 0.00."
+        }
+      },
+      {
+        "name": { "en": "Affiliate Sample Seeding & Anti-Noise Gate", "bm": "Kawalan Sampel Affiliate & Penapis Anti-Hingar" },
+        "formula": "BLOCK_SAMPLE if (Creator_Net_Profit <= RM 0) || (RTS_Rate > 25% && Orders >= 5) || (Days_No_Order >= 14)\nALERT_AD if (Ad_Burn >= RM 80 && Impressions >= 5,000)",
+        "note": {
+          "en": "Blocked @zack_hype_live (50% RTS, -RM 314.62) & @bella_freebie_hunter (0 orders, -RM 117.00) while scaling @aisyah_skincare (+RM 262.24).",
+          "bm": "Menyekat @zack_hype_live (50% RTS, -RM 314.62) & @bella_freebie_hunter (0 pesanan, -RM 117.00) sambil menumpukan skala kepada @aisyah_skincare (+RM 262.24)."
+        }
+      }
+    ],
     "processVisuals": [
-      { "stage": "01", "src": "/assets/projects/prj-05/slide-01.png", "caption": { "en": "Executive Margin Command Center", "bm": "Pusat Kawalan Margin Eksekutif" } },
-      { "stage": "02", "src": "/assets/projects/prj-05/slide-02.png", "caption": { "en": "SKU Unit Economics & Floor Gates", "bm": "Ekonomi Unit SKU & Lantai Margin" } },
-      { "stage": "03", "src": "/assets/projects/prj-05/slide-03.png", "caption": { "en": "Order-to-Bank Settlement Ledger", "bm": "Lejar Penyesuaian Pesanan-ke-Bank" } },
-      { "stage": "04", "src": "/assets/projects/prj-05/slide-04.png", "caption": { "en": "GMV Max & Live Studio Burn Guardrail", "bm": "Kawalan Bakar GMV Max & Studio Siaran Langsung" } },
-      { "stage": "05", "src": "/assets/projects/prj-05/slide-05.png", "caption": { "en": "Cloudflare Affiliate Sample Gatekeeper", "bm": "Pintu Kawalan Sampel Affiliate Cloudflare" } },
-      { "stage": "06", "src": "/assets/projects/prj-05/slide-06.png", "caption": { "en": "Creator Ledger & PDPA Privacy Shield", "bm": "Lejar Pencipta Kandungan & Perisai Privasi PDPA" } },
-      { "stage": "07", "src": "/assets/projects/prj-05/slide-07.png", "caption": { "en": "Zero-Variance Waterfall Data Mart", "bm": "Data Mart Air Terjun Varians Sifar" } },
-      { "stage": "08", "src": "/assets/projects/prj-05/slide-08.png", "caption": { "en": "PII-Free Creator ROI Mart", "bm": "Mart ROI Pencipta Bebas-PII" } },
-      { "stage": "09", "src": "/assets/projects/prj-05/slide-09.png", "caption": { "en": "Telegram Margin Sentinel Alert", "bm": "Amaran Pemantau Margin Telegram" } },
-      { "stage": "10", "src": "/assets/projects/prj-05/slide-10.png", "caption": { "en": "Zero-Downtime CFO Audit Log", "bm": "Log Audit CFO Tanpa Gangguan" } },
-      { "stage": "11", "src": "/assets/projects/prj-05/slide-11.png", "caption": { "en": "Telegram Executive CFO Memo", "bm": "Memo Eksekutif CFO di Telegram" } }
+      {
+        "stage": "01",
+        "src": "/assets/projects/prj-05/slide-01.png",
+        "caption": { "en": "Executive Margin Command Center", "bm": "Pusat Kawalan Margin Eksekutif" },
+        "flowStep": { "en": "Executive Outcome Preview (Before Steps)", "bm": "Pratonton Hasil Eksekutif (Sebelum Langkah)" },
+        "takeaway": {
+          "en": "Contrasts RM 3,253.40 gross Paper GMV against RM 1,224.35 bank payout, RM 303.23 escrow, RM 855 ad/live burn, and RM 422 sample cost — exposing a -RM 643.55 true net loss.",
+          "bm": "Membandingkan RM 3,253.40 Paper GMV kasar dengan RM 1,224.35 bayaran bank, RM 303.23 escrow, RM 855 kos iklan/siaran langsung serta RM 422 kos sampel — mendedahkan rugi bersih sebenar -RM 643.55."
+        }
+      },
+      {
+        "stage": "02",
+        "src": "/assets/projects/prj-05/slide-02.png",
+        "caption": { "en": "SKU Unit Economics & Floor Gates (Tab 1: REF_SKU_CATALOG)", "bm": "Ekonomi Unit SKU & Lantai Margin (Tab 1: REF_SKU_CATALOG)" },
+        "flowStep": { "en": "Step 1A · SKU Cost & Loss-Leader Reference", "bm": "Langkah 1A · Rujukan Kos SKU & Produk Pemancing" },
+        "takeaway": {
+          "en": "Defines retail price, landed COGS, pick/pack, sample sunk cost, min net margin floor (15%–25%), and loss-leader flags across 4 SKUs (RM 19.90 trial to RM 138 bundle).",
+          "bm": "Menetapkan harga runcit, COGS penuh, kos bungkus, kos hangus sampel, lantai margin minimum (15%–25%) dan penanda loss-leader bagi 4 SKU."
+        }
+      },
+      {
+        "stage": "03",
+        "src": "/assets/projects/prj-05/slide-03.png",
+        "caption": { "en": "Order-to-Bank Settlement Ledger (Tab 3: FACT_ORDER_SETTLEMENT)", "bm": "Lejar Penyesuaian Pesanan-ke-Bank (Tab 3: FACT_ORDER_SETTLEMENT)" },
+        "flowStep": { "en": "Step 1B · Line-Item Fee, 8% SST & RTS Ingestion", "bm": "Langkah 1B · Kemasukan Caj Platform, SST 8% & RTS" },
+        "takeaway": {
+          "en": "Breaks down every TikTok Shop and Shopee order across seller vouchers, platform fees, 8% SST, shipping shortfalls, affiliate commissions, and RTS return clawbacks.",
+          "bm": "Memperincikan setiap pesanan TikTok Shop dan Shopee merangkumi baucar penjual, caj platform, SST 8%, kekurangan pos, komisen affiliate serta potongan pulangan RTS."
+        }
+      },
+      {
+        "stage": "04",
+        "src": "/assets/projects/prj-05/slide-04.png",
+        "caption": { "en": "GMV Max & Live Studio Burn Guardrail (Tab 4: FACT_AD_AND_LIVE_BURN)", "bm": "Kawalan Bakar GMV Max & Studio Siaran Langsung (Tab 4: FACT_AD_AND_LIVE_BURN)" },
+        "flowStep": { "en": "Step 1C · Ad & Live Host Burn Tracking", "bm": "Langkah 1C · Penjejakan Kos Iklan & Hos Siaran Langsung" },
+        "takeaway": {
+          "en": "Logs both GMV Max ad spend and live host/studio hours (up to RM 420/day total burn) alongside impressions so studio overhead is never hidden from campaign P&L.",
+          "bm": "Merekodkan belanja iklan GMV Max serta jam hos/studio siaran langsung (sehingga RM 420/hari) bersama jumlah tayangan supaya kos studio tidak disembunyikan daripada untung rugi kempen."
+        }
+      },
+      {
+        "stage": "05",
+        "src": "/assets/projects/prj-05/slide-05.png",
+        "caption": { "en": "Cloudflare Affiliate Sample Gatekeeper", "bm": "Pintu Kawalan Sampel Affiliate Cloudflare" },
+        "flowStep": { "en": "Step 2A · Real-Time Sample Eligibility Gate", "bm": "Langkah 2A · Kawalan Kelayakan Sampel Masa Nyata" },
+        "takeaway": {
+          "en": "Enforces 4 deterministic sample rules (net profit > RM 0, RTS <= 25%, no >=14-day zero-order ghosting, loss-leader max 1 unit) with server-side PDPA phone masking.",
+          "bm": "Menguatkuasakan 4 peraturan sampel deterministik (untung bersih > RM 0, RTS <= 25%, tiada rekod >=14 hari tanpa pesanan, had 1 unit loss-leader) dengan penopeng telefon PDPA di pelayan."
+        }
+      },
+      {
+        "stage": "06",
+        "src": "/assets/projects/prj-05/slide-06.png",
+        "caption": { "en": "Creator Ledger & PDPA Privacy Shield (Tab 2: REF_CREATOR_LEDGER)", "bm": "Lejar Pencipta Kandungan & Perisai Privasi PDPA (Tab 2: REF_CREATOR_LEDGER)" },
+        "flowStep": { "en": "Step 2B · Creator Performance & Masked Contact Ledger", "bm": "Langkah 2B · Lejar Prestasi Pencipta & Kenalan Bertopeng" },
+        "takeaway": {
+          "en": "Tracks 5 creators with masked WhatsApp numbers (MY +6012****80), days since seeding, sample sunk costs, return rates (0%–50%), and deterministic gate verdicts.",
+          "bm": "Menjejaki 5 pencipta dengan nombor WhatsApp bertopeng (MY +6012****80), hari sejak penghantaran sampel, kos hangus sampel, kadar pulangan (0%–50%) serta status sekatan."
+        }
+      },
+      {
+        "stage": "07",
+        "src": "/assets/projects/prj-05/slide-07.png",
+        "caption": { "en": "Zero-Variance Waterfall Data Mart (Tab 5: MART_SETTLEMENT_WATERFALL)", "bm": "Hab Data Aliran Tunai (Waterfall) Varians Sifar (Tab 5: MART_SETTLEMENT_WATERFALL)" },
+        "flowStep": { "en": "Step 4A · Order-to-Bank Waterfall Mart", "bm": "Langkah 4A · Hab Data Aliran Tunai Pesanan-ke-Bank" },
+        "takeaway": {
+          "en": "Exposes the Paper ROAS trap row by row: 11.11_MEGA_LIVE SKU-BUNDLE-1111 showed 2.88x Paper ROAS while Realized Net POAS was -0.08x (-RM 619.69 loss).",
+          "bm": "Mendedahkan perangkap Paper ROAS baris demi baris: SKU-BUNDLE-1111 kempen 11.11_MEGA_LIVE mencatat 2.88x Paper ROAS sedangkan Net POAS sebenar ialah -0.08x (rugi -RM 619.69)."
+        }
+      },
+      {
+        "stage": "08",
+        "src": "/assets/projects/prj-05/slide-08.png",
+        "caption": { "en": "PII-Free Creator ROI Mart (Tab 6: MART_CREATOR_ROI)", "bm": "Hab Data ROI Pencipta Bebas-PII (Tab 6: MART_CREATOR_ROI)" },
+        "flowStep": { "en": "Step 4B · Creator Net Profit Ranking Mart", "bm": "Langkah 4B · Hab Data Kedudukan Untung Bersih Pencipta" },
+        "takeaway": {
+          "en": "Ranks true creator profitability with zero PII: @aisyah_skincare (+RM 262.24) & @nadia_shopee_finds (+RM 201.50) earn APPROVED_SCALE, while @zack_hype_live (-RM 314.62) & @bella_freebie_hunter (-RM 117.00) are blocked.",
+          "bm": "Menyusun keuntungan sebenar pencipta tanpa PII: @aisyah_skincare (+RM 262.24) & @nadia_shopee_finds (+RM 201.50) diluluskan untuk skala, manakala @zack_hype_live (-RM 314.62) & @bella_freebie_hunter (-RM 117.00) disekat."
+        }
+      },
+      {
+        "stage": "09",
+        "src": "/assets/projects/prj-05/slide-09.png",
+        "caption": { "en": "Telegram Margin Sentinel Alert", "bm": "Amaran Pemantau Margin Telegram" },
+        "flowStep": { "en": "Step 5A · Anti-Noise Margin & Affiliate Alert", "bm": "Langkah 5A · Amaran Margin & Affiliate Anti-Hingar" },
+        "takeaway": {
+          "en": "Flags leaking campaigns (2.88x -> -0.08x POAS; 4.07x -> 1.76x POAS, -RM 86.02) and blocked creators while suppressing 3 small-budget rows (<RM 80 / <5,000 impr) to eliminate alert fatigue.",
+          "bm": "Menandakan kempen bocor (2.88x -> -0.08x POAS; 4.07x -> 1.76x POAS, -RM 86.02) dan pencipta disekat sambil menahan 3 baris bajet kecil (<RM 80 / <5,000 tayangan) daripada mencetuskan amaran palsu."
+        }
+      },
+      {
+        "stage": "10",
+        "src": "/assets/projects/prj-05/slide-10.png",
+        "caption": { "en": "Zero-Downtime CFO Audit Log (Tab 7: LOG_CFO_BRIEFINGS)", "bm": "Log Audit CFO Tanpa Gangguan (Tab 7: LOG_CFO_BRIEFINGS)" },
+        "flowStep": { "en": "Step 3 · Bounded AI Audit Log (RM 0.00 Variance)", "bm": "Langkah 3 · Log Audit AI Berbatas (Varians RM 0.00)" },
+        "takeaway": {
+          "en": "Persists timestamped DETERMINISTIC briefings recording RM 3,253.40 Paper GMV, RM 1,224.35 bank payout, -RM 643.55 net profit, and RM 0.00 reconciliation variance.",
+          "bm": "Menyimpan rekod taklimat bercap masa yang mengesahkan RM 3,253.40 Paper GMV, RM 1,224.35 bayaran bank, untung bersih -RM 643.55 serta varians penyesuaian RM 0.00."
+        }
+      },
+      {
+        "stage": "11",
+        "src": "/assets/projects/prj-05/slide-11.png",
+        "caption": { "en": "Telegram Executive CFO Memo", "bm": "Memo Eksekutif CFO di Telegram" },
+        "flowStep": { "en": "Step 5B · Executive Action Memo", "bm": "Langkah 5B · Memo Tindakan Eksekutif" },
+        "takeaway": {
+          "en": "Delivers a board-ready BM memo pairing RM 0.00 VERIFIED reconciliation with three concrete directives: cut double vouchers/live studio hours on SKU-BUNDLE-1111, keep sample blocks active, and shift budget to profitable creators.",
+          "bm": "Menghantar memo BM sedia pengurusan yang menggabungkan pengesahan varians RM 0.00 dengan tindakan konkrit: hentikan subsidi baucar berganda pada SKU-BUNDLE-1111, kekalkan sekatan sampel dan alihkan bajet ke pencipta menguntungkan."
+        }
+      }
     ],
     "lookerUrl": "",
     "liveAppUrl": "",

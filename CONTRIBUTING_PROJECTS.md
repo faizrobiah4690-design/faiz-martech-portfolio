@@ -10,7 +10,7 @@ This portfolio uses a **JSON-driven Vite + React + Tailwind architecture**. Addi
 
 When you append `PRJ-06` to `src/data/projects.json`, the UI automatically updates across:
 1. **Navbar System Count Badge:** `5 Systems Shipped` -> `6 Systems Shipped` (`5 Sistem Disiapkan` -> `6 Sistem Disiapkan`).
-2. **Hero CTA & KPI Card:** `Explore 5 Live Systems` -> `Explore 6 Live Systems` (`Terokai 5 Sistem Aktif` -> `Terokai 6 Sistem Aktif`) and KPI value `5` -> `6`.
+2. **Hero CTA & KPI Card:** `Explore 5 MarTech Systems` -> `Explore 6 MarTech Systems` (`Terokai 5 Sistem MarTech` -> `Terokai 6 Sistem MarTech`) and KPI value `5` -> `6`.
 3. **5-Stage Funnel Pipeline Map:** Automatically increments the matching `stageCode` counter (`01`–`05`) and the `All Stages (N)` / `Semua Peringkat (N)` pill.
 4. **Systems Registry:** Automatically indexes the new system in category pills, keyword search, and the `ArchitectureModal` 5-node pipeline inspector.
 
@@ -42,13 +42,18 @@ Every entry in `src/data/projects.json` must satisfy these field contracts:
 | `category` | `string` | Yes | e.g., `"RevOps & Lead Routing"`, `"Ad Ops & Guardrail"`, `"Offline & WhatsApp CAPI"`, `"Social Commerce & Affiliate"`, `"Retention & LTV"` |
 | `statusBadge` | `string` | Yes | Honest attribution badge (e.g., `"Sandbox Stress-Test Validated"` or `"Production Live"`) |
 | `title` | `{ en: string, bm: string }` | Yes | Bilingual project title |
+| `businessObjective` | `{ en: string, bm: string }` | No (Recommended) | Plain-language business problem & goal shown upfront |
+| `martechInsight` | `{ en: string, bm: string }` | No (Recommended) | Commercial MarTech / Ad Ops "why it matters" rationale |
 | `headlineMetric` | `string` | Yes | Concise telemetry metric shown on card & modal |
 | `commercialLeak` | `{ en: string, bm: string }` | Yes | Revenue/margin leak solved by the system |
 | `deterministicGate` | `{ en: string, bm: string }` | Yes | Strict deterministic math/HTTP rules (never delegated to an LLM) |
 | `boundedAiRole` | `{ en: string, bm: string }` | Yes | Bounded LLM synthesis or hashed API signal dispatch |
 | `validatedOutcome` | `{ en: string, bm: string }` | Yes | Sandbox or verified operational outcome |
 | `stack` | `string[]` | Yes | Non-empty list of tools, APIs, and platforms |
-| `pipelineNodes` | `string[5]` | Yes | **Exactly 5 nodes** rendered inside `ArchitectureModal.jsx` |
+| `pipelineNodes` | `Array<{ en, bm } \| string>` | Yes | **Exactly 5 nodes** rendered inside `ArchitectureModal.jsx` |
+| `pipelineStepDetails` | `Array<{ stepNumber, role, summary }>` | No (Recommended) | Sequential 5-step mapping (`Trigger` -> `Gate` -> `AI/Router` -> `Mart` -> `Outcome`) |
+| `formulas` | `Array<{ name, formula, note }>` | No (Recommended) | Project-specific deterministic guardrail formulas |
+| `processVisuals` | `Array<{ stage, src, caption, flowStep?, takeaway? }>` | No | Multi-slide walkthrough visuals under `/assets/projects/...` |
 | `lookerUrl` | `string` | Yes | `""` when pending, or valid `https://...` Looker Studio URL |
 | `liveAppUrl` | `string` | Yes | `""` when pending, or valid `https://...` app URL |
 | `repoUrl` | `string` | Yes | Valid `https://...` GitHub profile or repository URL |
@@ -123,19 +128,17 @@ Append the following template inside the top-level JSON array in `src/data/proje
 
 ## 5. Adding Process Visuals & Evidence Assets (`public/assets/`)
 
-Drop real binary assets into `public/assets/`. Missing assets render clean labeled dark-glass placeholder slots automatically without broken images.
+Drop real binary image assets into `public/assets/projects/`. Missing optional assets render clean labeled dark-glass placeholder slots automatically without broken images.
 
 | Web Path (Referenced in JSON) | Disk Path (`public/assets/`) | Purpose |
 |---|---|---|
-| `/assets/resume-mohd-faiz-oct2026.pdf` | `public/assets/resume-mohd-faiz-oct2026.pdf` | Candidate Resume PDF |
-| `/assets/skm-level-3-cert.jpg` | `public/assets/skm-level-3-cert.jpg` | SKM Level 3 Certificate (`S304265796`, **must mask NRIC before saving**) |
 | `/assets/case-radhi-fruits.png` | `public/assets/case-radhi-fruits.png` | `CS-01` Radhi Fruits 4690 campaign evidence |
 | `/assets/case-pedalhaus.png` | `public/assets/case-pedalhaus.png` | `CS-02` PedalHaus Chukai campaign evidence |
 | `/assets/case-school-van.png` | `public/assets/case-school-van.png` | `CS-03` School Van Service, Binjai campaign evidence |
 | `/assets/prj-06-architecture.png` | `public/assets/prj-06-architecture.png` | Optional `PRJ-XX` system diagram / scorecard screenshot |
 
 ### PDPA 2024, Attribution & Language Guardrails
-- **PDPA 2024 Strict Zero-NRIC Rule:** Always blur or redact any Malaysian NRIC / MyKad number on `skm-level-3-cert.jpg` before placing the image in `public/assets/`. Never write NRIC numbers into `src/`, `public/`, `index.html`, or filenames.
+- **PDPA 2024 Strict Zero-NRIC & Zero Resume/Cert File Rule:** Never place candidate NRIC numbers, certificate scans, or resume files into `src/`, `public/`, `index.html`, or filenames. Keep SKM accreditation referenced solely via official Serial Number and NOSS metadata.
 - **SKM Status Integrity:** Keep SKM Level 3 (`S304265796`, NOSS `M731-001-3:2021`, Batch `M731-001-3:2021-102026`) marked as **Assessed TERAMPIL / Issued** — never label it as pending.
 - **Honest Attribution Boundaries:** Label `PRJ-01`–`PRJ-06+` accurately as *Production-Architected & Sandbox Stress-Tested MarTech Systems* (Mock/Live API Adapter Ready), and keep `CS-01`–`CS-03` free of exaggerated paid-ROAS claims.
 - **Malaysian Bahasa Melayu Only:** Use authentic Malaysian terminology (*papan pemuka*, *untung bersih*, *tunai bersih*, *kad skor*, *pelayar*, *pelayan*, *muat turun*, *sijil kemahiran*, *pautan*). Never use Indonesian terms.

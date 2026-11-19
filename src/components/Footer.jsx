@@ -24,6 +24,7 @@ function isPlainObject(v) {
 export default function Footer({
   profile,
   projects,
+  liveApps = [],
   caseStudies,
   credentials,
   operationalHistory,
@@ -59,6 +60,7 @@ export default function Footer({
     const payload = buildSanitizedPortfolioExport({
       profile,
       projects,
+      liveApps,
       caseStudies,
       credentials,
       operationalHistory
@@ -132,7 +134,7 @@ export default function Footer({
                   rel="noopener noreferrer"
                   onClick={handleCopyEmail}
                   className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-slate-200 hover:bg-amber-400/10 hover:text-amber-300 transition"
-                  title={lang === 'bm' ? 'Tulis e-mel di Gmail' : 'Compose email in Gmail'}
+                  title={localizeText(t?.hero?.gmailComposeTitle, lang) || 'Compose email in Gmail'}
                 >
                   <Mail className="h-3.5 w-3.5 text-amber-400 shrink-0" aria-hidden="true" />
                   <span>
@@ -143,13 +145,15 @@ export default function Footer({
                 <button
                   type="button"
                   onClick={handleCopyEmail}
-                  aria-label={lang === 'bm' ? 'Salin alamat e-mel' : 'Copy email address'}
+                  aria-label={localizeText(t?.hero?.copyEmailAria, lang) || 'Copy email address'}
                   className="inline-flex items-center gap-1 border-l border-slate-800 px-2 py-2 text-xs font-mono text-slate-400 hover:bg-slate-800/80 hover:text-emerald-300 transition"
                 >
                   {emailCopied ? (
                     <>
                       <Check className="h-3.5 w-3.5 text-emerald-400 shrink-0" aria-hidden="true" />
-                      <span className="text-emerald-300">{lang === 'bm' ? 'Disalin' : 'Copied'}</span>
+                      <span className="text-emerald-300">
+                        {localizeText(t?.hero?.copiedLabel, lang) || 'Copied'}
+                      </span>
                     </>
                   ) : (
                     <Copy className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />

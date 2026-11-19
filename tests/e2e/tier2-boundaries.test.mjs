@@ -504,37 +504,15 @@ describe('Tier 2 — Boundaries, Corner Cases & Adversarial Inputs (F1–F18, 90
     });
   });
 
-  test('T2-F07-05: Missing Resume PDF slot never navigates to a broken 404 white screen', async () => {
+  test('T2-F07-05: Hero zero resume/PDF file references & interactive Copy Email button', async () => {
     await withTrackedPage(browser, server.baseUrl, {}, async ({ page, errors }) => {
       const hero = page.locator('main section').first();
-      const resumeLink = hero.locator('a[href*="resume-mohd-faiz"], a[href*=".pdf"]').first();
-      if ((await resumeLink.count()) > 0) {
-        const target = await resumeLink.getAttribute('target');
-        const rel = await resumeLink.getAttribute('rel');
-        const download = await resumeLink.getAttribute('download');
-        const hasSafeTarget = target === '_blank' && /\bnoopener\b/i.test(rel || '');
-        const hasDownloadAttr = download !== null;
-        assert.ok(
-          hasSafeTarget || hasDownloadAttr,
-          `Unsafe Resume PDF <a href> would navigate SPA to 404 screen (target=${target}, rel=${rel}, download=${download})`
-        );
-      } else {
-        const heroText = await hero.innerText();
-        const heroHtml = await hero.innerHTML();
-        assert.ok(
-          /resume-mohd-faiz-oct2026\.pdf/i.test(heroHtml) || /Resume PDF Slot|Slot PDF Resume|resume|cv/i.test(heroText),
-          'Expected labeled Resume PDF fallback slot in Hero'
-        );
-        const resumeBtn = await findFirstVisible(
-          hero.getByRole('button', { name: /resume|cv/i })
-        );
-        if (resumeBtn) {
-          const urlBefore = page.url();
-          await resumeBtn.click();
-          assert.equal(page.url(), urlBefore, 'Clicking Resume fallback button navigated away from SPA');
-          assert.ok((await page.locator('#root').innerHTML()).trim().length > 0);
-        }
-      }
+      const heroHtml = await hero.innerHTML();
+      assert.equal(/resume-mohd-faiz|\.pdf/i.test(heroHtml), false, 'Unexpected resume PDF reference in Hero');
+      const urlBefore = page.url();
+      const copyBtn = hero.getByRole('button', { name: /copy email address/i });
+      await copyBtn.click();
+      assert.equal(page.url(), urlBefore);
       errors.assertZeroUnexpected('T2-F07-05');
     });
   });
@@ -634,11 +612,11 @@ describe('Tier 2 — Boundaries, Corner Cases & Adversarial Inputs (F1–F18, 90
     });
   });
 
-  test('T2-F09-04: Search across BM terms in BM mode ("kelayakan" -> PRJ-01)', async () => {
+  test('T2-F09-04: Search across BM terms in BM mode ("Penghala CRM" -> PRJ-01)', async () => {
     await withTrackedPage(browser, server.baseUrl, {}, async ({ page, errors }) => {
       await switchLanguage(page, 'bm');
       const search = await getSearchInput(page);
-      await search.fill('kelayakan');
+      await search.fill('Penghala CRM');
       assert.deepEqual(await getVisibleProjectIds(page), ['PRJ-01']);
       errors.assertZeroUnexpected('T2-F09-04');
     });
@@ -913,10 +891,10 @@ describe('Tier 2 — Boundaries, Corner Cases & Adversarial Inputs (F1–F18, 90
     });
   });
 
-  test('T2-F14-02: Footer Email mailto link strictly valid', async () => {
+  test('T2-F14-02: Footer Gmail compose link strictly valid', async () => {
     await withTrackedPage(browser, server.baseUrl, {}, async ({ page, errors }) => {
-      const href = await page.locator('footer a[href^="mailto:"]').first().getAttribute('href');
-      assert.equal(href, 'mailto:mfaiz.mdnordin@gmail.com');
+      const href = await page.locator('footer a[href^="https://mail.google.com/mail/"]').first().getAttribute('href');
+      assert.ok(href && href.includes('mfaiz.mdnordin%40gmail.com'), `Unexpected Footer Gmail href: ${href}`);
       errors.assertZeroUnexpected('T2-F14-02');
     });
   });
@@ -1060,12 +1038,13 @@ describe('Tier 2 — Boundaries, Corner Cases & Adversarial Inputs (F1–F18, 90
     });
   });
 
-  test('T2-F17-02: Fallback labels reference expected asset paths or clear slot label', async () => {
+  test('T2-F17-02: Case studies render client labels & Funnel/MarTech connection cleanly', async () => {
     await withTrackedPage(browser, server.baseUrl, {}, async ({ page, errors }) => {
-      const html = await page.locator('main').innerHTML();
+      const text = await page.locator('main').innerText();
       for (const cs of CANONICAL_CASE_STUDIES) {
-        assert.ok(html.includes(cs.asset) || html.includes(cs.client), `Missing slot reference for ${cs.asset}`);
+        assert.ok(text.includes(cs.client), `Missing client label for ${cs.id}`);
       }
+      assert.match(text, /Funnel & MarTech Connection/i);
       errors.assertZeroUnexpected('T2-F17-02');
     });
   });

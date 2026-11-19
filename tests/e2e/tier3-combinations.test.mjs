@@ -68,7 +68,7 @@ describe('Tier 3 — Cross-Feature Combinations (20 Pairwise & Multi-Feature Com
       const dialog = await openProjectModal(page, 'PRJ-04');
       const modalText = await dialog.innerText();
       assert.ok(modalText.includes('HTTP 204'));
-      assert.ok(modalText.includes('Cloudflare POS / WA Form'));
+      assert.ok(modalText.includes('Borang POS / WA Cloudflare'));
       assert.ok(modalText.includes('Kawalan had diskaun'));
       await closeModal(page, 'escape');
 
@@ -189,12 +189,12 @@ describe('Tier 3 — Cross-Feature Combinations (20 Pairwise & Multi-Feature Com
         'a[href*="linkedin.com"]',
         'a[href*="github.com"]',
         'a[href*="wa.me"]',
-        'a[href^="mailto:"]',
+        'a[href^="https://mail.google.com/mail/"]',
       ]) {
         const heroHref = await hero.locator(selector).first().getAttribute('href');
         const footerHref = await footer.locator(selector).first().getAttribute('href');
         assert.equal(heroHref, footerHref, `Mismatch between Hero and Footer for ${selector}`);
-        assert.match(heroHref || '', /^(https:\/\/|mailto:)/);
+        assert.match(heroHref || '', /^https:\/\//);
       }
       errors.assertZeroUnexpected('T3-07');
     });
@@ -224,6 +224,11 @@ describe('Tier 3 — Cross-Feature Combinations (20 Pairwise & Multi-Feature Com
           els.map((a) => a.getAttribute('href')).filter((h) => !h || h === '#')
         );
         assert.deepEqual(badLinks, []);
+        const nextBtn = dialog.getByRole('button', { name: /next slide/i });
+        if ((await nextBtn.count()) > 0) {
+          await nextBtn.click();
+          assert.ok(await dialog.getByTestId('slide-walkthrough-takeaway').isVisible());
+        }
         await assertNoBrokenVisibleImages(page);
         await closeModal(page, closeMethods[i % closeMethods.length]);
       }
@@ -321,11 +326,11 @@ describe('Tier 3 — Cross-Feature Combinations (20 Pairwise & Multi-Feature Com
     });
   });
 
-  test('T3-16: F7 + F17 + F1 — Hero Resume PDF Missing Slot & Navigation Integrity', async () => {
+  test('T3-16: F7 + F17 + F1 — Hero Zero Resume/Cert File References & Navigation Integrity', async () => {
     await withTrackedPage(browser, server.baseUrl, {}, async ({ page, errors }) => {
       await assertNoBrokenVisibleImages(page);
-      const html = await page.locator('main section').first().innerHTML();
-      assert.match(html, /resume-mohd-faiz-oct2026\.pdf|resume|cv/i);
+      const html = await page.locator('main').innerHTML();
+      assert.equal(/resume-mohd-faiz|skm-level-3-cert|\.pdf/i.test(html), false, 'Unexpected resume/cert file reference');
       errors.assertZeroUnexpected('T3-16');
     });
   });
