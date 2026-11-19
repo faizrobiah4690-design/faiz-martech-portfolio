@@ -1,0 +1,217 @@
+[
+  {
+    "id": "PRJ-01",
+    "stageCode": "01",
+    "funnelStageName": { "en": "Inbound Lead SLA", "bm": "SLA Prospek Masuk" },
+    "category": "RevOps & Lead Routing",
+    "statusBadge": "Sandbox Stress-Test Validated",
+    "title": {
+      "en": "Inbound Ad-Lead Qualification & Sub-10s CRM Router",
+      "bm": "Sistem Kelayakan Prospek Iklan & Penghala CRM Bawah-10 Saat"
+    },
+    "headlineMetric": "< 10s Speed-to-Lead SLA Sync",
+    "commercialLeak": {
+      "en": "High-intent B2B inbound leads going cold due to manual spreadsheet triage and expensive recurring Zapier/Make task limits.",
+      "bm": "Prospek masuk B2B berniat tinggi menjadi dingin akibat saringan manual serta kos langganan tugasan bulanan Zapier/Make yang mahal."
+    },
+    "deterministicGate": {
+      "en": "Deterministic SLA timer, live HTTP corporate domain reachability check, and strict budget-tier routing rules.",
+      "bm": "Pemasa SLA deterministik, semakan status HTTP domain syarikat secara langsung, dan peraturan agihan mengikut aras bajet."
+    },
+    "boundedAiRole": {
+      "en": "Gemini Flash strictly scores unstructured company context and drafts personalized B2B sales openers without touching routing math.",
+      "bm": "Gemini Flash dihadkan untuk menilai konteks syarikat tidak berstruktur dan merangka skrip pembuka jualan B2B."
+    },
+    "validatedOutcome": {
+      "en": "< 10s Speed-to-Lead SLA sync to HubSpot CRM and instant Telegram enterprise sales alert queue at RM 0/mo middleware cost.",
+      "bm": "Penyegerakan SLA < 10 saat terus ke HubSpot CRM serta makluman segera Telegram pada kos perantara RM 0/bulan."
+    },
+    "stack": ["Google Forms", "Google Sheets", "Apps Script", "Gemini API", "HubSpot CRM API", "Telegram Bot API"],
+    "pipelineNodes": ["Inbound Form Webhook", "HTTP Domain & Budget Gate", "Gemini Context Scorer", "PII-Safe Lead Mart", "HubSpot + Telegram Alert"],
+    "processVisuals": [
+      { "stage": "01", "src": "/assets/projects/prj-01/slide-01.jpg", "caption": { "en": "Executive RevOps Dashboard — Main Hook", "bm": "Papan Pemuka Eksekutif RevOps — Hook Utama" } },
+      { "stage": "02", "src": "/assets/projects/prj-01/slide-02.jpg", "caption": { "en": "Inbound Entry — B2B Diagnostic Form", "bm": "Pintu Masuk — Borang Diagnostik B2B" } },
+      { "stage": "03", "src": "/assets/projects/prj-01/slide-03.jpg", "caption": { "en": "Database & Tier 1 to Tier 3 AI Screening", "bm": "Pangkalan Data & Saringan AI Tier 1 hingga Tier 3" } },
+      { "stage": "04", "src": "/assets/projects/prj-01/slide-04.jpg", "caption": { "en": "Rapid Sales Alert — 4.44s Record in Gmail", "bm": "Penggera Jualan Pantas — Rekod 4.44 Saat di Gmail" } },
+      { "stage": "05", "src": "/assets/projects/prj-01/slide-05.jpg", "caption": { "en": "Instant Action — 1-Click Pre-Filled WhatsApp Script", "bm": "Tindakan Segera — Skrip WhatsApp Siap Isi 1-Klik" } },
+      { "stage": "06", "src": "/assets/projects/prj-01/slide-06.jpg", "caption": { "en": "Web Extraction Proof — Industry-Specific Email Draft", "bm": "Bukti Ekstraksi Web — Draf E-mel Spesifik Industri" } },
+      { "stage": "07", "src": "/assets/projects/prj-01/slide-07.jpg", "caption": { "en": "Pipeline Control — Clean HubSpot CRM Sync", "bm": "Kawalan Pipeline — Penyelarasan Bersih HubSpot CRM" } }
+    ],
+    "lookerUrl": "",
+    "liveAppUrl": "",
+    "repoUrl": "https://github.com/faizrobiah4690-design"
+  },
+  {
+    "id": "PRJ-02",
+    "stageCode": "02",
+    "funnelStageName": { "en": "Paid Ads Guardrail", "bm": "Kawalan Iklan Berbayar" },
+    "category": "Ad Ops & Guardrail",
+    "statusBadge": "Sandbox Stress-Test Validated",
+    "title": {
+      "en": "Paid Ads POAS & Broken-URL Sentinel Guardrail",
+      "bm": "Sistem Kawalan Paid Ads POAS & Pemantau Pautan Rosak"
+    },
+    "headlineMetric": "Automated POAS & 404/500 Spend Cutoff",
+    "commercialLeak": {
+      "en": "Silent ad spend bleed on broken destination URLs (HTTP 404/500), creative fatigue, and sub-floor gross ROAS campaigns that lose money after COGS.",
+      "bm": "Pembaziran belanja iklan secara senyap pada pautan halaman rosak (404/500), kelesuan kreatif, dan kempen ROAS kasar yang rugi selepas ditolak COGS."
+    },
+    "deterministicGate": {
+      "en": "Deterministic HTTP status check, minimum spend/impression sample-size gates, and post-COGS Net POAS calculation.",
+      "bm": "Semakan status HTTP deterministik, syarat sampel minimum belanja/impresi, dan kiraan Net POAS selepas tolak kos barang (COGS)."
+    },
+    "boundedAiRole": {
+      "en": "Generates root-cause creative fatigue diagnostics and structured ad iteration briefs only after deterministic flags trigger.",
+      "bm": "Menjana diagnosis punca kelesuan kreatif dan cadangan variasi iklan baharu hanya selepas syarat deterministik dicetuskan."
+    },
+    "validatedOutcome": {
+      "en": "Automated sub-floor POAS & dead-link detection gated against small-sample false alarms.",
+      "bm": "Pengesanan automatik pautan mati & kempen bawah had POAS tanpa penggera palsu sampel kecil."
+    },
+    "stack": ["Meta Marketing API", "Google Sheets", "Apps Script", "Gemini API", "Telegram Sentinel", "Looker Studio"],
+    "pipelineNodes": ["Meta Ads Insights Pull", "Sample Gate + HTTP + POAS Math", "Creative Fatigue Diagnostic", "Aggregated Ad Ops Mart", "Telegram Alert + Looker BI"],
+    "processVisuals": [
+      { "stage": "01", "src": "/assets/projects/prj-02/slide-01.jpg", "caption": { "en": "Executive Dashboard (Looker Studio)", "bm": "Papan Pemuka Eksekutif (Looker Studio)" } },
+      { "stage": "02", "src": "/assets/projects/prj-02/slide-02.jpg", "caption": { "en": "Telemetry & Unit Economics Base (Google Sheets)", "bm": "Pangkalan Telemetri & Ekonomi Unit (Google Sheets)" } },
+      { "stage": "03", "src": "/assets/projects/prj-02/slide-03.jpg", "caption": { "en": "Automated Creative Auto-Brief Output (Google Docs)", "bm": "Output Auto-Brief Kreatif (Google Docs)" } },
+      { "stage": "04", "src": "/assets/projects/prj-02/slide-04.jpg", "caption": { "en": "Daily Alerts & Quick Action Buttons (Telegram Bot)", "bm": "Amaran Harian & Butang Tindakan Pantas (Telegram Bot)" } },
+      { "stage": "05", "src": "/assets/projects/prj-02/slide-05.jpg", "caption": { "en": "Autonomous Automation Schedule (Apps Script Triggers)", "bm": "Jadual Automasi Berautonomi (Google Apps Script Triggers)" } }
+    ],
+    "lookerUrl": "",
+    "liveAppUrl": "",
+    "repoUrl": "https://github.com/faizrobiah4690-design"
+  },
+  {
+    "id": "PRJ-03",
+    "stageCode": "05",
+    "funnelStageName": { "en": "RFM Churn & LTV", "bm": "RFM Risiko Lari & LTV" },
+    "category": "Retention & LTV",
+    "statusBadge": "Sandbox Stress-Test Validated",
+    "title": {
+      "en": "DTC Retention, RFM Churn Z-Score & VIP CAPI Signal Engine",
+      "bm": "Enjin Pengekalan DTC, Z-Score Risiko Pelanggan & Isyarat VIP CAPI"
+    },
+    "headlineMetric": "Z-Score Churn Anomaly + Meta CAPI v21.0",
+    "commercialLeak": {
+      "en": "Rising acquisition costs from one-time discount buyers and missed repeat-order windows among high-margin VIP customers.",
+      "bm": "Kos pemerolehan pelanggan (CAC) meningkat akibat pembeli diskaun sekali beli serta terlepas tempoh belian ulangan pelanggan VIP."
+    },
+    "deterministicGate": {
+      "en": "Deterministic RFM scoring matrix, inter-purchase Z-score churn anomaly math, and post-refund Net LTV calculation.",
+      "bm": "Matriks skor RFM deterministik, kiraan anomali sela masa belian (Z-score), dan kiraan Net LTV bersih selepas pulangan bayaran."
+    },
+    "boundedAiRole": {
+      "en": "Unsigned-byte SHA-256 hashed VIP cohort signals pushed cleanly to Meta Conversions API v21.0 for high-LTV lookalike seeding.",
+      "bm": "Isyarat kohort VIP di-hash dengan SHA-256 (unsigned-byte) dan dihantar ke Meta CAPI v21.0 untuk suapan algoritma bernilai tinggi."
+    },
+    "validatedOutcome": {
+      "en": "Automated at-risk VIP cohort detection and PDPA-safe high-LTV seed feedback loop.",
+      "bm": "Pengesanan automatik kohort VIP berisiko lari dan suapan balik isyarat LTV tinggi patuh PDPA 2024."
+    },
+    "stack": ["Google Sheets Mart", "Apps Script", "RFM + Z-Score Math", "Meta CAPI v21.0", "SHA-256 Hashing", "Looker Studio"],
+    "pipelineNodes": ["Order Ledger Ingestion", "RFM + Z-Score + Net LTV Math", "SHA-256 VIP CAPI v21.0 Push", "Zero-PII Cohort Mart", "Retention Playbook + Looker"],
+    "processVisuals": [
+      { "stage": "01", "src": "/assets/projects/prj-03/slide-01.jpg", "caption": { "en": "Executive Looker Studio Dashboard", "bm": "Papan Pemuka Eksekutif Looker Studio" } },
+      { "stage": "02", "src": "/assets/projects/prj-03/slide-02.jpg", "caption": { "en": "Telegram Bot Action Card & Recovery Link", "bm": "Kad Tindakan Bot Telegram & Pautan Pemulihan" } },
+      { "stage": "03", "src": "/assets/projects/prj-03/slide-03.jpg", "caption": { "en": "1-Click Pre-Filled WhatsApp Recovery Message", "bm": "Mesej Pra-Isi Satu-Klik WhatsApp" } },
+      { "stage": "04", "src": "/assets/projects/prj-03/slide-04.jpg", "caption": { "en": "Customer_RFM_Master Scoring Table", "bm": "Jadual Induk Customer_RFM_Master" } },
+      { "stage": "05", "src": "/assets/projects/prj-03/slide-05.jpg", "caption": { "en": "Orders_Ledger Transaction Log", "bm": "Lejar Transaksi Orders_Ledger" } },
+      { "stage": "06", "src": "/assets/projects/prj-03/slide-06.jpg", "caption": { "en": "SKU_Economics Unit Cost Reference", "bm": "Rujukan Kos Unit SKU_Economics" } },
+      { "stage": "07", "src": "/assets/projects/prj-03/slide-07.jpg", "caption": { "en": "Daily Apps Script Time-Driven Automation", "bm": "Automasi Pencetus Masa Harian Apps Script" } }
+    ],
+    "lookerUrl": "",
+    "liveAppUrl": "",
+    "repoUrl": "https://github.com/faizrobiah4690-design"
+  },
+  {
+    "id": "PRJ-04",
+    "stageCode": "03",
+    "funnelStageName": { "en": "Offline / WA CAPI", "bm": "CAPI WhatsApp / Kaunter" },
+    "category": "Offline & WhatsApp CAPI",
+    "statusBadge": "Sandbox Stress-Test Validated",
+    "title": {
+      "en": "Closed-Loop WhatsApp-to-Cash & Offline CAPI Attribution Engine",
+      "bm": "Enjin Atribusi Tertutup WhatsApp-ke-Tunai & CAPI Luar Talian"
+    },
+    "headlineMetric": "HTTP 204 Margin Gate + Dual CAPI Sync",
+    "commercialLeak": {
+      "en": "Service & retail campaigns optimizing for cheap Click-to-WhatsApp leads while ad pixels remain blind to actual counter receipts and breached staff discounts.",
+      "bm": "Kempen servis & runcit mengoptimumkan klik WhatsApp murah sedangkan algoritma iklan buta terhadap resit tunai sebenar dan diskaun bawah had margin."
+    },
+    "deterministicGate": {
+      "en": "Deterministic net margin & discount floor gate (HTTP 204 block on below-floor deals) + 7-day ctwa_clid attribution window validator.",
+      "bm": "Kawalan had diskaun & untung bersih deterministik (sekatan HTTP 204 jika bawah had margin) + pengesah tetingkap 7 hari ctwa_clid."
+    },
+    "boundedAiRole": {
+      "en": "Routes <=7-day conversions via Meta Business Messaging CAPI, auto-falls back to physical_store SHA-256 (>7 days), and syncs Google Data Manager API v1.",
+      "bm": "Menghantar jualan <=7 hari melalui Meta Business Messaging CAPI, bertukar automatik ke mod physical_store SHA-256 (>7 hari), serta Google Data Manager API v1."
+    },
+    "validatedOutcome": {
+      "en": "Closed-loop Click-to-WhatsApp to verified cash attribution with zero pixel pollution from sub-floor discounted deals.",
+      "bm": "Atribusi lengkap daripada klik WhatsApp ke resit tunai disahkan tanpa pencemaran piksel daripada transaksi diskaun rugi."
+    },
+    "stack": ["Cloudflare Pages", "Google Sheets", "Apps Script Webhook", "Meta Business Messaging CAPI", "Google Data Manager API v1", "Looker Studio"],
+    "pipelineNodes": ["Cloudflare POS / WA Form", "Discount Floor Gate (HTTP 204)", "7d CTWA / Physical Store CAPI", "Masked Attribution Mart", "Channel Net Cash Scorecard"],
+    "processVisuals": [
+      { "stage": "01", "src": "/assets/projects/prj-04/slide-01.jpg", "caption": { "en": "CFO Impact Hook & 72-Hour Window Saver", "bm": "Hook Impak CFO & Penyelamat Tingkap 72 Jam" } },
+      { "stage": "02", "src": "/assets/projects/prj-04/slide-02.jpg", "caption": { "en": "Workflow #1 — Inbound Ad Click Capture", "bm": "Aliran Kerja #1 — Tangkapan Klik Iklan Masuk" } },
+      { "stage": "03", "src": "/assets/projects/prj-04/slide-03.jpg", "caption": { "en": "Workflow #2 — Rapid Cloud Staff Triage & RM 0.00 Stack", "bm": "Aliran Kerja #2 — Triage Pantas Staf di Cloud & Arbitraj RM 0.00" } },
+      { "stage": "04", "src": "/assets/projects/prj-04/slide-04.jpg", "caption": { "en": "Workflow #3 — Intake Database & PDPA Privacy Shield", "bm": "Aliran Kerja #3 — Pangkalan Data Kemasukan & Privasi PDPA" } },
+      { "stage": "05", "src": "/assets/projects/prj-04/slide-05.jpg", "caption": { "en": "Workflow #4 — Unit Economics Catalogue & Margin Floor", "bm": "Aliran Kerja #4 — Katalog Ekonomi Unit & Lantai Margin" } },
+      { "stage": "06", "src": "/assets/projects/prj-04/slide-06.jpg", "caption": { "en": "Workflow #5 — Cash Receipt Verification & Discount Leak Block", "bm": "Aliran Kerja #5 — Pengesahan Resit Tunai & Sekatan Kebocoran Diskaun" } },
+      { "stage": "07", "src": "/assets/projects/prj-04/slide-07.jpg", "caption": { "en": "Workflow #6 — Zero-Subscription Backend Engine", "bm": "Aliran Kerja #6 — Enjin Backend Tanpa Langganan Bulanan" } },
+      { "stage": "08", "src": "/assets/projects/prj-04/slide-08.jpg", "caption": { "en": "Workflow #7 — Dual-Signal Ad Algorithm Sync", "bm": "Aliran Kerja #7 — Penghantaran Dwi-Isyarat Ke Algoritma Iklan" } },
+      { "stage": "09", "src": "/assets/projects/prj-04/slide-09.jpg", "caption": { "en": "Workflow #8 — Executive Campaign Profit & Loss Table", "bm": "Aliran Kerja #8 — Jadual Eksekutif Untung Rugi Kempen" } },
+      { "stage": "10", "src": "/assets/projects/prj-04/slide-10.jpg", "caption": { "en": "Workflow #9 — Branch Audit & 5-Minute SLA Discipline Impact", "bm": "Aliran Kerja #9 — Audit Cawangan & Impak Disiplin SLA 5 Minit" } }
+    ],
+    "lookerUrl": "",
+    "liveAppUrl": "",
+    "repoUrl": "https://github.com/faizrobiah4690-design"
+  },
+  {
+    "id": "PRJ-05",
+    "stageCode": "04",
+    "funnelStageName": { "en": "Marketplace Net Cash", "bm": "Tunai Bersih Marketplace" },
+    "category": "Social Commerce & Affiliate",
+    "statusBadge": "Sandbox Stress-Test Validated",
+    "title": {
+      "en": "TikTok Shop & Shopee Order-to-Settlement Reconciler, GMV Max Guardrail & Affiliate ROI Engine",
+      "bm": "Enjin Penyesuaian Pesanan-ke-Penyelesaian TikTok Shop & Shopee, Kawalan GMV Max & ROI Affiliate"
+    },
+    "headlineMetric": "RM 0.00 Order-to-Settlement Audit Variance",
+    "commercialLeak": {
+      "en": "Scaling GMV Max ads and creator free samples on vanity 'Paper GMV' while losing net cash after platform fees, 8% SST, voucher co-funding, COGS, and RTS/refund clawbacks.",
+      "bm": "Menaikkan bajet GMV Max dan sampel percuma affiliate berdasarkan 'Paper GMV' sedangkan tunai bersih rugi selepas ditolak komisen platform, SST, baucar bersama, COGS dan pulangan RTS."
+    },
+    "deterministicGate": {
+      "en": "6-tab relational schema reconciling Paper GMV to Realized Net Cash (RM 0.00 audit variance), GMV Max burn gates, and creator sample net ROI.",
+      "bm": "Skema hubungan 6-tab menyelaraskan Paper GMV kepada Tunai Bersih Sebenar (varians audit RM 0.00), had bakar GMV Max, dan ROI bersih sampel affiliate."
+    },
+    "boundedAiRole": {
+      "en": "Synthesizes executive settlement discrepancy briefings and creator seeding cut/scale action plans from deterministic ledger outputs.",
+      "bm": "Merumuskan laporan audit penyelesaian bayaran eksekutif dan pelan tindakan henti/skala sampel pencipta kandungan."
+    },
+    "validatedOutcome": {
+      "en": "RM 0.00 Order-to-Settlement reconciliation variance and automated negative-margin creator seeding cutoff.",
+      "bm": "Varians penyesuaian Pesanan-ke-Penyelesaian RM 0.00 serta pemberhentian automatik sampel affiliate bermargin negatif."
+    },
+    "stack": ["6-Tab Sheets Schema", "Apps Script", "Cloudflare Pages", "Gemini API", "TikTok Shop / Shopee Adapter", "Telegram Bot", "Looker Studio"],
+    "pipelineNodes": ["Order & Settlement Ingestion", "6-Tab Fee/SST/RTS Reconciler", "Executive Audit Synthesis", "SKU & Creator Net Cash Mart", "Cloudflare UI + Looker BI"],
+    "processVisuals": [
+      { "stage": "01", "src": "/assets/projects/prj-05/slide-01.png", "caption": { "en": "Executive Margin Command Center", "bm": "Pusat Kawalan Margin Eksekutif" } },
+      { "stage": "02", "src": "/assets/projects/prj-05/slide-02.png", "caption": { "en": "SKU Unit Economics & Floor Gates", "bm": "Ekonomi Unit SKU & Lantai Margin" } },
+      { "stage": "03", "src": "/assets/projects/prj-05/slide-03.png", "caption": { "en": "Order-to-Bank Settlement Ledger", "bm": "Lejar Penyesuaian Pesanan-ke-Bank" } },
+      { "stage": "04", "src": "/assets/projects/prj-05/slide-04.png", "caption": { "en": "GMV Max & Live Studio Burn Guardrail", "bm": "Kawalan Bakar GMV Max & Studio Siaran Langsung" } },
+      { "stage": "05", "src": "/assets/projects/prj-05/slide-05.png", "caption": { "en": "Cloudflare Affiliate Sample Gatekeeper", "bm": "Pintu Kawalan Sampel Affiliate Cloudflare" } },
+      { "stage": "06", "src": "/assets/projects/prj-05/slide-06.png", "caption": { "en": "Creator Ledger & PDPA Privacy Shield", "bm": "Lejar Pencipta Kandungan & Perisai Privasi PDPA" } },
+      { "stage": "07", "src": "/assets/projects/prj-05/slide-07.png", "caption": { "en": "Zero-Variance Waterfall Data Mart", "bm": "Data Mart Air Terjun Varians Sifar" } },
+      { "stage": "08", "src": "/assets/projects/prj-05/slide-08.png", "caption": { "en": "PII-Free Creator ROI Mart", "bm": "Mart ROI Pencipta Bebas-PII" } },
+      { "stage": "09", "src": "/assets/projects/prj-05/slide-09.png", "caption": { "en": "Telegram Margin Sentinel Alert", "bm": "Amaran Pemantau Margin Telegram" } },
+      { "stage": "10", "src": "/assets/projects/prj-05/slide-10.png", "caption": { "en": "Zero-Downtime CFO Audit Log", "bm": "Log Audit CFO Tanpa Gangguan" } },
+      { "stage": "11", "src": "/assets/projects/prj-05/slide-11.png", "caption": { "en": "Telegram Executive CFO Memo", "bm": "Memo Eksekutif CFO di Telegram" } }
+    ],
+    "lookerUrl": "",
+    "liveAppUrl": "",
+    "repoUrl": "https://github.com/faizrobiah4690-design"
+  }
+]

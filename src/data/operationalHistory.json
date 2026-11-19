@@ -1,0 +1,122 @@
+[
+  {
+    "id": "OPS-01",
+    "period": {
+      "en": "Mar 2025 – Aug 2026",
+      "bm": "Mac 2025 – Ogos 2026"
+    },
+    "role": {
+      "en": "Renal & Scrub Nurse",
+      "bm": "Jururawat Renal & Dewan Bedah"
+    },
+    "organization": "KMI Kuantan Medical Centre",
+    "domainTag": {
+      "en": "Clinical Precision",
+      "bm": "Ketepatan Klinikal"
+    },
+    "summary": {
+      "en": "Zero-error procedural checklists, high-stakes documentation accuracy, and calm stakeholder communication.",
+      "bm": "Senarai semak prosedur sifar ralat, ketepatan dokumentasi berisiko tinggi, dan komunikasi pihak berkepentingan yang tenang."
+    },
+    "martechTransfer": {
+      "en": "Deterministic pre-flight deployment gates, strict QA checklists, and zero-error ad-spend safety protocols.",
+      "bm": "Kawalan pra-pelancaran deterministik, senarai semak kualiti yang ketat, dan protokol keselamatan bajet iklan sifar ralat."
+    }
+  },
+  {
+    "id": "OPS-02",
+    "period": {
+      "en": "Feb 2024 – Jul 2024",
+      "bm": "Feb 2024 – Jul 2024"
+    },
+    "role": {
+      "en": "Clinical Research Nurse",
+      "bm": "Jururawat Penyelidikan Klinikal"
+    },
+    "organization": "Illingworth Research Group",
+    "domainTag": {
+      "en": "Protocol & Data Integrity",
+      "bm": "Integriti Protokol & Data"
+    },
+    "summary": {
+      "en": "Strict protocol-driven data collection, audit-ready reporting, and zero-fabrication data governance.",
+      "bm": "Pengumpulan data berasaskan protokol ketat, pelaporan sedia audit, dan tadbir urus data tanpa rekaan."
+    },
+    "martechTransfer": {
+      "en": "Zero-fabrication attribution boundaries, RM 0.00 audit variance reconciliation, and PDPA 2024 data hygiene.",
+      "bm": "Sempadan atribusi jujur tanpa rekaan, penyesuaian lejar varians audit RM 0.00, dan kebersihan data patuh PDPA 2024."
+    }
+  },
+  {
+    "id": "OPS-03",
+    "period": {
+      "en": "Jul 2022 – Nov 2023",
+      "bm": "Jul 2022 – Nov 2023"
+    },
+    "role": {
+      "en": "Occupational Health Executive",
+      "bm": "Eksekutif Kesihatan Pekerjaan"
+    },
+    "organization": "Kaneka Malaysia",
+    "domainTag": {
+      "en": "Regulatory Compliance",
+      "bm": "Pematuhan Kawal Selia"
+    },
+    "summary": {
+      "en": "Regulatory compliance management and cross-departmental program coordination.",
+      "bm": "Pengurusan pematuhan peraturan dan penyelarasan program merentas jabatan."
+    },
+    "martechTransfer": {
+      "en": "Cross-functional RevOps alignment across sales, finance, and marketing with built-in compliance guardrails.",
+      "bm": "Penyelarasan RevOps merentas jualan, kewangan dan pemasaran bersama kawalan pematuhan terbina dalam."
+    }
+  },
+  {
+    "id": "OPS-04",
+    "period": {
+      "en": "Sep 2018 – Apr 2021",
+      "bm": "Sep 2018 – Apr 2021"
+    },
+    "role": {
+      "en": "HSEQ Executive & Logistics Supervisor",
+      "bm": "Eksekutif HSEQ & Penyelia Logistik"
+    },
+    "organization": "Swift Integrated Logistics",
+    "domainTag": {
+      "en": "SOP & Fleet Dispatch",
+      "bm": "SOP & Operasi Logistik"
+    },
+    "summary": {
+      "en": "SOP design, compliance auditing, and operational dispatch coordination across 73 inland distribution drivers.",
+      "bm": "Reka bentuk SOP, audit pematuhan, dan penyelarasan penghantaran operasi merangkumi 73 pemandu pengedaran darat."
+    },
+    "martechTransfer": {
+      "en": "High-volume SLA lead routing, automated anomaly sentinel alerts, and resilient multi-step operational workflows.",
+      "bm": "Penghalaan prospek SLA berisipadu tinggi, amaran pengesan anomali automatik, dan aliran kerja operasi berbilang langkah yang berdaya tahan."
+    }
+  },
+  {
+    "id": "OPS-05",
+    "period": {
+      "en": "Apr 2015 – Aug 2018",
+      "bm": "Apr 2015 – Ogos 2018"
+    },
+    "role": {
+      "en": "Operations / HSE Roles",
+      "bm": "Peranan Operasi / HSE"
+    },
+    "organization": "MISC Integrated Logistics",
+    "domainTag": {
+      "en": "SLA & Field Control",
+      "bm": "Kawalan SLA & Lapangan"
+    },
+    "summary": {
+      "en": "End-to-end transport, warehouse SLAs, and field operations control.",
+      "bm": "Pengurusan pengangkutan hujung-ke-hujung, SLA gudang, dan kawalan operasi lapangan."
+    },
+    "martechTransfer": {
+      "en": "End-to-end funnel SLA tracking from inbound click to realized warehouse and counter cash settlement.",
+      "bm": "Penjejakan SLA corong pemasaran hujung-ke-hujung daripada klik masuk hingga penyelesaian tunai sebenar."
+    }
+  }
+]

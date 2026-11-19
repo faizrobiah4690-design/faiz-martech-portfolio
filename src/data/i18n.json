@@ -1,0 +1,572 @@
+{
+  "en": {
+    "meta": {
+      "title": "Mohd Faiz Bin Md Nordin | MarTech, Ad Ops & Revenue Systems Portfolio",
+      "description": "Bilingual interactive MarTech, Ad Ops, and Digital Marketing portfolio featuring scalable revenue systems, documented local business case studies, and verified SKM Level 3 & Google Coursera credentials.",
+      "htmlLang": "en"
+    },
+    "nav": {
+      "brandSubtitle": "MarTech & Ad Ops Portfolio",
+      "systemCountBadge": "{count} Systems Shipped",
+      "funnel": "Funnel Map",
+      "systems": "Systems",
+      "caseStudies": "Case Studies",
+      "credentials": "Credentials",
+      "governance": "Governance",
+      "languageLabel": "Language",
+      "switchToEn": "Switch language to English",
+      "switchToBm": "Tukar bahasa ke Bahasa Melayu",
+      "openMenu": "Open navigation menu",
+      "closeMenu": "Close navigation menu"
+    },
+    "hero": {
+      "eyebrow": "Dual-Pillar Revenue Engineering & Local Digital Execution",
+      "ctaExplore": "Explore {count} Live Systems",
+      "ctaCaseStudies": "View Local Case Studies",
+      "ctaWhatsapp": "WhatsApp",
+      "ctaLinkedin": "LinkedIn",
+      "ctaGithub": "GitHub",
+      "ctaEmail": "Email",
+      "ctaResume": "Download Resume (PDF)",
+      "resumeUnavailable": "Resume PDF Slot Ready",
+      "locationLabel": "Based in",
+      "kpis": [
+        {
+          "key": "systems",
+          "value": "{count}",
+          "label": "MarTech Systems Shipped",
+          "subtext": "Sandbox stress-tested, API adapter ready"
+        },
+        {
+          "key": "skm",
+          "value": "TERAMPIL",
+          "label": "SKM Level 3 (JPK)",
+          "subtext": "NOSS M731-001-3:2021 · Serial S304265796"
+        },
+        {
+          "key": "coursera",
+          "value": "93.23%–99.37%",
+          "label": "6 Google Coursera Courses",
+          "subtext": "Individually verified (8-course pathway)"
+        },
+        {
+          "key": "cost",
+          "value": "RM 0/mo",
+          "label": "Middleware Overhead",
+          "subtext": "Built for Realized Net Cash"
+        }
+      ]
+    },
+    "funnel": {
+      "eyebrow": "Full-Funnel Revenue Architecture",
+      "heading": "5-Stage Funnel Pipeline Map",
+      "subtitle": "Select any funnel stage (01–05) to filter the Systems Registry below. Stage counters update automatically from src/data/projects.json.",
+      "allStages": "All Stages ({count})",
+      "stageCount": "{count} Systems",
+      "stageCountSingle": "{count} System",
+      "stages": {
+        "01": {
+          "name": "Inbound Lead SLA",
+          "description": "Sub-10s webhook triage, HTTP domain checks & CRM routing"
+        },
+        "02": {
+          "name": "Paid Ads Guardrail",
+          "description": "Post-COGS Net POAS gates & HTTP 404/500 spend cutoffs"
+        },
+        "03": {
+          "name": "Offline / WA CAPI",
+          "description": "Click-to-WhatsApp & counter receipt attribution loops"
+        },
+        "04": {
+          "name": "Marketplace Net Cash",
+          "description": "TikTok Shop & Shopee order-to-settlement reconciliation"
+        },
+        "05": {
+          "name": "RFM Churn & LTV",
+          "description": "Inter-purchase Z-score alerts & SHA-256 VIP CAPI signals"
+        }
+      }
+    },
+    "systems": {
+      "eyebrow": "Pillar 1 · Zero-Subscription Revenue Systems",
+      "heading": "MarTech & Ad Ops Systems Registry",
+      "subtitle": "Modular architectures separating deterministic mathematical gates from bounded LLM synthesis.",
+      "attributionNotice": "Honest Attribution Boundary: PRJ-01 through PRJ-05+ are Production-Architected & Sandbox Stress-Tested MarTech Systems (Mock/Live API Adapter Ready).",
+      "searchPlaceholder": "Search systems, stack, metrics, or commercial leaks...",
+      "searchLabel": "Search MarTech systems",
+      "allCategories": "All Categories",
+      "clearFilters": "Reset Filters",
+      "showingCount": "Showing {shown} of {total} Systems",
+      "commercialLeakLabel": "Commercial Leak",
+      "headlineMetricLabel": "Headline Metric",
+      "outcomeLabel": "Validated Outcome",
+      "stackLabel": "Architecture Stack",
+      "inspectButton": "Inspect 5-Node Architecture",
+      "emptyStateTitle": "No matching systems found",
+      "emptyStateBody": "Try clearing the search query or selecting All Stages in the Funnel Pipeline Map.",
+      "headlineMetricsMap": {
+        "< 10s Speed-to-Lead SLA Sync": "< 10s Speed-to-Lead SLA Sync",
+        "Automated POAS & 404/500 Spend Cutoff": "Automated POAS & 404/500 Spend Cutoff",
+        "Z-Score Churn Anomaly + Meta CAPI v21.0": "Z-Score Churn Anomaly + Meta CAPI v21.0",
+        "HTTP 204 Margin Gate + Dual CAPI Sync": "HTTP 204 Margin Gate + Dual CAPI Sync",
+        "RM 0.00 Order-to-Settlement Audit Variance": "RM 0.00 Order-to-Settlement Audit Variance"
+      }
+    },
+    "modal": {
+      "close": "Close modal",
+      "escHint": "Press Esc or click backdrop to close",
+      "stagePrefix": "Stage",
+      "pipelineTitle": "5-Node Data Flow Pipeline",
+      "commercialLeakTitle": "Commercial Leak Addressed",
+      "deterministicTitle": "Deterministic Math & Rule Gate",
+      "deterministicSubtitle": "Hard-coded logic, HTTP validation & financial math — never delegated to LLM",
+      "boundedAiTitle": "Bounded AI / API Execution Role",
+      "boundedAiSubtitle": "Strictly scoped synthesis or hashed signal dispatch after deterministic gates pass",
+      "validatedOutcomeTitle": "Validated Sandbox Outcome",
+      "processVisualTitle": "System Architecture & Process Visual",
+      "formulasTitle": "Canonical Deterministic Guardrail Formulas (Blueprint §5)",
+      "deterministicFormulas": [
+        {
+          "name": "Post-COGS Net POAS",
+          "formula": "Net POAS = (Gross Revenue - COGS - Platform Fees) / Ad Spend",
+          "note": "Prevents scaling campaigns that look profitable on gross ROAS but lose cash after unit costs."
+        },
+        {
+          "name": "Inter-Purchase Churn Z-Score",
+          "formula": "Z = (Δt - μ) / σ",
+          "note": "Flags VIP repeat-order delays deterministically before dispatching hashed CAPI retention signals."
+        }
+      ],
+      "stackTitle": "Technology & API Stack",
+      "linksTitle": "Repositories & Adapter Endpoints",
+      "repoButton": "View GitHub Profile / Repo",
+      "lookerButton": "Open Looker Studio Dashboard",
+      "liveAppButton": "Launch Live App",
+      "pendingAdapterBadge": "Adapter Ready · Endpoint Pending Drop-In"
+    },
+    "caseStudies": {
+      "eyebrow": "Pillar 2 · Hands-On Kemaman Execution (2021–Present)",
+      "heading": "Real-World Local Business Engagements",
+      "subtitle": "Documented organic content, Bahasa Malaysia copywriting, Google Business Profile discovery, and WhatsApp enquiry workflows.",
+      "attributionNotice": "Honest Attribution Boundary: CS-01 through CS-03 are Documented Real-World Client & Local Business Engagements focused on organic community campaigns, creative storytelling, and WhatsApp/GBP execution without exaggerated paid-ROAS claims.",
+      "periodLabel": "Period",
+      "sectorLabel": "Sector",
+      "focusLabel": "Execution Focus",
+      "deliverablesLabel": "Work Delivered",
+      "evidenceBoundaryLabel": "Attribution & Evidence Boundary",
+      "visualEvidenceLabel": "Campaign & Visual Evidence",
+      "periods": {
+        "Oct 2021 – Present": "Oct 2021 – Present",
+        "May 2026 – Present": "May 2026 – Present",
+        "Feb 2024 – Feb 2025": "Feb 2024 – Feb 2025"
+      },
+      "sectors": {
+        "Local Fruit Retail | Kemaman, Terengganu": "Local Fruit Retail | Kemaman, Terengganu",
+        "Cafe & Beverages | Chukai, Kemaman": "Cafe & Beverages | Chukai, Kemaman",
+        "Community Transport & Recruitment | Binjai, Kemaman": "Community Transport & Recruitment | Binjai, Kemaman"
+      },
+      "clients": {
+        "Radhi Fruits 4690": "Radhi Fruits 4690",
+        "PedalHaus Chukai": "PedalHaus Chukai",
+        "School Van Service, Binjai": "School Van Service, Binjai"
+      }
+    },
+    "credentials": {
+      "eyebrow": "Verified Accreditation & Continuous Learning",
+      "heading": "Credentials & Education Vault",
+      "subtitle": "Officially issued Malaysian Skills Certificate (SKM Level 3), 6 verified Google Coursera courses, and academic foundations.",
+      "skmSectionTitle": "National Accreditation (Officially Issued)",
+      "skmStatusBadge": "Assessed TERAMPIL · Issued",
+      "nossLabel": "NOSS Code",
+      "serialLabel": "Certificate Serial No.",
+      "batchLabel": "Batch Code",
+      "issuerLabel": "Issuing Ministry",
+      "methodLabel": "Assessment Method",
+      "skmIssuingMinistry": "Department of Skills Development (JPK), Ministry of Human Resources, Malaysia",
+      "skmAssessmentMethod": "Recognition of Prior Achievement (RPA / PPT) — Assessed TERAMPIL",
+      "skmPreviewTitle": "SKM Level 3 Certificate Preview",
+      "courseraSectionTitle": "Google Digital Marketing & E-Commerce Pathway",
+      "courseraAttribution": "6 individually verified courses completed within the 8-course Google Digital Marketing & E-Commerce pathway (93.23%–99.37% scores).",
+      "scoreLabel": "Score",
+      "hoursLabel": "Study Time",
+      "completedLabel": "Completed",
+      "verifyIdLabel": "Verify ID",
+      "verifyCta": "Verify on Coursera",
+      "academicTitle": "Academic Education",
+      "qualificationsMap": {
+        "Professional Diploma in Blockchain Technology": "Professional Diploma in Blockchain Technology",
+        "Bachelor of Nursing": "Bachelor of Nursing"
+      }
+    },
+    "governance": {
+      "eyebrow": "Operational Rigor & Engineering Standards",
+      "heading": "Why My Marketing Systems Don't Break: Operational & Compliance Foundation",
+      "subtitle": "Translating clinical research, HSEQ auditing, and 73-driver logistics dispatch discipline into reliable MarTech and RevOps engineering.",
+      "timelineTitle": "Cross-Functional Operational History",
+      "summaryLabel": "Operational Responsibilities",
+      "transferLabel": "Transferable MarTech & RevOps Value",
+      "expandHint": "Toggle details",
+      "nonNegotiablesTitle": "4 Engineering Non-Negotiables",
+      "engineeringNonNegotiables": [
+        {
+          "code": "01",
+          "title": "Deterministic Math Separated from Bounded AI",
+          "description": "Financial gates (Net POAS, discount floors, RFM Z-score churn, RM 0.00 settlement reconciliation) execute in strict deterministic code; LLMs only handle unstructured text synthesis after gates pass."
+        },
+        {
+          "code": "02",
+          "title": "Zero-Subscription Middleware Architecture",
+          "description": "Engineered on Google Apps Script, Google Sheets relational marts, and Cloudflare Pages to eliminate recurring Zapier/Make per-task tax (RM 0/mo middleware overhead)."
+        },
+        {
+          "code": "03",
+          "title": "PDPA 2024 Privacy & Zero-PII Telemetry",
+          "description": "Candidate NRIC/MyKad data is never stored or exposed anywhere in source or UI, and customer CAPI signals use unsigned-byte SHA-256 hashing with zero raw PII leakage."
+        },
+        {
+          "code": "04",
+          "title": "Evidence-Led Honest Attribution Boundaries",
+          "description": "Strict separation between sandbox stress-tested MarTech architectures (PRJ-01..05+), organic local business execution (CS-01..03), and verified 6-of-8 Coursera pathway records."
+        }
+      ]
+    },
+    "assets": {
+      "placeholderBadge": "Asset Slot Ready",
+      "expectedPathLabel": "Expected Asset Path",
+      "dropInHint": "Place verified asset in public/assets/ to render automatically without code changes.",
+      "nricMaskNotice": "PDPA 2024 Privacy Shield: Candidate NRIC / MyKad number is masked and never stored in source code, metadata, or preview.",
+      "resumeSlotTitle": "Candidate Resume & Portfolio PDF",
+      "resumePendingNote": "PDF slot wired to /assets/resume-mohd-faiz-oct2026.pdf (awaiting binary drop-in).",
+      "skmCertTitle": "Official JPK SKM Level 3 Certificate",
+      "caseEvidenceTitle": "Documented Campaign Evidence",
+      "processVisualSlotTitle": "Optional Process Flow Visual",
+      "processVisualPendingNote": "Wire custom diagram via processVisual in src/data/projects.json or drop asset into public/assets/."
+    },
+    "footer": {
+      "contactHeading": "Direct Contact & Verification",
+      "pdpaStatement": "PDPA 2024 Compliant Portfolio · Zero NRIC/MyKad stored in client or source · Honest Attribution Boundaries enforced.",
+      "exportHeading": "Sanitized Portfolio JSON Utility",
+      "exportDescription": "Download a clean, zero-PII JSON snapshot of verified systems, case studies, credentials, and operational history.",
+      "exportButton": "Download Portfolio JSON",
+      "exportedSuccess": "Sanitized portfolio JSON downloaded.",
+      "builtWith": "Built with Vite, React, Tailwind CSS & JSON-driven architecture for RM 0/mo static hosting."
+    },
+    "categories": {
+      "RevOps & Lead Routing": "RevOps & Lead Routing",
+      "Ad Ops & Guardrail": "Ad Ops & Guardrail",
+      "Retention & LTV": "Retention & LTV",
+      "Offline & WhatsApp CAPI": "Offline & WhatsApp CAPI",
+      "Social Commerce & Affiliate": "Social Commerce & Affiliate"
+    },
+    "statusBadges": {
+      "Sandbox Stress-Test Validated": "Sandbox Stress-Test Validated",
+      "Production Live": "Production Live"
+    },
+    "attributionBoundaries": {
+      "projects": "Production-Architected & Sandbox Stress-Tested MarTech Systems (Mock/Live API Adapter Ready)",
+      "caseStudies": "Documented Real-World Client & Local Business Engagements (organic community & WhatsApp/GBP execution)",
+      "coursera": "6 individually verified courses completed within the 8-course Google Digital Marketing & E-Commerce pathway"
+    },
+    "nricMaskNotice": "PDPA 2024 Protection: Candidate NRIC / MyKad number is masked and never stored or displayed in source code, metadata, or certificate previews.",
+    "placeholderSlots": {
+      "resume": "Resume PDF Slot (/assets/resume-mohd-faiz-oct2026.pdf)",
+      "skmCert": "SKM Level 3 Certificate Slot (/assets/skm-level-3-cert.jpg — NRIC Masked)",
+      "caseEvidence": "Case Study Visual Evidence Slot (/assets/case-*.png)",
+      "processVisual": "Project Process Visual Slot (/assets/prj-*-architecture.png)"
+    },
+    "engineeringNonNegotiables": {
+      "title": "4 Engineering Non-Negotiables",
+      "items": [
+        "Deterministic Math vs Bounded AI",
+        "Zero-Subscription RM 0/mo Middleware",
+        "PDPA 2024 Zero-PII & NRIC Masking",
+        "Honest Evidence-Led Attribution"
+      ]
+    }
+  },
+  "bm": {
+    "meta": {
+      "title": "Mohd Faiz Bin Md Nordin | Portfolio MarTech, Ad Ops & Sistem Hasil",
+      "description": "Portfolio interaktif dwibahasa bagi MarTech, Ad Ops dan Pemasaran Digital yang merangkumi sistem hasil boleh skala, kajian kes perniagaan tempatan sebenar, serta tauliah sah SKM Tahap 3 & Google Coursera.",
+      "htmlLang": "ms"
+    },
+    "nav": {
+      "brandSubtitle": "Portfolio MarTech & Ad Ops",
+      "systemCountBadge": "{count} Sistem Disiapkan",
+      "funnel": "Peta Corong",
+      "systems": "Sistem",
+      "caseStudies": "Kajian Kes",
+      "credentials": "Tauliah",
+      "governance": "Tadbir Urus",
+      "languageLabel": "Bahasa",
+      "switchToEn": "Tukar bahasa ke Bahasa Inggeris",
+      "switchToBm": "Tukar bahasa ke Bahasa Melayu",
+      "openMenu": "Buka menu navigasi",
+      "closeMenu": "Tutup menu navigasi"
+    },
+    "hero": {
+      "eyebrow": "Kejuruteraan Hasil Dwi-Teras & Pelaksanaan Digital Tempatan",
+      "ctaExplore": "Terokai {count} Sistem Aktif",
+      "ctaCaseStudies": "Lihat Kajian Kes Tempatan",
+      "ctaWhatsapp": "WhatsApp",
+      "ctaLinkedin": "LinkedIn",
+      "ctaGithub": "GitHub",
+      "ctaEmail": "E-mel",
+      "ctaResume": "Muat Turun Resume (PDF)",
+      "resumeUnavailable": "Slot PDF Resume Sedia",
+      "locationLabel": "Berpangkalan di",
+      "kpis": [
+        {
+          "key": "systems",
+          "value": "{count}",
+          "label": "Sistem MarTech Disiapkan",
+          "subtext": "Diuji tekanan sandbox, sedia penyesuai API"
+        },
+        {
+          "key": "skm",
+          "value": "TERAMPIL",
+          "label": "SKM Tahap 3 (JPK)",
+          "subtext": "NOSS M731-001-3:2021 · Siri S304265796"
+        },
+        {
+          "key": "coursera",
+          "value": "93.23%–99.37%",
+          "label": "6 Kursus Google Coursera",
+          "subtext": "Disahkan secara individu (laluan 8 kursus)"
+        },
+        {
+          "key": "cost",
+          "value": "RM 0/bln",
+          "label": "Kos Perantara",
+          "subtext": "Dibina untuk Tunai Bersih Sebenar"
+        }
+      ]
+    },
+    "funnel": {
+      "eyebrow": "Seni Bina Hasil Corong Penuh",
+      "heading": "Peta Saluran Corong 5 Peringkat",
+      "subtitle": "Pilih mana-mana peringkat corong (01–05) untuk menapis Pendaftaran Sistem di bawah. Kiraan peringkat dikemas kini secara automatik daripada src/data/projects.json.",
+      "allStages": "Semua Peringkat ({count})",
+      "stageCount": "{count} Sistem",
+      "stageCountSingle": "{count} Sistem",
+      "stages": {
+        "01": {
+          "name": "SLA Prospek Masuk",
+          "description": "Saringan webhook bawah-10 saat, semakan domain HTTP & penghalaan CRM"
+        },
+        "02": {
+          "name": "Kawalan Iklan Berbayar",
+          "description": "Had Net POAS selepas COGS & sekatan belanja pautan HTTP 404/500"
+        },
+        "03": {
+          "name": "CAPI WhatsApp / Kaunter",
+          "description": "Atribusi lengkap klik WhatsApp hingga resit tunai kaunter"
+        },
+        "04": {
+          "name": "Tunai Bersih Marketplace",
+          "description": "Penyesuaian pesanan-ke-penyelesaian TikTok Shop & Shopee"
+        },
+        "05": {
+          "name": "RFM Risiko Lari & LTV",
+          "description": "Amaran Z-score sela belian & isyarat VIP CAPI SHA-256"
+        }
+      }
+    },
+    "systems": {
+      "eyebrow": "Teras 1 · Sistem Hasil Tanpa Langganan",
+      "heading": "Pendaftaran Sistem MarTech & Ad Ops",
+      "subtitle": "Seni bina modular yang memisahkan kawalan matematik deterministik daripada rumusan AI berbatas.",
+      "attributionNotice": "Sempadan Atribusi Jujur: PRJ-01 hingga PRJ-05+ ialah Sistem MarTech Berarsitektur Pengeluaran & Diuji Tekanan Sandbox (Sedia Penyesuai API Simulasi/Sebenar).",
+      "searchPlaceholder": "Cari sistem, timbunan teknologi, metrik atau kebocoran komersial...",
+      "searchLabel": "Cari sistem MarTech",
+      "allCategories": "Semua Kategori",
+      "clearFilters": "Tetap Semula Tapisan",
+      "showingCount": "Memaparkan {shown} daripada {total} Sistem",
+      "commercialLeakLabel": "Kebocoran Komersial",
+      "headlineMetricLabel": "Metrik Utama",
+      "outcomeLabel": "Hasil Disahkan",
+      "stackLabel": "Timbunan Teknologi",
+      "inspectButton": "Teliti Seni Bina 5 Nod",
+      "emptyStateTitle": "Tiada sistem sepadan ditemui",
+      "emptyStateBody": "Cuba padamkan kata kunci carian atau pilih Semua Peringkat pada Peta Saluran Corong.",
+      "headlineMetricsMap": {
+        "< 10s Speed-to-Lead SLA Sync": "Penyegerakan SLA Prospek < 10s",
+        "Automated POAS & 404/500 Spend Cutoff": "Sekatan Automatik POAS & Pautan 404/500",
+        "Z-Score Churn Anomaly + Meta CAPI v21.0": "Anomali Risiko Z-Score + Meta CAPI v21.0",
+        "HTTP 204 Margin Gate + Dual CAPI Sync": "Kawalan Margin HTTP 204 + Dwi-Segerak CAPI",
+        "RM 0.00 Order-to-Settlement Audit Variance": "Varians Audit Pesanan-ke-Penyelesaian RM 0.00"
+      }
+    },
+    "modal": {
+      "close": "Tutup paparan",
+      "escHint": "Tekan Esc atau klik latar belakang untuk menutup",
+      "stagePrefix": "Peringkat",
+      "pipelineTitle": "Aliran Data 5 Nod",
+      "commercialLeakTitle": "Kebocoran Komersial yang Ditangani",
+      "deterministicTitle": "Kawalan Matematik & Peraturan Deterministik",
+      "deterministicSubtitle": "Logik kod tetap, pengesahan HTTP & kiraan kewangan — tidak pernah diserahkan kepada LLM",
+      "boundedAiTitle": "Peranan AI Berbatas / Pelaksanaan API",
+      "boundedAiSubtitle": "Rumusan teks terhad atau penghantaran isyarat hash hanya selepas syarat deterministik lulus",
+      "validatedOutcomeTitle": "Hasil Sandbox Disahkan",
+      "processVisualTitle": "Visual Proses & Seni Bina Sistem",
+      "formulasTitle": "Formula Kawalan Deterministik Teras (Pelan Induk §5)",
+      "deterministicFormulas": [
+        {
+          "name": "Net POAS Selepas COGS",
+          "formula": "Net POAS = (Gross Revenue - COGS - Platform Fees) / Ad Spend",
+          "note": "Mengelakkan penambahan bajet pada kempen yang nampak untung pada ROAS kasar tetapi rugi tunai selepas kos unit."
+        },
+        {
+          "name": "Z-Score Risiko Lari Antara Belian",
+          "formula": "Z = (Δt - μ) / σ",
+          "note": "Mengesan kelewatan belian ulangan pelanggan VIP secara deterministik sebelum menghantar isyarat pengekalan CAPI berhash."
+        }
+      ],
+      "stackTitle": "Timbunan Teknologi & API",
+      "linksTitle": "Repositori & Titik Akhir Penyesuai",
+      "repoButton": "Lihat Profil / Repo GitHub",
+      "lookerButton": "Buka Papan Pemuka Looker Studio",
+      "liveAppButton": "Buka Aplikasi Sebenar",
+      "pendingAdapterBadge": "Penyesuai Sedia · Pautan Belum Dimuat Naik"
+    },
+    "caseStudies": {
+      "eyebrow": "Teras 2 · Pelaksanaan Lapangan di Kemaman (2021–Kini)",
+      "heading": "Rekod Penglibatan Perniagaan Tempatan Sebenar",
+      "subtitle": "Pelaksanaan berdokumentasi merangkumi kandungan organik, penulisan kapsyen Bahasa Melayu, keterlihatan Google Business Profile dan pengendalian pertanyaan WhatsApp.",
+      "attributionNotice": "Sempadan Atribusi Jujur: CS-01 hingga CS-03 ialah Penglibatan Klien & Perniagaan Tempatan Sebenar Berdokumentasi yang memfokuskan kempen komuniti organik, penceritaan kreatif serta pelaksanaan WhatsApp/GBP tanpa tuntutan ROAS iklan berbayar yang berlebihan.",
+      "periodLabel": "Tempoh",
+      "sectorLabel": "Sektor",
+      "focusLabel": "Tumpuan Pelaksanaan",
+      "deliverablesLabel": "Kerja Dilaksanakan",
+      "evidenceBoundaryLabel": "Sempadan Atribusi & Bukti",
+      "visualEvidenceLabel": "Bukti Kempen & Visual",
+      "periods": {
+        "Oct 2021 – Present": "Okt 2021 – Kini",
+        "May 2026 – Present": "Mei 2026 – Kini",
+        "Feb 2024 – Feb 2025": "Feb 2024 – Feb 2025"
+      },
+      "sectors": {
+        "Local Fruit Retail | Kemaman, Terengganu": "Runcit Buah-Buahan Tempatan | Kemaman, Terengganu",
+        "Cafe & Beverages | Chukai, Kemaman": "Kafe & Minuman | Chukai, Kemaman",
+        "Community Transport & Recruitment | Binjai, Kemaman": "Pengangkutan Komuniti & Pengambilan | Binjai, Kemaman"
+      },
+      "clients": {
+        "Radhi Fruits 4690": "Radhi Fruits 4690",
+        "PedalHaus Chukai": "PedalHaus Chukai",
+        "School Van Service, Binjai": "Perkhidmatan Van Sekolah, Binjai"
+      }
+    },
+    "credentials": {
+      "eyebrow": "Pengiktirafan Rasmi & Pembelajaran Berterusan",
+      "heading": "Arkib Tauliah & Pendidikan",
+      "subtitle": "Sijil Kemahiran Malaysia (SKM Tahap 3) yang dikeluarkan secara rasmi, 6 kursus Google Coursera yang disahkan, serta kelayakan akademik.",
+      "skmSectionTitle": "Pengiktirafan Kebangsaan (Dikeluarkan Secara Rasmi)",
+      "skmStatusBadge": "Dinilai TERAMPIL · Dikeluarkan",
+      "nossLabel": "Kod NOSS",
+      "serialLabel": "No. Siri Sijil",
+      "batchLabel": "Kod Kumpulan",
+      "issuerLabel": "Agensi Pengeluar",
+      "methodLabel": "Kaedah Penilaian",
+      "skmIssuingMinistry": "Jabatan Pembangunan Kemahiran (JPK), Kementerian Sumber Manusia, Malaysia",
+      "skmAssessmentMethod": "Pengiktirafan Pencapaian Terdahulu (PPT) — Dinilai TERAMPIL",
+      "skmPreviewTitle": "Pratonton Sijil Kemahiran Malaysia (SKM) Tahap 3",
+      "courseraSectionTitle": "Laluan Pemasaran Digital & E-Dagang Google",
+      "courseraAttribution": "6 kursus disahkan secara individu daripada keseluruhan laluan 8 kursus Google Digital Marketing & E-Commerce (skor 93.23%–99.37%).",
+      "scoreLabel": "Skor",
+      "hoursLabel": "Tempoh Belajar",
+      "completedLabel": "Tamat",
+      "verifyIdLabel": "ID Pengesahan",
+      "verifyCta": "Sahkan di Coursera",
+      "academicTitle": "Pendidikan Akademik",
+      "qualificationsMap": {
+        "Professional Diploma in Blockchain Technology": "Diploma Profesional Teknologi Rantaian Blok (Blockchain)",
+        "Bachelor of Nursing": "Sarjana Muda Kejururawatan"
+      }
+    },
+    "governance": {
+      "eyebrow": "Disiplin Operasi & Piawaian Kejuruteraan",
+      "heading": "Mengapa Sistem Pemasaran Saya Tidak Mudah Gagal: Asas Operasi & Pematuhan",
+      "subtitle": "Menterjemah disiplin penyelidikan klinikal, audit HSEQ dan penyelarasan logistik 73 pemandu kepada kejuruteraan MarTech dan RevOps yang boleh dipercayai.",
+      "timelineTitle": "Sejarah Operasi Merentas Fungsi",
+      "summaryLabel": "Tanggungjawab Operasi",
+      "transferLabel": "Nilai Pindahan MarTech & RevOps",
+      "expandHint": "Buka / tutup perincian",
+      "nonNegotiablesTitle": "4 Prinsip Kejuruteraan Tidak Boleh Kompromi",
+      "engineeringNonNegotiables": [
+        {
+          "code": "01",
+          "title": "Matematik Deterministik Terpisah daripada AI Berbatas",
+          "description": "Kawalan kewangan (Net POAS, had diskaun, Z-score risiko lari RFM, penyesuaian penyelesaian RM 0.00) dilaksanakan dengan kod deterministik ketat; LLM hanya merumus teks selepas syarat lulus."
+        },
+        {
+          "code": "02",
+          "title": "Seni Bina Perantara Tanpa Langganan",
+          "description": "Dibina atas Google Apps Script, jadual hubungan Google Sheets dan Cloudflare Pages untuk menghapuskan caj langganan bulanan Zapier/Make (kos perantara RM 0/bln)."
+        },
+        {
+          "code": "03",
+          "title": "Privasi PDPA 2024 & Telemetri Sifar PII",
+          "description": "Maklumat Kad Pengenalan calon tidak pernah disimpan atau dipaparkan dalam kod sumber mahupun antara muka, manakala isyarat CAPI pelanggan di-hash dengan SHA-256 tanpa ketirisan PII."
+        },
+        {
+          "code": "04",
+          "title": "Sempadan Atribusi Jujur Berteraskan Bukti",
+          "description": "Pemisahan jelas antara seni bina MarTech ujian sandbox (PRJ-01..05+), pelaksanaan perniagaan tempatan organik (CS-01..03), dan rekod sah 6 daripada 8 kursus Coursera."
+        }
+      ]
+    },
+    "assets": {
+      "placeholderBadge": "Slot Aset Sedia",
+      "expectedPathLabel": "Laluan Aset Dijangka",
+      "dropInHint": "Letakkan fail aset sah ke dalam public/assets/ untuk paparan automatik tanpa suntingan kod.",
+      "nricMaskNotice": "Perisai Privasi PDPA 2024: Nombor Kad Pengenalan / MyKad calon dilindungi dan tidak pernah disimpan dalam kod sumber, metadata atau pratonton.",
+      "resumeSlotTitle": "PDF Resume & Portfolio Calon",
+      "resumePendingNote": "Slot PDF dipautkan ke /assets/resume-mohd-faiz-oct2026.pdf (menunggu fail dimuat masuk).",
+      "skmCertTitle": "Sijil Kemahiran Malaysia (SKM) Tahap 3 Rasmi JPK",
+      "caseEvidenceTitle": "Bukti Visual Kempen Berdokumentasi",
+      "processVisualSlotTitle": "Visual Aliran Proses Sistem (Pilihan)",
+      "processVisualPendingNote": "Pautkan rajah khusus melalui processVisual dalam src/data/projects.json atau letakkan fail ke public/assets/."
+    },
+    "footer": {
+      "contactHeading": "Hubungan Terus & Pengesahan",
+      "pdpaStatement": "Portfolio Patuh PDPA 2024 · Sifar nombor Kad Pengenalan dalam kod atau pelayar · Sempadan Atribusi Jujur dikuatkuasakan.",
+      "exportHeading": "Utiliti Muat Turun JSON Portfolio Tersanitasi",
+      "exportDescription": "Muat turun salinan JSON bersih sifar-PII bagi sistem disahkan, kajian kes, tauliah dan sejarah operasi.",
+      "exportButton": "Muat Turun JSON Portfolio",
+      "exportedSuccess": "JSON portfolio tersanitasi berjaya dimuat turun.",
+      "builtWith": "Dibina menggunakan Vite, React, Tailwind CSS & seni bina dipacu JSON untuk pengehosan statik RM 0/bln."
+    },
+    "categories": {
+      "RevOps & Lead Routing": "RevOps & Penghalaan Prospek",
+      "Ad Ops & Guardrail": "Ad Ops & Kawalan Belanja",
+      "Retention & LTV": "Pengekalan & Nilai LTV",
+      "Offline & WhatsApp CAPI": "CAPI Luar Talian & WhatsApp",
+      "Social Commerce & Affiliate": "Perdagangan Sosial & Affiliate"
+    },
+    "statusBadges": {
+      "Sandbox Stress-Test Validated": "Disahkan Ujian Tekanan Sandbox",
+      "Production Live": "Aktif Pengeluaran"
+    },
+    "attributionBoundaries": {
+      "projects": "Sistem MarTech Berarsitektur Pengeluaran & Diuji Tekanan Sandbox (Sedia Penyesuai API Simulasi/Sebenar)",
+      "caseStudies": "Penglibatan Klien & Perniagaan Tempatan Sebenar Berdokumentasi (kempen komuniti organik & pelaksanaan WhatsApp/GBP)",
+      "coursera": "6 kursus disahkan secara individu daripada laluan 8 kursus Google Digital Marketing & E-Commerce"
+    },
+    "nricMaskNotice": "Perlindungan PDPA 2024: Nombor Kad Pengenalan / MyKad calon dilindungi dan tidak pernah disimpan atau dipaparkan dalam kod sumber, metadata atau pratonton sijil.",
+    "placeholderSlots": {
+      "resume": "Slot PDF Resume (/assets/resume-mohd-faiz-oct2026.pdf)",
+      "skmCert": "Slot Sijil Kemahiran Malaysia Tahap 3 (/assets/skm-level-3-cert.jpg — NRIC Dilindungi)",
+      "caseEvidence": "Slot Bukti Visual Kajian Kes (/assets/case-*.png)",
+      "processVisual": "Slot Visual Proses Projek (/assets/prj-*-architecture.png)"
+    },
+    "engineeringNonNegotiables": {
+      "title": "4 Prinsip Kejuruteraan Tidak Boleh Kompromi",
+      "items": [
+        "Matematik Deterministik vs AI Berbatas",
+        "Perantara Tanpa Langganan RM 0/bln",
+        "PDPA 2024 Sifar PII & Perlindungan Kad Pengenalan",
+        "Atribusi Jujur Berteraskan Bukti"
+      ]
+    }
+  }
+}
