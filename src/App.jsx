@@ -298,19 +298,21 @@ export default function App({ initialData } = {}) {
     setLang(normalizeLang(nextLang));
   }, []);
 
-  const handleSelectStage = useCallback((stageCode) => {
-    setSelectedStage((prev) => {
-      if (stageCode === 'ALL') return 'ALL';
-      return prev === stageCode ? 'ALL' : stageCode;
-    });
+  const handleSelectStage = useCallback(
+    (stageCode) => {
+      const nextStage =
+        stageCode === 'ALL' ? 'ALL' : selectedStage === stageCode ? 'ALL' : stageCode;
+      setSelectedStage(nextStage);
 
-    if (stageCode !== 'ALL' && typeof document !== 'undefined') {
-      const systemsEl = document.getElementById('systems');
-      if (systemsEl && typeof systemsEl.scrollIntoView === 'function') {
-        systemsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (nextStage !== 'ALL' && typeof document !== 'undefined') {
+        const systemsEl = document.getElementById('systems');
+        if (systemsEl && typeof systemsEl.scrollIntoView === 'function') {
+          systemsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
       }
-    }
-  }, []);
+    },
+    [selectedStage]
+  );
 
   const handleResetFilters = useCallback(() => {
     setSelectedStage('ALL');
@@ -356,6 +358,7 @@ export default function App({ initialData } = {}) {
           selectedStage={selectedStage}
           selectedCategory={selectedCategory}
           searchQuery={searchQuery}
+          onStageChange={setSelectedStage}
           onCategoryChange={setSelectedCategory}
           onSearchChange={setSearchQuery}
           onResetFilters={handleResetFilters}

@@ -810,10 +810,31 @@ describe('Tier 2 — Boundaries, Corner Cases & Adversarial Inputs (F1–F18, 90
         for (let i = 0; i < btnCount; i++) {
           const b = buttons.nth(i);
           const initial = await b.getAttribute('aria-expanded');
+          const panelId = await b.getAttribute('aria-controls');
+          const panel = panelId ? gov.locator(`#${panelId}`) : null;
+
           await b.click();
           assert.notEqual(await b.getAttribute('aria-expanded'), initial);
+          if (panel && (await panel.count()) > 0) {
+            assert.equal(await panel.isVisible(), false, `Panel ${panelId} remained visible after collapse`);
+            const collapsedDisplay = await panel.evaluate((el) => getComputedStyle(el).display);
+            assert.equal(collapsedDisplay, 'none', `Panel ${panelId} computed display was ${collapsedDisplay}`);
+            assert.equal(await panel.boundingBox(), null, `Panel ${panelId} boundingBox should be null when collapsed`);
+          }
+          const chevronCollapsed = await b.locator('svg').evaluate((el) => el.getAttribute('class') || '');
+          assert.equal(chevronCollapsed.includes('rotate-180'), false, 'Chevron should un-rotate when collapsed');
+
           await b.click();
           assert.equal(await b.getAttribute('aria-expanded'), initial);
+          if (panel && (await panel.count()) > 0) {
+            assert.equal(await panel.isVisible(), true, `Panel ${panelId} did not re-expand`);
+            const expandedDisplay = await panel.evaluate((el) => getComputedStyle(el).display);
+            assert.equal(expandedDisplay, 'grid');
+            const box = await panel.boundingBox();
+            assert.ok(box && box.height > 20, `Panel ${panelId} height invalid after expand`);
+          }
+          const chevronExpanded = await b.locator('svg').evaluate((el) => el.getAttribute('class') || '');
+          assert.equal(chevronExpanded.includes('rotate-180'), true, 'Chevron should rotate-180 when expanded');
         }
       } else {
         for (let i = 0; i < detCount; i++) {
@@ -1116,6 +1137,150 @@ describe('Tier 2 — Boundaries, Corner Cases & Adversarial Inputs (F1–F18, 90
           );
         }
       }
+    });
+  });
+
+  // Regression Coverage (R1/R2/R3 Surgical Fixes)
+  test('T2-REG-01: Governance Collapse all / Expand all batch toggle & real DOM collapse', async () => {
+    await withTrackedPage(browser, server.baseUrl, {}, async ({ page, errors }) => {
+      const gov = await getGovernanceSection(page);
+      const toggleAll = gov.getByTestId('governance-toggle-all');
+      await toggleAll.click();
+      for (const id of ['OPS-01', 'OPS-02', 'OPS-03', 'OPS-04', 'OPS-05']) {
+        const panel = gov.locator(`#ops-panel-${id}`);
+        assert.equal(await panel.isVisible(), false, `${id} should be hidden after Collapse all`);
+        assert.equal(await panel.evaluate((el) => getComputedStyle(el).display), 'none');
+      }
+      await toggleAll.click();
+      for (const id of ['OPS-01', 'OPS-02', 'OPS-03', 'OPS-04', 'OPS-05']) {
+        const panel = gov.locator(`#ops-panel-${id}`);
+        assert.equal(await panel.isVisible(), true, `${id} should be visible after Expand all`);
+      }
+      errors.assertZeroUnexpected('T2-REG-01');
+    });
+  });
+
+  test('T2-REG-02: Sticky Navbar anchor clearance (scroll-mt-20), Light search contrast & mobile scroll-spy/brand legibility', async () => {
+    await withTrackedPage(browser, server.baseUrl, {}, async ({ page, errors }) => {
+      const headerBox = await getNavbar(page).boundingBox();
+      assert.ok(headerBox);
+      await page.locator('header a[href="#systems"]').first().click();
+      await page.waitForFunction(() => {
+        const el = document.getElementById('systems');
+        return Boolean(el && Math.abs(el.getBoundingClientRect().top - 80) <= 25);
+      }, null, { timeout: 5000 });
+      await page.waitForTimeout(150);
+
+      const systemsBox = await page.locator('#systems').boundingBox();
+      assert.ok(
+        systemsBox && systemsBox.y >= headerBox.height - 1,
+        `#systems section clipped by sticky navbar: y=${systemsBox?.y}`
+      );
+      const eyebrowTop = await page.locator('#systems p').first().boundingBox();
+      assert.ok(
+        eyebrowTop && eyebrowTop.y >= headerBox.height - 1,
+        `Eyebrow clipped by sticky navbar: y=${eyebrowTop?.y}`
+      );
+
+      await page.getByTestId('theme-toggle').click();
+      await page.waitForFunction(() => document.documentElement.getAttribute('data-theme') === 'light');
+      const searchInput = await getSearchInput(page);
+      await searchInput.evaluate((el) => el.blur());
+      const unfocusedBorder = await searchInput.evaluate((el) => getComputedStyle(el).borderTopColor);
+      assert.equal(
+        unfocusedBorder,
+        'rgb(100, 116, 139)',
+        `Light unfocused search border expected rgb(100, 116, 139), got ${unfocusedBorder}`
+      );
+      await searchInput.focus();
+      const focusedBorder = await searchInput.evaluate((el) => getComputedStyle(el).borderTopColor);
+      assert.equal(
+        focusedBorder,
+        'rgb(4, 120, 87)',
+        `Light focused search border expected rgb(4, 120, 87), got ${focusedBorder}`
+      );
+      errors.assertZeroUnexpected('T2-REG-02-desktop');
+    });
+
+    for (const vp of [VIEWPORTS.narrow, VIEWPORTS.mobile, { width: 1024, height: 768 }]) {
+      await withTrackedPage(browser, server.baseUrl, { viewport: vp }, async ({ page, errors }) => {
+        await switchLanguage(page, 'bm');
+        const brandWidth = await page.locator('header a[href="#top"] span.min-w-0 > span').first().boundingBox();
+        assert.ok(brandWidth && brandWidth.width >= 60, `Navbar brand crushed at ${vp.width}px BM: ${brandWidth?.width}px`);
+        await assertNoHorizontalOverflow(page);
+
+        if (vp.width === VIEWPORTS.mobile.width) {
+          const headerBox = await getNavbar(page).boundingBox();
+          assert.ok(headerBox);
+          await page.locator('button[aria-controls="mobile-nav-drawer"]').click();
+          const drawer = page.locator('#mobile-nav-drawer');
+          assert.equal(await drawer.isVisible(), true);
+          await drawer.locator('a[href="#credentials"]').click();
+
+          await page.waitForFunction(() => {
+            const cred = document.getElementById('credentials');
+            return Boolean(cred && Math.abs(cred.getBoundingClientRect().top - 80) <= 25);
+          }, null, { timeout: 6000 });
+          await page.waitForTimeout(250);
+
+          const credBox = await page.locator('#credentials').boundingBox();
+          assert.ok(
+            credBox && credBox.y >= headerBox.height - 1,
+            `#credentials section clipped by sticky navbar on mobile: y=${credBox?.y}`
+          );
+
+          const activeHrefs = await page.evaluate(() =>
+            Array.from(document.querySelectorAll('header a[aria-current="location"]')).map((a) =>
+              a.getAttribute('href')
+            )
+          );
+          assert.deepEqual(
+            activeHrefs,
+            ['#credentials'],
+            `Mobile scroll-spy expected ["#credentials"], got ${JSON.stringify(activeHrefs)}`
+          );
+
+          await page.locator('button[aria-controls="mobile-nav-drawer"]').click();
+          const drawerActiveHrefs = await drawer
+            .locator('a[aria-current="location"]')
+            .evaluateAll((els) => els.map((a) => a.getAttribute('href')));
+          assert.deepEqual(drawerActiveHrefs, ['#credentials']);
+        }
+
+        errors.assertZeroUnexpected(`T2-REG-02-${vp.width}`);
+      });
+    }
+  });
+
+  test('T2-REG-03: ArchitectureModal WAI-ARIA tablist ArrowRight/ArrowLeft/Home/End & bottom close', async () => {
+    await withTrackedPage(browser, server.baseUrl, {}, async ({ page, errors }) => {
+      const dialog = await openProjectModal(page, 'PRJ-01');
+      const tabs = dialog.locator('[role="tablist"] [role="tab"]');
+      const firstBox = await tabs.first().boundingBox();
+      assert.ok(firstBox && firstBox.height >= 36, `Modal tab height < 36px: ${firstBox?.height}`);
+
+      await tabs.first().focus();
+      await page.keyboard.press('ArrowRight');
+      assert.equal(await tabs.nth(1).getAttribute('aria-selected'), 'true');
+      await page.keyboard.press('End');
+      assert.equal(await tabs.last().getAttribute('aria-selected'), 'true');
+      await page.keyboard.press('Home');
+      assert.equal(await tabs.first().getAttribute('aria-selected'), 'true');
+
+      await dialog.getByTestId('modal-bottom-close').click();
+      assert.equal(await page.locator('[role="dialog"]').count(), 0);
+      errors.assertZeroUnexpected('T2-REG-03');
+    });
+  });
+
+  test('T2-REG-04: Footer export status [role="status"] updates live on EN -> BM toggle', async () => {
+    await withTrackedPage(browser, server.baseUrl, {}, async ({ page, errors }) => {
+      await triggerFooterJsonExport(page);
+      const statusLoc = page.locator('footer [role="status"]').last();
+      assert.match(await statusLoc.innerText(), /Sanitized portfolio JSON downloaded/i);
+      await switchLanguage(page, 'bm');
+      assert.match(await statusLoc.innerText(), /berjaya dimuat turun/i);
+      errors.assertZeroUnexpected('T2-REG-04');
     });
   });
 });

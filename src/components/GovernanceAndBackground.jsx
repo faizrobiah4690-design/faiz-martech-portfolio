@@ -38,8 +38,20 @@ export default function GovernanceAndBackground({ operationalHistory, lang, t })
     });
   };
 
+  const allCollapsed =
+    safeHistory.length > 0 &&
+    safeHistory.every((item, idx) => collapsedIds.has(getOpsId(item, idx)));
+
+  const handleToggleAll = () => {
+    if (allCollapsed) {
+      setCollapsedIds(new Set());
+    } else {
+      setCollapsedIds(new Set(safeHistory.map((item, idx) => getOpsId(item, idx))));
+    }
+  };
+
   return (
-    <section id="governance" className="border-b border-slate-800/80 py-14 sm:py-16">
+    <section id="governance" className="scroll-mt-20 border-b border-slate-800/80 py-14 sm:py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         <div className="space-y-2 max-w-3xl">
           <p className="font-mono text-xs uppercase tracking-wider text-cyan-400">
@@ -84,15 +96,35 @@ export default function GovernanceAndBackground({ operationalHistory, lang, t })
         </div>
 
         <div className="space-y-4">
-          <h3 className="text-xl font-display font-bold text-white">
-            {localizeText(t?.governance?.timelineTitle, lang)}
-          </h3>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <h3 className="text-xl font-display font-bold text-white">
+              {localizeText(t?.governance?.timelineTitle, lang)}
+            </h3>
+
+            {safeHistory.length > 0 ? (
+              <button
+                type="button"
+                onClick={handleToggleAll}
+                data-testid="governance-toggle-all"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-slate-700 bg-slate-900/80 px-3 py-1.5 text-xs font-mono font-semibold text-slate-200 hover:border-emerald-400/50 hover:text-emerald-300 transition"
+              >
+                <span>
+                  {allCollapsed
+                    ? localizeText(t?.governance?.expandAll, lang) || 'Expand all'
+                    : localizeText(t?.governance?.collapseAll, lang) || 'Collapse all'}
+                </span>
+              </button>
+            ) : null}
+          </div>
 
           <div className="space-y-3">
             {safeHistory.map((item, idx) => {
               const itemId = getOpsId(item, idx);
               const isExpanded = !collapsedIds.has(itemId);
               const panelId = `ops-panel-${itemId}`;
+              const hintLabel = isExpanded
+                ? localizeText(t?.governance?.collapseHint, lang) || 'Hide details'
+                : localizeText(t?.governance?.expandActionHint, lang) || 'Show details';
 
               return (
                 <div
@@ -125,8 +157,8 @@ export default function GovernanceAndBackground({ operationalHistory, lang, t })
                       </p>
                     </div>
 
-                    <span className="inline-flex items-center gap-1.5 text-xs font-mono text-slate-400 shrink-0">
-                      <span>{localizeText(t?.governance?.expandHint, lang)}</span>
+                    <span className="inline-flex items-center gap-1.5 rounded-lg border border-slate-700 bg-slate-950/70 px-2.5 py-1 text-xs font-mono text-slate-300 shrink-0">
+                      <span>{hintLabel}</span>
                       <ChevronDown
                         className={`h-4 w-4 transition-transform ${
                           isExpanded ? 'rotate-180 text-emerald-400' : ''
@@ -139,7 +171,11 @@ export default function GovernanceAndBackground({ operationalHistory, lang, t })
                   <div
                     id={panelId}
                     hidden={!isExpanded}
-                    className="border-t border-slate-800/80 px-5 py-4 bg-slate-950/50 grid grid-cols-1 md:grid-cols-2 gap-4"
+                    className={
+                      isExpanded
+                        ? 'border-t border-slate-800/80 px-5 py-4 bg-slate-950/50 grid grid-cols-1 md:grid-cols-2 gap-4'
+                        : 'hidden'
+                    }
                   >
                     <div className="space-y-1 min-w-0">
                       <p className="text-[11px] font-mono uppercase tracking-wider text-slate-400">

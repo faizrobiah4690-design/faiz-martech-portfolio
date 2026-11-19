@@ -10,7 +10,7 @@ export default function LocalCaseStudies({ caseStudies, lang, t }) {
   const safeCases = (Array.isArray(caseStudies) ? caseStudies : []).filter(isPlainObject);
 
   return (
-    <section id="case-studies" className="border-b border-slate-800/80 py-14 sm:py-16">
+    <section id="case-studies" className="scroll-mt-20 border-b border-slate-800/80 py-14 sm:py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="space-y-2 max-w-3xl mb-6">
           <p className="font-mono text-xs uppercase tracking-wider text-cyan-400">

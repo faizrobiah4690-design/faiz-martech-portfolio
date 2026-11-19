@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   ArrowRight,
   Briefcase,
@@ -10,6 +10,7 @@ import {
   MapPin,
   MessageCircle
 } from 'lucide-react';
+import { copyToClipboard } from '../utils/clipboard.js';
 import { localizeText } from '../utils/i18n.js';
 import { isSafeExternalUrl, normalizeExternalUrl } from '../utils/urlSafety.js';
 
@@ -19,25 +20,46 @@ function isPlainObject(v) {
 
 export default function HeroSection({ profile, lang, t, metrics }) {
   const [emailCopied, setEmailCopied] = useState(false);
+  const copyTimerRef = useRef(null);
   const safeProfile = isPlainObject(profile) ? profile : {};
   const contacts = isPlainObject(safeProfile.contacts) ? safeProfile.contacts : {};
   const totalSystems = metrics?.totalSystems ?? 0;
   const courseraCount = metrics?.courseraCount ?? 0;
   const kpis = (Array.isArray(t?.hero?.kpis) ? t.hero.kpis : []).filter(isPlainObject);
+  const readingFlowSteps = (
+    Array.isArray(t?.hero?.readingFlowSteps) ? t.hero.readingFlowSteps : []
+  ).filter(isPlainObject);
+
+  useEffect(() => {
+    return () => {
+      if (copyTimerRef.current) {
+        clearTimeout(copyTimerRef.current);
+      }
+    };
+  }, []);
 
   const whatsappUrl = normalizeExternalUrl(contacts.whatsappUrl);
   const linkedinUrl = normalizeExternalUrl(contacts.linkedinUrl);
   const githubUrl = normalizeExternalUrl(contacts.githubUrl);
   const emailAddress = typeof contacts.email === 'string' ? contacts.email.trim() : '';
+  const gmailSubject =
+    localizeText(t?.hero?.gmailSubject, lang) || 'Portfolio Inquiry — Mohd Faiz Bin Md Nordin';
   const gmailComposeUrl = emailAddress
-    ? `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(emailAddress)}&su=${encodeURIComponent('Portfolio Inquiry — Mohd Faiz Bin Md Nordin')}`
+    ? `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(emailAddress)}&su=${encodeURIComponent(gmailSubject)}`
     : '';
   const handleCopyEmail = () => {
-    if (!emailAddress || typeof navigator === 'undefined' || !navigator.clipboard) return;
-    navigator.clipboard.writeText(emailAddress).then(() => {
+    if (!emailAddress) return;
+    copyToClipboard(emailAddress).then((copied) => {
+      if (!copied) return;
+      if (copyTimerRef.current) {
+        clearTimeout(copyTimerRef.current);
+      }
       setEmailCopied(true);
-      setTimeout(() => setEmailCopied(false), 2500);
-    }).catch(() => {});
+      copyTimerRef.current = setTimeout(() => {
+        setEmailCopied(false);
+        copyTimerRef.current = null;
+      }, 2500);
+    });
   };
 
   const ctaExploreLabel = (
@@ -51,7 +73,7 @@ export default function HeroSection({ profile, lang, t, metrics }) {
   return (
     <section
       id="top"
-      className="relative border-b border-slate-800/80 bg-executive-grid py-12 sm:py-16 lg:py-20"
+      className="scroll-mt-20 relative border-b border-slate-800/80 bg-executive-grid py-12 sm:py-16 lg:py-20"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
@@ -176,6 +198,12 @@ export default function HeroSection({ profile, lang, t, metrics }) {
                       <Copy className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
                     )}
                   </button>
+                  <span role="status" aria-live="polite" className="sr-only">
+                    {emailCopied
+                      ? localizeText(t?.hero?.emailCopiedAnnouncement, lang) ||
+                        'Email address copied to clipboard.'
+                      : ''}
+                  </span>
                 </div>
               ) : null}
             </div>
@@ -230,6 +258,37 @@ export default function HeroSection({ profile, lang, t, metrics }) {
             })}
           </div>
         </div>
+
+        {readingFlowSteps.length > 0 ? (
+          <nav
+            aria-label={localizeText(t?.hero?.readingFlowLabel, lang) || 'Reading Flow'}
+            data-testid="hero-reading-flow"
+            className="mt-8 rounded-2xl border border-slate-800 bg-slate-900/80 backdrop-blur-md px-4 py-3 flex flex-wrap items-center gap-2"
+          >
+            <span className="font-mono text-[11px] uppercase tracking-wider text-cyan-400 mr-1 shrink-0">
+              {localizeText(t?.hero?.readingFlowLabel, lang) || 'Reading Flow'}:
+            </span>
+            {readingFlowSteps.map((step, idx) => {
+              const stepHref = typeof step.href === 'string' ? step.href.trim() : '';
+              const stepCode = localizeText(step.code, lang) || String(idx + 1).padStart(2, '0');
+              const stepLabel = localizeText(step.label, lang).replace(
+                '{count}',
+                String(totalSystems)
+              );
+              if (!stepHref || !stepLabel) return null;
+              return (
+                <a
+                  key={stepHref}
+                  href={stepHref}
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-slate-800 bg-slate-950/70 px-2.5 py-1 text-xs font-medium text-slate-200 hover:border-emerald-400/50 hover:text-emerald-300 transition-colors"
+                >
+                  <span className="font-mono text-[11px] font-bold text-cyan-400">{stepCode}</span>
+                  <span>{stepLabel}</span>
+                </a>
+              );
+            })}
+          </nav>
+        ) : null}
       </div>
     </section>
   );

@@ -12,11 +12,85 @@ export default function Navbar({
   profile
 }) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('');
   const headerRef = useRef(null);
   const menuButtonRef = useRef(null);
   const isBm = normalizeLang(lang) === 'bm';
   const isLight = theme === 'light';
   const safeTotalSystems = totalSystems ?? 0;
+
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return undefined;
+    }
+    const sectionIds = [
+      'top',
+      'funnel',
+      'systems',
+      'live-apps',
+      'case-studies',
+      'credentials',
+      'governance'
+    ];
+
+    let rafId = 0;
+
+    const computeActiveSection = () => {
+      rafId = 0;
+      const headerHeight = headerRef.current?.getBoundingClientRect().height || 65;
+      const activationOffset = headerHeight + 56;
+
+      if (window.scrollY < 40) {
+        setActiveSection('');
+        return;
+      }
+
+      const docEl = document.documentElement;
+      const atBottom =
+        window.innerHeight + window.scrollY >= (docEl?.scrollHeight || 0) - 4;
+      if (atBottom) {
+        const lastEl = document.getElementById(sectionIds[sectionIds.length - 1]);
+        if (lastEl && lastEl.getBoundingClientRect().top < window.innerHeight) {
+          setActiveSection(`#${lastEl.id}`);
+          return;
+        }
+      }
+
+      let currentId = '';
+      for (const id of sectionIds) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+        if (el.getBoundingClientRect().top <= activationOffset) {
+          currentId = id;
+        }
+      }
+
+      if (!currentId || currentId === 'top') {
+        setActiveSection('');
+      } else {
+        setActiveSection(`#${currentId}`);
+      }
+    };
+
+    const scheduleUpdate = () => {
+      if (rafId) return;
+      rafId = window.requestAnimationFrame(computeActiveSection);
+    };
+
+    computeActiveSection();
+    window.addEventListener('scroll', scheduleUpdate, { passive: true });
+    window.addEventListener('resize', scheduleUpdate, { passive: true });
+    window.addEventListener('hashchange', scheduleUpdate);
+
+    return () => {
+      if (rafId) {
+        window.cancelAnimationFrame(rafId);
+      }
+      window.removeEventListener('scroll', scheduleUpdate);
+      window.removeEventListener('resize', scheduleUpdate);
+      window.removeEventListener('hashchange', scheduleUpdate);
+    };
+  }, []);
 
   useEffect(() => {
     if (!mobileOpen || typeof document === 'undefined') return undefined;
@@ -74,10 +148,14 @@ export default function Navbar({
       ref={headerRef}
       className="sticky top-0 z-40 border-b border-slate-800/90 bg-slate-950/95 backdrop-blur-md"
     >
-      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2 min-w-0">
-        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-          <a href="#top" className="flex items-center gap-2 min-w-0 group">
-            <span className="w-8 h-8 sm:w-9 sm:h-9 shrink-0 rounded-lg bg-emerald-400/15 border border-emerald-400/40 text-emerald-300 font-mono font-bold text-xs sm:text-sm flex items-center justify-center">
+      <div className="max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2 min-w-0">
+        <div className="flex items-center gap-1.5 sm:gap-3 min-w-0">
+          <a
+            href="#top"
+            onClick={() => setActiveSection('')}
+            className="flex items-center gap-1.5 sm:gap-2 min-w-0 group"
+          >
+            <span className="w-7 h-7 sm:w-9 sm:h-9 shrink-0 rounded-lg bg-emerald-400/15 border border-emerald-400/40 text-emerald-300 font-mono font-bold text-xs sm:text-sm flex items-center justify-center">
               MF
             </span>
             <span className="min-w-0">
@@ -91,7 +169,16 @@ export default function Navbar({
           </a>
 
           <span
-            className="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-2 py-0.5 font-mono text-[10px] sm:text-xs font-medium text-emerald-300 whitespace-nowrap shrink-0"
+            className="sm:hidden inline-flex items-center gap-1 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-1.5 py-0.5 font-mono text-[10px] font-semibold text-emerald-300 whitespace-nowrap shrink-0"
+            title={systemBadgeText}
+            aria-label={systemBadgeText}
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" aria-hidden="true" />
+            <span>{safeTotalSystems}</span>
+          </span>
+
+          <span
+            className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-2.5 py-0.5 font-mono text-xs font-medium text-emerald-300 whitespace-nowrap shrink-0"
             data-testid="nav-system-count"
           >
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" aria-hidden="true" />
@@ -100,21 +187,30 @@ export default function Navbar({
         </div>
 
         <nav
-          className="hidden lg:flex items-center gap-5"
+          className="hidden xl:flex items-center gap-5"
           aria-label={localizeText(t?.nav?.primaryAria, lang) || 'Primary navigation'}
         >
-          {navItems.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              className="text-sm font-medium text-slate-300 hover:text-emerald-300 transition-colors whitespace-nowrap"
-            >
-              {item.label}
-            </a>
-          ))}
+          {navItems.map((item) => {
+            const isActive = activeSection === item.href;
+            return (
+              <a
+                key={item.href}
+                href={item.href}
+                aria-current={isActive ? 'location' : undefined}
+                onClick={() => setActiveSection(item.href)}
+                className={`text-sm font-medium transition-colors whitespace-nowrap ${
+                  isActive
+                    ? 'text-emerald-300 font-semibold'
+                    : 'text-slate-300 hover:text-emerald-300'
+                }`}
+              >
+                {item.label}
+              </a>
+            );
+          })}
         </nav>
 
-        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+        <div className="flex items-center gap-1 sm:gap-2 shrink-0">
           {typeof onToggleTheme === 'function' ? (
             <button
               type="button"
@@ -180,7 +276,7 @@ export default function Navbar({
                 ? localizeText(t?.nav?.closeMenu, lang) || 'Close navigation menu'
                 : localizeText(t?.nav?.openMenu, lang) || 'Open navigation menu'
             }
-            className="lg:hidden inline-flex items-center justify-center rounded-lg border border-slate-700 bg-slate-900 p-1.5 text-slate-200 hover:border-emerald-400/50 hover:text-emerald-300"
+            className="xl:hidden inline-flex items-center justify-center rounded-lg border border-slate-700 bg-slate-900 p-1.5 text-slate-200 hover:border-emerald-400/50 hover:text-emerald-300"
           >
             {mobileOpen ? (
               <X className="h-5 w-5" aria-hidden="true" />
@@ -195,18 +291,35 @@ export default function Navbar({
         <nav
           id="mobile-nav-drawer"
           aria-label={localizeText(t?.nav?.mobileAria, lang) || 'Mobile navigation'}
-          className="lg:hidden border-t border-slate-800 bg-slate-950/95 px-4 py-3 space-y-1"
+          className="xl:hidden border-t border-slate-800 bg-slate-950/95 px-4 py-3 space-y-1"
         >
-          {navItems.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              onClick={() => setMobileOpen(false)}
-              className="block rounded-lg px-3 py-2 text-sm font-medium text-slate-200 hover:bg-slate-900 hover:text-emerald-300"
-            >
-              {item.label}
-            </a>
-          ))}
+          <div className="sm:hidden pb-2 mb-2 border-b border-slate-800">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-2.5 py-0.5 font-mono text-xs font-medium text-emerald-300">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" aria-hidden="true" />
+              <span>{systemBadgeText}</span>
+            </span>
+          </div>
+          {navItems.map((item) => {
+            const isActive = activeSection === item.href;
+            return (
+              <a
+                key={item.href}
+                href={item.href}
+                aria-current={isActive ? 'location' : undefined}
+                onClick={() => {
+                  setActiveSection(item.href);
+                  setMobileOpen(false);
+                }}
+                className={`block rounded-lg px-3 py-2 text-sm font-medium ${
+                  isActive
+                    ? 'bg-slate-900 text-emerald-300 font-semibold'
+                    : 'text-slate-200 hover:bg-slate-900 hover:text-emerald-300'
+                }`}
+              >
+                {item.label}
+              </a>
+            );
+          })}
         </nav>
       ) : null}
     </header>

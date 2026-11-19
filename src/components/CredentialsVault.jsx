@@ -32,7 +32,7 @@ export default function CredentialsVault({ credentials, lang, t }) {
       : rawCourseraAttribution;
 
   return (
-    <section id="credentials" className="border-b border-slate-800/80 py-14 sm:py-16">
+    <section id="credentials" className="scroll-mt-20 border-b border-slate-800/80 py-14 sm:py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         <div className="space-y-2 max-w-3xl">
           <p className="font-mono text-xs uppercase tracking-wider text-emerald-400">
@@ -45,6 +45,18 @@ export default function CredentialsVault({ credentials, lang, t }) {
             {credentialsSubtitle}
           </p>
         </div>
+
+        {localizeText(credentials?.systemBridge, lang) ? (
+          <div className="rounded-2xl border border-cyan-400/30 bg-cyan-950/20 p-5 space-y-1.5">
+            <h3 className="text-xs font-mono uppercase tracking-wider text-cyan-300">
+              {localizeText(t?.credentials?.bridgeTitle, lang) ||
+                'How These Credentials Power PRJ-01..05'}
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-200 leading-relaxed">
+              {localizeText(credentials.systemBridge, lang)}
+            </p>
+          </div>
+        ) : null}
 
         <div
           className="glass-card rounded-2xl p-5 sm:p-7 border-emerald-400/30"
@@ -264,17 +276,6 @@ export default function CredentialsVault({ credentials, lang, t }) {
             })}
           </div>
         </div>
-        {localizeText(credentials?.systemBridge, lang) ? (
-          <div className="rounded-2xl border border-cyan-400/30 bg-cyan-950/20 p-5 space-y-1.5">
-            <h3 className="text-xs font-mono uppercase tracking-wider text-cyan-300">
-              {localizeText(t?.credentials?.bridgeTitle, lang) ||
-                'How These Credentials Power PRJ-01..05'}
-            </h3>
-            <p className="text-xs sm:text-sm text-slate-200 leading-relaxed">
-              {localizeText(credentials.systemBridge, lang)}
-            </p>
-          </div>
-        ) : null}
       </div>
     </section>
   );

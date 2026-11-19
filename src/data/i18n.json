@@ -38,9 +38,20 @@
       "ctaGithub": "GitHub",
       "ctaEmail": "Email",
       "gmailComposeTitle": "Compose email in Gmail",
+      "gmailSubject": "Portfolio Inquiry — Mohd Faiz Bin Md Nordin",
       "copyEmailAria": "Copy email address",
       "copiedLabel": "Copied",
+      "emailCopiedAnnouncement": "Email address copied to clipboard.",
       "locationLabel": "Based in",
+      "readingFlowLabel": "Reading Flow",
+      "readingFlowSteps": [
+        { "href": "#funnel", "code": "01", "label": "Funnel Map" },
+        { "href": "#systems", "code": "02", "label": "Systems ({count})" },
+        { "href": "#live-apps", "code": "03", "label": "Live Apps" },
+        { "href": "#case-studies", "code": "04", "label": "Case Studies" },
+        { "href": "#credentials", "code": "05", "label": "Credentials" },
+        { "href": "#governance", "code": "06", "label": "Governance" }
+      ],
       "kpis": [
         {
           "key": "systems",
@@ -69,12 +80,14 @@
       ]
     },
     "funnel": {
-      "eyebrow": "Full-Funnel Revenue Architecture",
+      "eyebrow": "Step 01 · Full-Funnel Revenue Architecture",
       "heading": "5-Stage Funnel Pipeline Map",
       "subtitle": "Select any funnel stage (01–05) to filter the Systems Registry below. Each stage explains the commercial problem solved and updates dynamically from the verified system catalog.",
       "allStages": "All Stages ({count})",
       "stageCount": "{count} Systems",
       "stageCountSingle": "{count} System",
+      "filterCue": "Filter Stage ->",
+      "activeFilterCue": "Active Filter ✓",
       "stages": {
         "01": {
           "name": "Inbound Lead SLA",
@@ -99,7 +112,7 @@
       }
     },
     "systems": {
-      "eyebrow": "Pillar 1 · Zero-Subscription Revenue Systems",
+      "eyebrow": "Step 02 · Pillar 1 · Zero-Subscription Revenue Systems",
       "heading": "MarTech & Ad Ops Systems Registry",
       "subtitle": "Modular architectures separating deterministic mathematical gates from bounded AI synthesis — built for clarity from plain-language business goal to engineering proof.",
       "attributionNotice": "Honest Attribution Boundary: PRJ-01 through PRJ-05+ are Production-Architected & Sandbox Stress-Tested MarTech Systems (Mock/Live API Adapter Ready).",
@@ -107,6 +120,8 @@
       "searchLabel": "Search MarTech systems",
       "allCategories": "All Categories",
       "clearFilters": "Reset Filters",
+      "stagePrefix": "Stage",
+      "clearStageAria": "Clear stage filter",
       "showingCount": "Showing {shown} of {total} Systems",
       "businessObjectiveLabel": "Business Objective",
       "commercialLeakLabel": "Commercial Leak",
@@ -114,6 +129,7 @@
       "outcomeLabel": "Validated Outcome",
       "stackLabel": "Architecture Stack",
       "inspectButton": "Inspect 5-Node Architecture",
+      "visualCountLabel": "({count} Visuals)",
       "emptyStateTitle": "No matching systems found",
       "emptyStateBody": "Try clearing the search query or selecting All Stages in the Funnel Pipeline Map.",
       "headlineMetricsMap": {
@@ -126,6 +142,7 @@
     },
     "modal": {
       "close": "Close modal",
+      "closeViewButton": "Close Architecture View",
       "escHint": "Press Esc or click backdrop to close",
       "stagePrefix": "Stage",
       "businessObjectiveTitle": "Plain-Language Business Objective",
@@ -166,7 +183,7 @@
       "liveAppButton": "Launch Live App"
     },
     "liveApps": {
-      "eyebrow": "Live Production Web Apps · Shipped & Interactive",
+      "eyebrow": "Step 03 · Live Production Web Apps · Shipped & Interactive",
       "heading": "Live Production Web Applications",
       "subtitle": "Deployed, interactive web products you can test in your browser right now: AdForge MY (APP-01) directly solves PRJ-02 creative fatigue and local SME ad workflows, while VertigoLab, PanicLab, and AddMath Mudah (APP-02..04) demonstrate deterministic step-by-step logic, bilingual clarity, and production UX.",
       "liveBadge": "LIVE",
@@ -174,7 +191,7 @@
       "githubLabel": "GitHub"
     },
     "caseStudies": {
-      "eyebrow": "Pillar 2 · Hands-On Kemaman Execution (2021–Present)",
+      "eyebrow": "Step 04 · Pillar 2 · Hands-On Kemaman Execution (2021–Present)",
       "heading": "Real-World Local Business Engagements",
       "subtitle": "Documented organic content, Bahasa Malaysia copywriting, Google Business Profile discovery, and WhatsApp enquiry workflows.",
       "attributionNotice": "Honest Attribution Boundary: CS-01 through CS-03 are Documented Real-World Client & Local Business Engagements focused on organic community campaigns, creative storytelling, and WhatsApp/GBP execution without exaggerated paid-ROAS claims.",
@@ -202,7 +219,7 @@
       }
     },
     "credentials": {
-      "eyebrow": "Verified Accreditation & Continuous Learning",
+      "eyebrow": "Step 05 · Verified Accreditation & Continuous Learning",
       "heading": "Credentials & Education Vault",
       "subtitle": "Officially issued Malaysian Skills Certificate (SKM Level 3), 6 verified Google Coursera courses, and academic foundations.",
       "skmSectionTitle": "National Accreditation (Officially Issued)",
@@ -231,13 +248,17 @@
       }
     },
     "governance": {
-      "eyebrow": "Operational Rigor & Engineering Standards",
+      "eyebrow": "Step 06 · Operational Rigor & Engineering Standards",
       "heading": "Why My Marketing Systems Don't Break: Operational & Compliance Foundation",
       "subtitle": "Translating clinical research, HSEQ auditing, and 73-driver logistics dispatch discipline into reliable MarTech and RevOps engineering.",
       "timelineTitle": "Cross-Functional Operational History",
       "summaryLabel": "Operational Responsibilities",
       "transferLabel": "Transferable MarTech & RevOps Value",
       "expandHint": "Toggle details",
+      "collapseHint": "Hide details",
+      "expandActionHint": "Show details",
+      "collapseAll": "Collapse all",
+      "expandAll": "Expand all",
       "nonNegotiablesTitle": "4 Engineering Non-Negotiables",
       "engineeringNonNegotiables": [
         {
@@ -281,7 +302,8 @@
       "exportDescription": "Download a clean, zero-NRIC / PDPA-compliant JSON snapshot of verified systems, live web apps, case studies, credentials, and operational history.",
       "exportButton": "Download Portfolio JSON",
       "exportedSuccess": "Sanitized portfolio JSON downloaded.",
-      "builtWith": "Built with Vite, React, Tailwind CSS & JSON-driven architecture for RM 0/mo static hosting."
+      "builtWith": "Built with Vite, React, Tailwind CSS & JSON-driven architecture for RM 0/mo static hosting.",
+      "backToTop": "Back to top ↑"
     },
     "categories": {
       "RevOps & Lead Routing": "RevOps & Lead Routing",
@@ -353,9 +375,20 @@
       "ctaGithub": "GitHub",
       "ctaEmail": "E-mel",
       "gmailComposeTitle": "Tulis e-mel di Gmail",
+      "gmailSubject": "Pertanyaan Portfolio — Mohd Faiz Bin Md Nordin",
       "copyEmailAria": "Salin alamat e-mel",
       "copiedLabel": "Disalin",
+      "emailCopiedAnnouncement": "Alamat e-mel disalin ke papan klip.",
       "locationLabel": "Berpangkalan di",
+      "readingFlowLabel": "Aliran Bacaan",
+      "readingFlowSteps": [
+        { "href": "#funnel", "code": "01", "label": "Peta Corong" },
+        { "href": "#systems", "code": "02", "label": "Sistem ({count})" },
+        { "href": "#live-apps", "code": "03", "label": "Aplikasi Langsung" },
+        { "href": "#case-studies", "code": "04", "label": "Kajian Kes" },
+        { "href": "#credentials", "code": "05", "label": "Tauliah" },
+        { "href": "#governance", "code": "06", "label": "Tadbir Urus" }
+      ],
       "kpis": [
         {
           "key": "systems",
@@ -384,12 +417,14 @@
       ]
     },
     "funnel": {
-      "eyebrow": "Seni Bina Hasil Corong Penuh",
+      "eyebrow": "Langkah 01 · Seni Bina Hasil Corong Penuh",
       "heading": "Peta Saluran Corong 5 Peringkat",
       "subtitle": "Pilih mana-mana peringkat corong (01–05) untuk menapis Pendaftaran Sistem di bawah. Setiap peringkat menerangkan masalah komersial yang diselesaikan serta dikemas kini secara dinamik daripada katalog sistem yang disahkan.",
       "allStages": "Semua Peringkat ({count})",
       "stageCount": "{count} Sistem",
       "stageCountSingle": "{count} Sistem",
+      "filterCue": "Tapis Peringkat ->",
+      "activeFilterCue": "Tapisan Aktif ✓",
       "stages": {
         "01": {
           "name": "SLA Prospek Masuk",
@@ -414,7 +449,7 @@
       }
     },
     "systems": {
-      "eyebrow": "Teras 1 · Sistem Hasil Tanpa Langganan",
+      "eyebrow": "Langkah 02 · Teras 1 · Sistem Hasil Tanpa Langganan",
       "heading": "Pendaftaran Sistem MarTech & Ad Ops",
       "subtitle": "Seni bina modular yang memisahkan kawalan matematik deterministik daripada rumusan AI berbatas — disusun jelas daripada objektif perniagaan ringkas hingga bukti kejuruteraan.",
       "attributionNotice": "Sempadan Atribusi Jujur: PRJ-01 hingga PRJ-05+ ialah Sistem MarTech Berteraskan Seni Bina Pengeluaran & Diuji Tekanan Sandbox (Sedia Penyesuai API Simulasi/Sebenar).",
@@ -422,6 +457,8 @@
       "searchLabel": "Cari sistem MarTech",
       "allCategories": "Semua Kategori",
       "clearFilters": "Set Semula Tapisan",
+      "stagePrefix": "Peringkat",
+      "clearStageAria": "Padam tapisan peringkat",
       "showingCount": "Memaparkan {shown} daripada {total} Sistem",
       "businessObjectiveLabel": "Objektif Perniagaan",
       "commercialLeakLabel": "Kebocoran Komersial",
@@ -429,6 +466,7 @@
       "outcomeLabel": "Hasil Disahkan",
       "stackLabel": "Timbunan Teknologi",
       "inspectButton": "Teliti Seni Bina 5 Nod",
+      "visualCountLabel": "({count} Slaid Visual)",
       "emptyStateTitle": "Tiada sistem sepadan ditemui",
       "emptyStateBody": "Cuba padamkan kata kunci carian atau pilih Semua Peringkat pada Peta Saluran Corong.",
       "headlineMetricsMap": {
@@ -441,6 +479,7 @@
     },
     "modal": {
       "close": "Tutup paparan",
+      "closeViewButton": "Tutup Paparan Seni Bina",
       "escHint": "Tekan Esc atau klik latar belakang untuk menutup",
       "stagePrefix": "Peringkat",
       "businessObjectiveTitle": "Objektif Perniagaan dalam Bahasa Mudah",
@@ -481,7 +520,7 @@
       "liveAppButton": "Buka Aplikasi Langsung"
     },
     "liveApps": {
-      "eyebrow": "Aplikasi Web Langsung · Produk Aktif & Interaktif",
+      "eyebrow": "Langkah 03 · Aplikasi Web Langsung · Produk Aktif & Interaktif",
       "heading": "Aplikasi Web Langsung (Pengeluaran Aktif)",
       "subtitle": "Produk web interaktif yang telah dilancarkan dan boleh diuji terus di pelayar anda sekarang: AdForge MY (APP-01) menangani secara langsung kelesuan kreatif PRJ-02 serta aliran kerja iklan PKS tempatan, manakala VertigoLab, PanicLab dan AddMath Mudah (APP-02..04) membuktikan keupayaan logik berfasa deterministik, kejelasan dwibahasa serta kejuruteraan UX pengeluaran.",
       "liveBadge": "AKTIF",
@@ -489,7 +528,7 @@
       "githubLabel": "GitHub"
     },
     "caseStudies": {
-      "eyebrow": "Teras 2 · Pelaksanaan Lapangan di Kemaman (2021–Kini)",
+      "eyebrow": "Langkah 04 · Teras 2 · Pelaksanaan Lapangan di Kemaman (2021–Kini)",
       "heading": "Rekod Penglibatan Perniagaan Tempatan Sebenar",
       "subtitle": "Pelaksanaan berdokumentasi merangkumi kandungan organik, penulisan kapsyen Bahasa Melayu, keterlihatan Google Business Profile dan pengendalian pertanyaan WhatsApp.",
       "attributionNotice": "Sempadan Atribusi Jujur: CS-01 hingga CS-03 ialah Penglibatan Klien & Perniagaan Tempatan Sebenar Berdokumentasi yang memfokuskan kempen komuniti organik, penceritaan kreatif serta pelaksanaan WhatsApp/GBP tanpa tuntutan ROAS iklan berbayar yang berlebihan.",
@@ -517,7 +556,7 @@
       }
     },
     "credentials": {
-      "eyebrow": "Pengiktirafan Rasmi & Pembelajaran Berterusan",
+      "eyebrow": "Langkah 05 · Pengiktirafan Rasmi & Pembelajaran Berterusan",
       "heading": "Arkib Tauliah & Pendidikan",
       "subtitle": "Sijil Kemahiran Malaysia (SKM Tahap 3) yang dikeluarkan secara rasmi, 6 kursus Google Coursera yang disahkan, serta kelayakan akademik.",
       "skmSectionTitle": "Pengiktirafan Kebangsaan (Dikeluarkan Secara Rasmi)",
@@ -546,13 +585,17 @@
       }
     },
     "governance": {
-      "eyebrow": "Disiplin Operasi & Piawaian Kejuruteraan",
+      "eyebrow": "Langkah 06 · Disiplin Operasi & Piawaian Kejuruteraan",
       "heading": "Mengapa Sistem Pemasaran Saya Tidak Mudah Gagal: Asas Operasi & Pematuhan",
       "subtitle": "Menterjemah disiplin penyelidikan klinikal, audit HSEQ dan penyelarasan logistik 73 pemandu kepada kejuruteraan MarTech dan RevOps yang boleh dipercayai.",
       "timelineTitle": "Sejarah Operasi Merentas Fungsi",
       "summaryLabel": "Tanggungjawab Operasi",
       "transferLabel": "Nilai Pindahan MarTech & RevOps",
       "expandHint": "Buka / tutup perincian",
+      "collapseHint": "Tutup perincian",
+      "expandActionHint": "Buka perincian",
+      "collapseAll": "Tutup semua",
+      "expandAll": "Buka semua",
       "nonNegotiablesTitle": "4 Prinsip Kejuruteraan Tanpa Kompromi",
       "engineeringNonNegotiables": [
         {
@@ -596,7 +639,8 @@
       "exportDescription": "Muat turun salinan JSON bersih sifar-NRIC & patuh PDPA 2024 bagi sistem disahkan, aplikasi web langsung, kajian kes, tauliah dan sejarah operasi.",
       "exportButton": "Muat Turun JSON Portfolio",
       "exportedSuccess": "JSON portfolio tersanitasi berjaya dimuat turun.",
-      "builtWith": "Dibina menggunakan Vite, React, Tailwind CSS & seni bina dipacu JSON untuk pengehosan statik RM 0/bln."
+      "builtWith": "Dibina menggunakan Vite, React, Tailwind CSS & seni bina dipacu JSON untuk pengehosan statik RM 0/bln.",
+      "backToTop": "Kembali ke atas ↑"
     },
     "categories": {
       "RevOps & Lead Routing": "RevOps & Penghalaan Prospek",

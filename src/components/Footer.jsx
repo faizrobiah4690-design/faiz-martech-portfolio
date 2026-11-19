@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   Briefcase,
   Check,
@@ -14,6 +14,7 @@ import {
   buildSanitizedPortfolioExport,
   downloadPortfolioJson
 } from '../utils/exportPortfolioJson.js';
+import { copyToClipboard } from '../utils/clipboard.js';
 import { localizeText } from '../utils/i18n.js';
 import { isSafeExternalUrl, normalizeExternalUrl } from '../utils/urlSafety.js';
 
@@ -31,24 +32,42 @@ export default function Footer({
   lang = 'en',
   t
 }) {
-  const [exportStatus, setExportStatus] = useState('');
+  const [hasExported, setHasExported] = useState(false);
   const [emailCopied, setEmailCopied] = useState(false);
+  const copyTimerRef = useRef(null);
   const safeProfile = isPlainObject(profile) ? profile : {};
   const contacts = isPlainObject(safeProfile.contacts) ? safeProfile.contacts : {};
+
+  useEffect(() => {
+    return () => {
+      if (copyTimerRef.current) {
+        clearTimeout(copyTimerRef.current);
+      }
+    };
+  }, []);
 
   const whatsappUrl = normalizeExternalUrl(contacts.whatsappUrl);
   const linkedinUrl = normalizeExternalUrl(contacts.linkedinUrl);
   const githubUrl = normalizeExternalUrl(contacts.githubUrl);
   const emailAddress = typeof contacts.email === 'string' ? contacts.email.trim() : '';
+  const gmailSubject =
+    localizeText(t?.hero?.gmailSubject, lang) || 'Portfolio Inquiry — Mohd Faiz Bin Md Nordin';
   const gmailComposeUrl = emailAddress
-    ? `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(emailAddress)}&su=${encodeURIComponent('Portfolio Inquiry — Mohd Faiz Bin Md Nordin')}`
+    ? `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(emailAddress)}&su=${encodeURIComponent(gmailSubject)}`
     : '';
   const handleCopyEmail = () => {
-    if (!emailAddress || typeof navigator === 'undefined' || !navigator.clipboard) return;
-    navigator.clipboard.writeText(emailAddress).then(() => {
+    if (!emailAddress) return;
+    copyToClipboard(emailAddress).then((copied) => {
+      if (!copied) return;
+      if (copyTimerRef.current) {
+        clearTimeout(copyTimerRef.current);
+      }
       setEmailCopied(true);
-      setTimeout(() => setEmailCopied(false), 2500);
-    }).catch(() => {});
+      copyTimerRef.current = setTimeout(() => {
+        setEmailCopied(false);
+        copyTimerRef.current = null;
+      }, 2500);
+    });
   };
 
   const identityParts = [
@@ -67,9 +86,7 @@ export default function Footer({
     });
     const ok = downloadPortfolioJson(payload);
     if (ok) {
-      setExportStatus(
-        localizeText(t?.footer?.exportedSuccess, lang) || 'Sanitized portfolio JSON downloaded.'
-      );
+      setHasExported(true);
     }
   };
 
@@ -159,6 +176,12 @@ export default function Footer({
                     <Copy className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
                   )}
                 </button>
+                <span role="status" aria-live="polite" className="sr-only">
+                  {emailCopied
+                    ? localizeText(t?.hero?.emailCopiedAnnouncement, lang) ||
+                      'Email address copied to clipboard.'
+                    : ''}
+                </span>
               </div>
             ) : null}
           </div>
@@ -168,7 +191,15 @@ export default function Footer({
             <p className="leading-relaxed">{localizeText(t?.footer?.pdpaStatement, lang)}</p>
           </div>
 
-          <p className="text-xs text-slate-400">{localizeText(t?.footer?.builtWith, lang)}</p>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <p className="text-xs text-slate-400">{localizeText(t?.footer?.builtWith, lang)}</p>
+            <a
+              href="#top"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-slate-700 bg-slate-900/80 px-3 py-1.5 text-xs font-mono font-medium text-slate-200 hover:border-emerald-400/50 hover:text-emerald-300 transition shrink-0"
+            >
+              {localizeText(t?.footer?.backToTop, lang) || 'Back to top ↑'}
+            </a>
+          </div>
         </div>
 
         <div className="lg:col-span-5 glass-card rounded-2xl p-5 space-y-3 min-w-0">
@@ -187,7 +218,10 @@ export default function Footer({
             <span>{localizeText(t?.footer?.exportButton, lang)}</span>
           </button>
           <p role="status" aria-live="polite" className="text-xs font-mono text-emerald-400 min-h-[1rem]">
-            {exportStatus}
+            {hasExported
+              ? localizeText(t?.footer?.exportedSuccess, lang) ||
+                'Sanitized portfolio JSON downloaded.'
+              : ''}
           </p>
         </div>
       </div>

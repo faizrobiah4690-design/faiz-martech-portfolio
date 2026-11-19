@@ -27,7 +27,7 @@ export default function LiveAppsShowcase({ apps, lang, t }) {
   return (
     <section
       id="live-apps"
-      className="border-b border-slate-800/80 py-14 sm:py-16 bg-slate-950/60"
+      className="scroll-mt-20 border-b border-slate-800/80 py-14 sm:py-16 bg-slate-950/60"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         <div className="space-y-2 max-w-3xl">

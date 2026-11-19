@@ -12,6 +12,7 @@ export default function SystemsRegistry({
   selectedStage,
   selectedCategory,
   searchQuery,
+  onStageChange,
   onCategoryChange,
   onSearchChange,
   onResetFilters,
@@ -40,9 +41,17 @@ export default function SystemsRegistry({
 
   const allCategoriesLabel = localizeText(t?.systems?.allCategories, lang) || 'All Categories';
   const clearFiltersLabel = localizeText(t?.systems?.clearFilters, lang) || 'Reset Filters';
+  const activeStageEntry =
+    selectedStage !== 'ALL' &&
+    isPlainObject(t?.funnel?.stages) &&
+    Object.hasOwn(t.funnel.stages, selectedStage) &&
+    isPlainObject(t.funnel.stages[selectedStage])
+      ? t.funnel.stages[selectedStage]
+      : null;
+  const activeStageName = activeStageEntry ? localizeText(activeStageEntry.name, lang) : '';
 
   return (
-    <section id="systems" className="border-b border-slate-800/80 py-14 sm:py-16">
+    <section id="systems" className="scroll-mt-20 border-b border-slate-800/80 py-14 sm:py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="space-y-2 max-w-3xl mb-6">
           <p className="font-mono text-xs uppercase tracking-wider text-emerald-400">
@@ -76,7 +85,7 @@ export default function SystemsRegistry({
                 placeholder={
                   localizeText(t?.systems?.searchPlaceholder, lang) || 'Search systems...'
                 }
-                className="w-full rounded-xl border border-slate-700 bg-slate-950/90 pl-10 pr-4 py-2.5 text-sm text-slate-100 placeholder:text-slate-500 focus:border-emerald-400 focus:outline-none"
+                className="w-full rounded-xl border border-slate-700 bg-slate-950/90 pl-10 pr-4 py-2.5 text-sm text-slate-100 placeholder:text-slate-400 focus:border-emerald-400"
               />
             </div>
 
@@ -89,6 +98,24 @@ export default function SystemsRegistry({
               >
                 {showingText}
               </p>
+
+              {selectedStage !== 'ALL' ? (
+                <button
+                  type="button"
+                  onClick={() =>
+                    typeof onStageChange === 'function' ? onStageChange('ALL') : onResetFilters?.()
+                  }
+                  aria-label={`${localizeText(t?.systems?.clearStageAria, lang) || 'Clear stage filter'}: ${selectedStage}`}
+                  data-testid="active-stage-chip"
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-emerald-400/40 bg-emerald-400/15 px-2.5 py-1 text-xs font-mono font-semibold text-emerald-300 hover:border-emerald-400 transition"
+                >
+                  <span>
+                    {localizeText(t?.systems?.stagePrefix, lang) || 'Stage'} {selectedStage}
+                    {activeStageName ? ` · ${activeStageName}` : ''}
+                  </span>
+                  <span aria-hidden="true">×</span>
+                </button>
+              ) : null}
 
               {hasActiveFilter ? (
                 <button
@@ -205,6 +232,16 @@ export default function SystemsRegistry({
               const translatedMetric =
                 (metricKey && safeLookup(t?.systems?.headlineMetricsMap, metricKey)) ||
                 localizeText(project.headlineMetric, lang);
+              const visualCount =
+                project.processVisual === undefined && Array.isArray(project.processVisuals)
+                  ? project.processVisuals.filter(
+                      (v) => isPlainObject(v) && typeof v.src === 'string' && v.src.trim()
+                    ).length
+                  : 0;
+              const visualSuffix =
+                visualCount > 0
+                  ? ` ${(localizeText(t?.systems?.visualCountLabel, lang) || '({count} Visuals)').replace('{count}', String(visualCount))}`
+                  : '';
 
               return (
                 <article
@@ -295,7 +332,10 @@ export default function SystemsRegistry({
                       onClick={() => onSelectProject(selectKey)}
                       className="w-full inline-flex items-center justify-center gap-2 rounded-xl border border-emerald-400/40 bg-emerald-400/10 px-4 py-2.5 text-sm font-semibold text-emerald-300 transition hover:bg-emerald-400 hover:text-slate-950"
                     >
-                      <span>{localizeText(t?.systems?.inspectButton, lang) || 'Inspect 5-Node Architecture'}</span>
+                      <span>
+                        {(localizeText(t?.systems?.inspectButton, lang) ||
+                          'Inspect 5-Node Architecture') + visualSuffix}
+                      </span>
                       <ArrowUpRight className="h-4 w-4 shrink-0" aria-hidden="true" />
                     </button>
                   </div>

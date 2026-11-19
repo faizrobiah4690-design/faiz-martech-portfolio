@@ -21,6 +21,7 @@ export default function ArchitectureModal({ project, lang, t, onClose }) {
   const dialogRef = useRef(null);
   const closeButtonRef = useRef(null);
   const backdropMouseDownRef = useRef(false);
+  const tabRefs = useRef([]);
   const [activeSlideIndex, setActiveSlideIndex] = useState(0);
 
   useEffect(() => {
@@ -167,6 +168,25 @@ export default function ArchitectureModal({ project, lang, t, onClose }) {
       .replace(/^-|-$/g, '') || 'project';
   const expectedVisualHint = `/assets/${safeProjectSlug}-architecture.png`;
 
+  const handleTabListKeyDown = (event) => {
+    if (galleryVisuals.length <= 1) return;
+    let nextIdx = null;
+    if (event.key === 'ArrowRight') {
+      nextIdx = (clampedSlideIndex + 1) % galleryVisuals.length;
+    } else if (event.key === 'ArrowLeft') {
+      nextIdx = clampedSlideIndex <= 0 ? galleryVisuals.length - 1 : clampedSlideIndex - 1;
+    } else if (event.key === 'Home') {
+      nextIdx = 0;
+    } else if (event.key === 'End') {
+      nextIdx = galleryVisuals.length - 1;
+    }
+    if (nextIdx !== null) {
+      event.preventDefault();
+      setActiveSlideIndex(nextIdx);
+      tabRefs.current[nextIdx]?.focus();
+    }
+  };
+
   return (
     <div
       onMouseDown={(e) => {
@@ -189,7 +209,7 @@ export default function ArchitectureModal({ project, lang, t, onClose }) {
         aria-describedby="arch-modal-desc"
         className="relative w-full max-w-4xl max-h-[92vh] overflow-y-auto overflow-x-hidden rounded-2xl border border-slate-700 bg-slate-900 p-4 sm:p-6 md:p-8 shadow-2xl min-w-0 space-y-6 focus:outline-none"
       >
-        <div className="flex items-start justify-between gap-3 border-b border-slate-800 pb-4">
+        <div className="sticky top-0 z-10 -mx-4 sm:-mx-6 md:-mx-8 -mt-4 sm:-mt-6 md:-mt-8 px-4 sm:px-6 md:px-8 pt-4 sm:pt-6 md:pt-8 pb-4 bg-slate-900/90 backdrop-blur-md flex items-start justify-between gap-3 border-b border-slate-800">
           <div className="space-y-2 min-w-0">
             <div className="flex flex-wrap items-center gap-2">
               {projectId ? (
@@ -423,7 +443,7 @@ export default function ArchitectureModal({ project, lang, t, onClose }) {
                     )
                   }
                   aria-label={localizeText(t?.modal?.prevSlideAria, lang) || 'Previous slide'}
-                  className="inline-flex items-center gap-1 rounded-lg border border-slate-700 bg-slate-950/80 px-2.5 py-1.5 text-xs font-medium text-slate-200 hover:border-cyan-400/60 hover:text-cyan-200 transition"
+                  className="min-h-[36px] inline-flex items-center gap-1 rounded-lg border border-slate-700 bg-slate-950/80 px-3 py-1.5 text-xs font-medium text-slate-200 hover:border-cyan-400/60 hover:text-cyan-200 transition"
                 >
                   <ChevronLeft className="h-3.5 w-3.5" aria-hidden="true" />
                   <span className="hidden sm:inline">
@@ -436,7 +456,7 @@ export default function ArchitectureModal({ project, lang, t, onClose }) {
                     setActiveSlideIndex((prev) => (prev + 1) % galleryVisuals.length)
                   }
                   aria-label={localizeText(t?.modal?.nextSlideAria, lang) || 'Next slide'}
-                  className="inline-flex items-center gap-1 rounded-lg border border-slate-700 bg-slate-950/80 px-2.5 py-1.5 text-xs font-medium text-slate-200 hover:border-cyan-400/60 hover:text-cyan-200 transition"
+                  className="min-h-[36px] inline-flex items-center gap-1 rounded-lg border border-slate-700 bg-slate-950/80 px-3 py-1.5 text-xs font-medium text-slate-200 hover:border-cyan-400/60 hover:text-cyan-200 transition"
                 >
                   <span className="hidden sm:inline">
                     {localizeText(t?.modal?.nextShort, lang) || 'Next'}
@@ -449,6 +469,42 @@ export default function ArchitectureModal({ project, lang, t, onClose }) {
 
           {activeVisual ? (
             <div className="space-y-3">
+              {galleryVisuals.length > 1 ? (
+                <div
+                  className="flex flex-wrap gap-1.5"
+                  role="tablist"
+                  aria-label={
+                    localizeText(t?.modal?.tablistAria, lang) || 'Process stage slide selector'
+                  }
+                  onKeyDown={handleTabListKeyDown}
+                >
+                  {galleryVisuals.map((item, idx) => {
+                    const isSelected = idx === clampedSlideIndex;
+                    return (
+                      <button
+                        key={item.src}
+                        ref={(el) => {
+                          tabRefs.current[idx] = el;
+                        }}
+                        type="button"
+                        role="tab"
+                        aria-selected={isSelected}
+                        tabIndex={isSelected ? 0 : -1}
+                        onClick={() => setActiveSlideIndex(idx)}
+                        className={`min-h-[36px] min-w-[40px] rounded-lg border px-3 py-1.5 font-mono text-xs transition ${
+                          isSelected
+                            ? 'border-cyan-400 bg-cyan-400/15 text-cyan-200 font-semibold'
+                            : 'border-slate-800 bg-slate-950/70 text-slate-400 hover:border-slate-600 hover:text-slate-200'
+                        }`}
+                        title={item.caption}
+                      >
+                        {item.stage}
+                      </button>
+                    );
+                  })}
+                </div>
+              ) : null}
+
               <div className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-slate-800 bg-slate-950/70 px-3 py-2">
                 <div className="flex flex-wrap items-center gap-2 min-w-0">
                   <span className="font-mono text-xs text-cyan-400 shrink-0">
@@ -496,37 +552,6 @@ export default function ArchitectureModal({ project, lang, t, onClose }) {
                   <p className="text-xs sm:text-sm text-slate-100 leading-relaxed">
                     {activeVisual.takeaway}
                   </p>
-                </div>
-              ) : null}
-
-              {galleryVisuals.length > 1 ? (
-                <div
-                  className="flex flex-wrap gap-1.5"
-                  role="tablist"
-                  aria-label={
-                    localizeText(t?.modal?.tablistAria, lang) || 'Process stage slide selector'
-                  }
-                >
-                  {galleryVisuals.map((item, idx) => {
-                    const isSelected = idx === clampedSlideIndex;
-                    return (
-                      <button
-                        key={item.src}
-                        type="button"
-                        role="tab"
-                        aria-selected={isSelected}
-                        onClick={() => setActiveSlideIndex(idx)}
-                        className={`rounded-lg border px-2.5 py-1.5 font-mono text-xs transition ${
-                          isSelected
-                            ? 'border-cyan-400 bg-cyan-400/15 text-cyan-200 font-semibold'
-                            : 'border-slate-800 bg-slate-950/70 text-slate-400 hover:border-slate-600 hover:text-slate-200'
-                        }`}
-                        title={item.caption}
-                      >
-                        {item.stage}
-                      </button>
-                    );
-                  })}
                 </div>
               ) : null}
             </div>
@@ -595,6 +620,18 @@ export default function ArchitectureModal({ project, lang, t, onClose }) {
             </div>
           </div>
         ) : null}
+
+        <div className="border-t border-slate-800 pt-4 flex justify-end">
+          <button
+            type="button"
+            onClick={onClose}
+            data-testid="modal-bottom-close"
+            className="inline-flex items-center gap-2 rounded-xl border border-slate-700 bg-slate-950/80 px-4 py-2 text-xs sm:text-sm font-semibold text-slate-200 hover:border-emerald-400/60 hover:text-emerald-300 transition"
+          >
+            <X className="h-4 w-4 shrink-0" aria-hidden="true" />
+            <span>{localizeText(t?.modal?.closeViewButton, lang) || 'Close Architecture View'}</span>
+          </button>
+        </div>
       </div>
     </div>
   );
