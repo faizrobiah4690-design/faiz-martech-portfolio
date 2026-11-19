@@ -23,6 +23,7 @@ function readJson(relPath) {
 
 const profile = readJson('src/data/profile.json');
 const projects = readJson('src/data/projects.json');
+const liveApps = readJson('src/data/liveApps.json');
 const caseStudies = readJson('src/data/caseStudies.json');
 const credentials = readJson('src/data/credentials.json');
 const operationalHistory = readJson('src/data/operationalHistory.json');
@@ -289,8 +290,53 @@ test('schema: operationalHistory.json has 5 bilingual entries covering clinical,
   assert.ok(combined.includes('MISC Integrated Logistics'));
 });
 
+test('schema: liveApps.json satisfies APP-01..09 contract, live/coming-soon states, and safe URLs', () => {
+  assert.ok(Array.isArray(liveApps) && liveApps.length === 9);
+  assert.deepEqual(
+    liveApps.map((a) => a.id),
+    ['APP-01', 'APP-02', 'APP-03', 'APP-04', 'APP-05', 'APP-06', 'APP-07', 'APP-08', 'APP-09']
+  );
+
+  for (const app of liveApps) {
+    assert.ok(typeof app.name === 'string' && app.name.trim().length > 0, `${app.id}.name must be non-empty`);
+    assert.ok(
+      app.status === 'live' || app.status === 'coming-soon',
+      `${app.id}.status must be 'live' or 'coming-soon', got ${app.status}`
+    );
+    assertBilingualObject(app.category, `${app.id}.category`);
+    assertBilingualObject(app.tagline, `${app.id}.tagline`);
+    assert.ok(Array.isArray(app.stack) && app.stack.length > 0, `${app.id}.stack must be non-empty`);
+    assert.equal(typeof app.liveUrl, 'string', `${app.id}.liveUrl must be string`);
+    assert.equal(typeof app.repoUrl, 'string', `${app.id}.repoUrl must be string`);
+
+    if (app.status === 'live') {
+      assert.ok(
+        app.liveUrl.startsWith('https://') && isSafeExternalUrl(app.liveUrl),
+        `${app.id} live app must have safe https:// liveUrl`
+      );
+    } else {
+      assert.equal(app.liveUrl, '', `${app.id} non-live app must have empty liveUrl`);
+    }
+
+    if (app.repoUrl !== '') {
+      assert.ok(
+        app.repoUrl.startsWith('https://') && isSafeExternalUrl(app.repoUrl),
+        `${app.id} non-empty repoUrl must be safe https://`
+      );
+    }
+
+    if (app.repoVisibility !== undefined) {
+      assert.ok(['public', 'private', 'unlisted'].includes(app.repoVisibility), `${app.id}.repoVisibility invalid`);
+    }
+  }
+
+  const sebutCepat = liveApps.find((a) => a.id === 'APP-09');
+  assert.equal(sebutCepat?.name, 'SebutCepat AI');
+  assert.equal(sebutCepat?.status, 'coming-soon');
+  assert.equal(sebutCepat?.liveUrl, '');
+});
+
 test('i18n & Malaysian BM hygiene: 100% EN/BM parity and zero forbidden Indonesian terms', () => {
-  const liveApps = readJson('src/data/liveApps.json');
   const dataBmStrings = [
     ...walkBilingualPairs(profile, 'profile'),
     ...walkBilingualPairs(projects, 'projects'),
@@ -313,6 +359,7 @@ test('i18n & Malaysian BM hygiene: 100% EN/BM parity and zero forbidden Indonesi
   const nonBilingualDataStrings = [
     ...walkNonBilingualStrings(profile, 'profile'),
     ...walkNonBilingualStrings(projects, 'projects'),
+    ...walkNonBilingualStrings(liveApps, 'liveApps'),
     ...walkNonBilingualStrings(caseStudies, 'caseStudies'),
     ...walkNonBilingualStrings(credentials, 'credentials'),
     ...walkNonBilingualStrings(operationalHistory, 'operationalHistory')
@@ -472,11 +519,18 @@ test('utils: i18n, urlSafety, and exportPortfolioJson pure helpers handle edge c
       phoneSafe: '601112345678 601512345678 018-3904690'
     },
     projects,
+    liveApps,
     caseStudies,
     credentials,
     operationalHistory
   });
   assert.equal(payload.pdpaCompliant, true);
+  assert.equal(payload.liveApps.length, 9);
+  assert.deepEqual(
+    payload.liveApps.map((a) => a.id),
+    ['APP-01', 'APP-02', 'APP-03', 'APP-04', 'APP-05', 'APP-06', 'APP-07', 'APP-08', 'APP-09']
+  );
+  assert.match(payload.attributionScope.liveApps, /Live Deployed.*Upcoming/i);
   assert.ok(typeof payload.exportedAt === 'string' && payload.exportedAt.length > 0);
   assert.equal(Object.prototype.hasOwnProperty.call(payload.profile, 'nric'), false);
   assert.equal(Object.prototype.hasOwnProperty.call(payload.profile, 'nric_no'), false);

@@ -85,7 +85,7 @@ export function buildSanitizedPortfolioExport({
     attributionScope: {
       systems:
         'Production-Architected & Sandbox Stress-Tested MarTech Systems (Mock/Live API Adapter Ready)',
-      liveApps: 'Live Production Web Applications (Interactive Deployed Tools)',
+      liveApps: 'Web Applications Showcase (Live Deployed Apps & Upcoming Pre-Launch Builds)',
       caseStudies: 'Documented Real-World Client & Local Business Engagements',
       credentials:
         `${courseraCount} individually verified Google/Coursera courses completed within the 8-course pathway; SKM Level 3 officially issued (TERAMPIL)`

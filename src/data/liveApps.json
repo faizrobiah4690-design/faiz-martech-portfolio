@@ -2,6 +2,7 @@
   {
     "id": "APP-01",
     "name": "AdForge MY",
+    "status": "live",
     "category": {
       "en": "AI Ad Creative & MarTech Studio",
       "bm": "Studio Kreatif Iklan AI & MarTech"
@@ -12,11 +13,13 @@
     },
     "liveUrl": "https://adforge-my-eight.vercel.app/",
     "repoUrl": "https://github.com/faizrobiah4690-design/adforge-my",
+    "repoVisibility": "public",
     "stack": ["React", "TypeScript", "Vite", "Canvas 2D", "Web Audio", "Vercel"]
   },
   {
     "id": "APP-02",
     "name": "VertigoLab",
+    "status": "live",
     "category": {
       "en": "Interactive Clinical Guide & Simulator",
       "bm": "Panduan Klinikal Interaktif & Simulator"
@@ -27,11 +30,13 @@
     },
     "liveUrl": "https://vertigolab.pages.dev/",
     "repoUrl": "https://github.com/faizrobiah4690-design/vertigolab",
+    "repoVisibility": "public",
     "stack": ["Interactive Web App", "Clinical UX", "Cloudflare Pages"]
   },
   {
     "id": "APP-03",
     "name": "PanicLab",
+    "status": "live",
     "category": {
       "en": "Bilingual SOS & Mental Health PWA",
       "bm": "PWA Bantuan Pantas SOS & Kesihatan Mental"
@@ -42,11 +47,13 @@
     },
     "liveUrl": "https://paniclab.pages.dev/",
     "repoUrl": "https://github.com/faizrobiah4690-design/paniclab",
+    "repoVisibility": "public",
     "stack": ["PWA", "Bilingual EN/BM", "Interactive Timers", "Cloudflare Pages"]
   },
   {
     "id": "APP-04",
     "name": "AddMath Mudah",
+    "status": "live",
     "category": {
       "en": "Interactive EdTech Platform (18 Chapters)",
       "bm": "Platform EdTech Interaktif (18 Bab KSSM)"
@@ -57,6 +64,90 @@
     },
     "liveUrl": "https://addmath-mudah.pages.dev/",
     "repoUrl": "https://github.com/faizrobiah4690-design/addmath-mudah",
+    "repoVisibility": "public",
     "stack": ["HTML5 Canvas", "Bilingual BM/EN", "EdTech", "Cloudflare Pages"]
+  },
+  {
+    "id": "APP-05",
+    "name": "Kelas Mengaji Ruby",
+    "status": "live",
+    "category": {
+      "en": "B2C EdTech CRM & Parent Portal PWA",
+      "bm": "PWA CRM EdTech & Portal Ibu Bapa"
+    },
+    "tagline": {
+      "en": "Cloud-synced Quran and Iqra' progress tracker with a phone/PIN Parent Portal, family fee ledger, and one-tap WhatsApp receipts — built with multi-teacher Supabase Realtime sync and RLS.",
+      "bm": "Penjejak kemajuan Al-Quran dan Iqra' berasaskan awan dengan Portal Ibu Bapa (telefon/PIN), lejar yuran keluarga serta resit WhatsApp satu klik — dibina dengan penyegerakan masa nyata Supabase dan RLS pelbagai guru."
+    },
+    "liveUrl": "https://kelas-mengaji-ruby.vercel.app/",
+    "repoUrl": "",
+    "repoVisibility": "private",
+    "stack": ["Vanilla JS", "PWA", "Supabase", "Edge Functions", "Vercel"]
+  },
+  {
+    "id": "APP-06",
+    "name": "TemanBakti",
+    "status": "live",
+    "category": {
+      "en": "Eldercare Hospital Companion PWA",
+      "bm": "PWA Peneman Temu Janji Hospital"
+    },
+    "tagline": {
+      "en": "Malaysian eldercare marketplace matching working families with vetted hospital companions, featuring a 6-phase GPS tracker, 24-hour escrow hold, and PDPA-masked MyKad PIN authorization.",
+      "bm": "Platform peneman hospital Malaysia yang memadankan keluarga bekerja bersama pengiring bertauliah dengan penjejak GPS 6 fasa, pegangan eskrow 24 jam serta surat kuasa kod QR dilindungi PIN MyKad patuh PDPA."
+    },
+    "liveUrl": "https://temanbakti.vercel.app/",
+    "repoUrl": "",
+    "repoVisibility": "private",
+    "stack": ["Next.js 14", "TypeScript", "Supabase", "IndexedDB", "PWA", "Vercel"]
+  },
+  {
+    "id": "APP-07",
+    "name": "AdVenture AI",
+    "status": "live",
+    "category": {
+      "en": "Bilingual MarTech Decision Lab",
+      "bm": "Makmal Keputusan Pemasaran Digital Dwibahasa"
+    },
+    "tagline": {
+      "en": "Interactive digital marketing simulator helping Malaysian SMEs and TVET learners test customer personas, Crazy Offers, and deterministic 12-metric P&L forecasts before spending real ad budget — backed by a Gemini AI tutor.",
+      "bm": "Simulator pemasaran digital interaktif yang membantu usahawan PKS dan pelajar TVET menguji persona pelanggan, Tawaran Gila serta unjuran untung rugi 12 metrik deterministik sebelum membelanjakan bajet iklan sebenar — disokong tutor Gemini AI."
+    },
+    "liveUrl": "https://ad-venture-ai-eight.vercel.app/",
+    "repoUrl": "",
+    "repoVisibility": "private",
+    "stack": ["React 19", "TypeScript", "Express", "Gemini AI", "Google OAuth2", "Vercel"]
+  },
+  {
+    "id": "APP-08",
+    "name": "AuditSiap",
+    "status": "live",
+    "category": {
+      "en": "SME Regulatory & Safety Compliance PWA",
+      "bm": "PWA Pematuhan Premis & Lesen Staf PKS"
+    },
+    "tagline": {
+      "en": "AI Vision compliance autopilot for Malaysian micro-SMEs featuring a 60-second OSHA/KKM compound risk calculator, certificate expiry scanner, printable BM HIRARC PDFs, and 30-day Telegram/WhatsApp alerts.",
+      "bm": "Sistem pematuhan pintar berteraskan AI Vision untuk PKS mikro Malaysia dengan kalkulator risiko kompaun OSHA/KKM 60 saat, pengimbas tarikh luput lesen, PDF HIRARC Bahasa Melayu serta amaran Telegram/WhatsApp 30 hari."
+    },
+    "liveUrl": "https://auditsiap.vercel.app/",
+    "repoUrl": "",
+    "stack": ["Next.js 15", "TypeScript", "Gemini Vision", "Supabase", "Telegram Bot", "Vercel"]
+  },
+  {
+    "id": "APP-09",
+    "name": "SebutCepat AI",
+    "status": "coming-soon",
+    "category": {
+      "en": "Voice-to-PDF Contractor Quoting PWA",
+      "bm": "PWA Sebut Harga Suara-ke-PDF Kontraktor"
+    },
+    "tagline": {
+      "en": "Upcoming mobile-first quoting PWA turning 60-second Bahasa Melayu site voice notes into SIRIM/JKR-standard PDF quotations with deterministic integer-sen math, static DuitNow QR deposits, and ephemeral PDPA 2025 audio processing.",
+      "bm": "PWA mudah alih dalam pembangunan yang menukar rakaman suara tapak 60 saat kepada sebut harga PDF piawaian SIRIM/JKR dengan kiraan sen integer deterministik, QR DuitNow statik serta pemprosesan audio sementara patuh PDPA 2025."
+    },
+    "liveUrl": "",
+    "repoUrl": "",
+    "stack": ["React 19", "Cloudflare Workers", "Gemini AI", "Supabase", "jsPDF"]
   }
 ]

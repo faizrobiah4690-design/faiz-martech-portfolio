@@ -183,12 +183,15 @@
       "liveAppButton": "Launch Live App"
     },
     "liveApps": {
-      "eyebrow": "Step 03 · Live Production Web Apps · Shipped & Interactive",
-      "heading": "Live Production Web Applications",
-      "subtitle": "Deployed, interactive web products you can test in your browser right now: AdForge MY (APP-01) directly solves PRJ-02 creative fatigue and local SME ad workflows, while VertigoLab, PanicLab, and AddMath Mudah (APP-02..04) demonstrate deterministic step-by-step logic, bilingual clarity, and production UX.",
+      "eyebrow": "Step 03 · Product & Web App Showcase · Live & Upcoming",
+      "heading": "Live & Upcoming Web Applications",
+      "subtitle": "Nine production-focused web products across MarTech, EdTech, clinical guidance, eldercare, and SME compliance: eight live deployments you can test right now (APP-01..08), plus one upcoming build in active development (APP-09 · SebutCepat AI).",
       "liveBadge": "LIVE",
+      "comingSoonBadge": "COMING SOON",
       "launchButton": "Launch Live App",
-      "githubLabel": "GitHub"
+      "comingSoonNotice": "In Development · Deployment Coming Soon",
+      "githubLabel": "GitHub",
+      "privateRepoBadge": "Private Repo"
     },
     "caseStudies": {
       "eyebrow": "Step 04 · Pillar 2 · Hands-On Kemaman Execution (2021–Present)",
@@ -279,7 +282,7 @@
         {
           "code": "04",
           "title": "Evidence-Led Honest Attribution Boundaries",
-          "description": "Strict separation between sandbox stress-tested MarTech architectures (PRJ-01..05+), live web applications (APP-01..04), organic local business execution (CS-01..03), and verified 6-of-8 Coursera pathway records."
+          "description": "Strict separation between sandbox stress-tested MarTech architectures (PRJ-01..05+), web applications showcase (APP-01..09, distinguishing live deployments from upcoming builds), organic local business execution (CS-01..03), and verified 6-of-8 Coursera pathway records."
         }
       ]
     },
@@ -520,12 +523,15 @@
       "liveAppButton": "Buka Aplikasi Langsung"
     },
     "liveApps": {
-      "eyebrow": "Langkah 03 · Aplikasi Web Langsung · Produk Aktif & Interaktif",
-      "heading": "Aplikasi Web Langsung (Pengeluaran Aktif)",
-      "subtitle": "Produk web interaktif yang telah dilancarkan dan boleh diuji terus di pelayar anda sekarang: AdForge MY (APP-01) menangani secara langsung kelesuan kreatif PRJ-02 serta aliran kerja iklan PKS tempatan, manakala VertigoLab, PanicLab dan AddMath Mudah (APP-02..04) membuktikan keupayaan logik berfasa deterministik, kejelasan dwibahasa serta kejuruteraan UX pengeluaran.",
+      "eyebrow": "Langkah 03 · Pameran Produk & Aplikasi Web · Aktif & Akan Datang",
+      "heading": "Aplikasi Web Langsung & Akan Datang",
+      "subtitle": "Sembilan produk web merangkumi MarTech, EdTech, panduan klinikal, penjagaan warga emas dan pematuhan PKS: lapan aplikasi aktif yang boleh diuji terus di pelayar anda (APP-01..08), serta satu produk baharu dalam pembangunan aktif (APP-09 · SebutCepat AI).",
       "liveBadge": "AKTIF",
+      "comingSoonBadge": "AKAN DATANG",
       "launchButton": "Buka Aplikasi Langsung",
-      "githubLabel": "GitHub"
+      "comingSoonNotice": "Dalam Pembangunan · Pelancaran Akan Datang",
+      "githubLabel": "GitHub",
+      "privateRepoBadge": "Repositori Persendirian"
     },
     "caseStudies": {
       "eyebrow": "Langkah 04 · Teras 2 · Pelaksanaan Lapangan di Kemaman (2021–Kini)",
@@ -616,7 +622,7 @@
         {
           "code": "04",
           "title": "Sempadan Atribusi Jujur Berteraskan Bukti",
-          "description": "Pemisahan jelas antara seni bina MarTech ujian sandbox (PRJ-01..05+), aplikasi web langsung (APP-01..04), pelaksanaan perniagaan tempatan organik (CS-01..03), dan rekod sah 6 daripada 8 kursus Coursera."
+          "description": "Pemisahan jelas antara seni bina MarTech ujian sandbox (PRJ-01..05+), pameran aplikasi web (APP-01..09, membezakan pelancaran aktif daripada binaan akan datang), pelaksanaan perniagaan tempatan organik (CS-01..03), dan rekod sah 6 daripada 8 kursus Coursera."
         }
       ]
     },

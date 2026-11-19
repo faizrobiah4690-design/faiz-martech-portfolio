@@ -10,6 +10,7 @@ import {
   REPO_ROOT,
   VIEWPORTS,
   assertNoBrokenVisibleImages,
+  assertNoHorizontalOverflow,
   attachErrorTracking,
   closeModal,
   escapeRegExp,
@@ -1223,21 +1224,66 @@ describe('Tier 1 — Feature Coverage (F1–F18, 90 Tests)', () => {
   });
 
   // R2 & R3 Coverage: LiveAppsShowcase & Light Mode Contrast
-  test('T1-R2-01: LiveAppsShowcase renders APP-01..04 in EN & BM with valid external links', async () => {
+  test('T1-R2-01: LiveAppsShowcase renders APP-01..09 in EN & BM with live links and non-live coming-soon state', async () => {
     await withTrackedPage(browser, server.baseUrl, {}, async ({ page, errors }) => {
       const section = page.locator('#live-apps');
       await section.waitFor({ state: 'visible' });
       const enText = await section.innerText();
-      for (const appName of ['AdForge MY', 'VertigoLab', 'PanicLab', 'AddMath Mudah']) {
+      const expectedApps = [
+        'AdForge MY',
+        'VertigoLab',
+        'PanicLab',
+        'AddMath Mudah',
+        'Kelas Mengaji Ruby',
+        'TemanBakti',
+        'AdVenture AI',
+        'AuditSiap',
+        'SebutCepat AI',
+      ];
+      for (const appName of expectedApps) {
         assert.ok(enText.includes(appName), `Missing live app in EN: ${appName}`);
       }
-      assert.equal(await section.locator('[data-live-app-id]').count(), 4);
+      assert.equal(await section.locator('[data-live-app-id]').count(), 9);
+      assert.equal(await section.locator('[data-live-app-status="live"]').count(), 8);
+      assert.equal(await section.locator('[data-live-app-status="coming-soon"]').count(), 1);
+
+      for (const liveId of ['APP-01', 'APP-02', 'APP-03', 'APP-04', 'APP-05', 'APP-06', 'APP-07', 'APP-08']) {
+        const card = section.locator(`[data-live-app-id="${liveId}"]`);
+        assert.equal(await card.getAttribute('data-live-app-status'), 'live');
+        assert.ok((await card.innerText()).includes('LIVE'));
+        const launchHref = await card.locator('a[target="_blank"][rel*="noopener"]').first().getAttribute('href');
+        assert.match(launchHref || '', /^https:\/\//, `Missing https:// launch URL on ${liveId}`);
+      }
+
+      for (const privateId of ['APP-05', 'APP-06', 'APP-07']) {
+        const card = section.locator(`[data-live-app-id="${privateId}"]`);
+        assert.ok((await card.innerText()).includes('Private Repo'), `Expected Private Repo pill on ${privateId}`);
+        assert.equal(await card.locator('a[href*="github.com"]').count(), 0, `Unexpected broken GitHub link on ${privateId}`);
+      }
+
+      const app09 = section.locator('[data-live-app-id="APP-09"]');
+      assert.equal(await app09.getAttribute('data-live-app-status'), 'coming-soon');
+      const app09En = await app09.innerText();
+      assert.ok(app09En.includes('COMING SOON'));
+      assert.ok(app09En.includes('Deployment Coming Soon'));
+      assert.equal(await app09.locator('a').count(), 0, 'Non-live APP-09 must render zero <a> links');
 
       await switchLanguage(page, 'bm');
       const bmText = await section.innerText();
+      for (const appName of expectedApps) {
+        assert.ok(bmText.includes(appName), `Missing live app in BM: ${appName}`);
+      }
       assert.ok(bmText.includes('Aplikasi Web Langsung'));
       assert.ok(bmText.includes('Buka Aplikasi Langsung'));
+      assert.ok(bmText.includes('AKAN DATANG'));
+      assert.ok(bmText.includes('Pelancaran Akan Datang'));
+      assert.ok(bmText.includes('Repositori Persendirian'));
       assert.deepEqual(scanTextForIndonesianTerms(bmText, 'LiveAppsShowcase BM'), []);
+
+      await page.setViewportSize(VIEWPORTS.mobile);
+      await assertNoHorizontalOverflow(page);
+      await page.setViewportSize(VIEWPORTS.narrow);
+      await assertNoHorizontalOverflow(page);
       errors.assertZeroUnexpected('T1-R2-01');
     });
   });
@@ -1275,12 +1321,16 @@ describe('Tier 1 — Feature Coverage (F1–F18, 90 Tests)', () => {
           return rect.width > 4 && rect.height > 4 && cs.visibility !== 'hidden' && (el.textContent || '').trim().length > 0;
         });
         const prjBadges = Array.from(document.querySelectorAll('#systems article .bg-slate-800.text-emerald-300'));
+        const comingSoonBadges = Array.from(document.querySelectorAll('#live-apps [data-live-app-status="coming-soon"] .bg-amber-950\\/20'));
+        const liveAppNoticePills = Array.from(document.querySelectorAll('#live-apps .bg-slate-800'));
         return {
           bodyBg: getComputedStyle(document.body).backgroundColor,
           activePill: readColors(activePill),
           inactivePill: readColors(inactivePill),
           emeraldSolids: emeraldSolidNodes.map(readColors),
           prjBadges: prjBadges.map(readColors),
+          comingSoonBadges: comingSoonBadges.map(readColors),
+          liveAppNoticePills: liveAppNoticePills.map(readColors),
         };
       });
 
@@ -1301,6 +1351,18 @@ describe('Tier 1 — Feature Coverage (F1–F18, 90 Tests)', () => {
       for (const item of metrics.emeraldSolids) {
         const ratio = contrastRatio(item.color, item.bg);
         assert.ok(ratio >= 4.5, `Light Mode .bg-emerald-400 element "${item.text}" failed WCAG 2.1 AA (${ratio.toFixed(2)}:1 < 4.5:1): ${JSON.stringify(item)}`);
+      }
+
+      assert.equal(metrics.comingSoonBadges.length, 1, 'Expected 1 coming-soon badge on APP-09');
+      for (const badge of metrics.comingSoonBadges) {
+        const ratio = contrastRatio(badge.color, badge.bg);
+        assert.ok(ratio >= 4.5, `Light Mode coming-soon badge "${badge.text}" failed WCAG 2.1 AA (${ratio.toFixed(2)}:1 < 4.5:1): ${JSON.stringify(badge)}`);
+      }
+
+      assert.ok(metrics.liveAppNoticePills.length >= 4, `Expected >=4 non-interactive notice/private-repo pills in Live Apps, got ${metrics.liveAppNoticePills.length}`);
+      for (const pill of metrics.liveAppNoticePills) {
+        const ratio = contrastRatio(pill.color, pill.bg);
+        assert.ok(ratio >= 4.5, `Light Mode Live Apps pill "${pill.text}" failed WCAG 2.1 AA (${ratio.toFixed(2)}:1 < 4.5:1): ${JSON.stringify(pill)}`);
       }
 
       // Reset stages so all 5 PRJ-01..05 badges are visible (already verified for stage 02, now verify all 5)
