@@ -148,11 +148,16 @@ test('schema: profile.json matches candidate identity and safe URL contracts', (
   assert.equal(profile.contacts.resumePdfPath, undefined);
 });
 
-test('schema: projects.json satisfies PRJ-01..05+ contract, 5 pipeline nodes, and safe URLs', () => {
-  assert.ok(Array.isArray(projects) && projects.length >= 5);
+test('schema: projects.json satisfies PRJ-01..06+ contract, 5 pipeline nodes, disk assets, and safe URLs', () => {
+  assert.ok(Array.isArray(projects) && projects.length >= 6);
   const validStages = new Set(['01', '02', '03', '04', '05']);
   const projectIds = projects.map((p) => p.id);
   assert.equal(new Set(projectIds).size, projectIds.length, 'Project IDs must be unique');
+  assert.ok(projectIds.includes('PRJ-06'), 'projects.json must include PRJ-06');
+
+  const prj06 = projects.find((p) => p.id === 'PRJ-06');
+  assert.equal(prj06.processVisual, undefined, 'PRJ-06 must omit processVisual so processVisuals gallery renders');
+  assert.equal(prj06.processVisuals.length, 9, 'PRJ-06 must define all 9 processVisuals slides');
 
   for (const project of projects) {
     assert.match(project.id, /^PRJ-\d{2,}$/);
@@ -188,10 +193,21 @@ test('schema: projects.json satisfies PRJ-01..05+ contract, 5 pipeline nodes, an
     assert.ok(Array.isArray(project.processVisuals) && project.processVisuals.length > 0);
     for (const [vIdx, visual] of project.processVisuals.entries()) {
       assert.ok(typeof visual.src === 'string' && visual.src.startsWith('/assets/projects/'));
+      const diskPath = path.join(ROOT_DIR, 'public', visual.src.replace(/^\/+/, ''));
+      assert.ok(fs.existsSync(diskPath), `Missing visual asset on disk for ${project.id}: ${diskPath}`);
+      assert.ok(fs.statSync(diskPath).size > 0, `Empty visual asset on disk for ${project.id}: ${diskPath}`);
       assertBilingualObject(visual.caption, `${project.id}.processVisuals[${vIdx}].caption`);
       assertBilingualObject(visual.flowStep, `${project.id}.processVisuals[${vIdx}].flowStep`);
       assertBilingualObject(visual.takeaway, `${project.id}.processVisuals[${vIdx}].takeaway`);
     }
+    assert.ok(
+      Object.prototype.hasOwnProperty.call(i18n.en.systems.headlineMetricsMap, project.headlineMetric),
+      `${project.id}.headlineMetric missing from i18n.en.systems.headlineMetricsMap`
+    );
+    assert.ok(
+      Object.prototype.hasOwnProperty.call(i18n.bm.systems.headlineMetricsMap, project.headlineMetric),
+      `${project.id}.headlineMetric missing from i18n.bm.systems.headlineMetricsMap`
+    );
 
     assert.equal(typeof project.lookerUrl, 'string');
     assert.equal(typeof project.liveAppUrl, 'string');
@@ -375,40 +391,48 @@ test('i18n & Malaysian BM hygiene: 100% EN/BM parity and zero forbidden Indonesi
   }
 });
 
-test('metrics: dynamic counter bumps 5 -> 6 when temporary PRJ-06 is appended', () => {
+test('metrics: dynamic counter bumps N -> N+1 (6 -> 7) when temporary PRJ-07 is appended', () => {
   assert.equal(FUNNEL_STAGES.length, 5);
   assert.deepEqual(
     FUNNEL_STAGES.map((s) => s.code),
     ['01', '02', '03', '04', '05']
   );
 
+  const baselineCount = projects.length;
+  assert.equal(baselineCount, 6);
   const baseline = computePortfolioMetrics(projects, credentials);
-  assert.equal(baseline.totalSystems, 5);
+  assert.equal(baseline.totalSystems, baselineCount);
   assert.equal(baseline.courseraCount, 6);
   assert.equal(baseline.stageCounts.length, 5);
+  const expectedBaselineStageCounts = FUNNEL_STAGES.map(
+    (s) => projects.filter((p) => p.stageCode === s.code).length
+  );
   assert.deepEqual(
     baseline.stageCounts.map((s) => s.count),
-    [1, 1, 1, 1, 1]
+    expectedBaselineStageCounts
   );
 
+  const nextId = `PRJ-${String(baselineCount + 1).padStart(2, '0')}`;
   const extendedProjects = [
     ...structuredClone(projects),
     {
       ...structuredClone(projects[1]),
-      id: 'PRJ-06',
+      id: nextId,
       stageCode: '02',
       category: 'Ad Ops & Guardrail'
     }
   ];
   const extended = computePortfolioMetrics(extendedProjects, credentials);
-  assert.equal(extended.totalSystems, 6);
-  const stage02 = extended.stageCounts.find((s) => s.code === '02');
-  assert.equal(stage02.count, 2);
-  assert.equal(extended.stageCounts.find((s) => s.code === '01').count, 1);
-  assert.equal(extended.stageCounts.find((s) => s.code === '03').count, 1);
-  assert.equal(extended.stageCounts.find((s) => s.code === '04').count, 1);
-  assert.equal(extended.stageCounts.find((s) => s.code === '05').count, 1);
-  assert.equal(extended.categoryCounts['Ad Ops & Guardrail'], 2);
+  assert.equal(extended.totalSystems, baselineCount + 1);
+  for (const stage of FUNNEL_STAGES) {
+    const baseStageCount = baseline.stageCounts.find((s) => s.code === stage.code).count;
+    const extStageCount = extended.stageCounts.find((s) => s.code === stage.code).count;
+    assert.equal(extStageCount, stage.code === '02' ? baseStageCount + 1 : baseStageCount);
+  }
+  assert.equal(
+    extended.categoryCounts['Ad Ops & Guardrail'],
+    baseline.categoryCounts['Ad Ops & Guardrail'] + 1
+  );
 
   // Edge cases
   const emptyMetrics = computePortfolioMetrics([], undefined);

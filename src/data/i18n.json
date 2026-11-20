@@ -137,7 +137,8 @@
         "Automated POAS & 404/500 Spend Cutoff": "Automated POAS & 404/500 Spend Cutoff",
         "Z-Score Churn Anomaly + Meta CAPI v21.0": "Z-Score Churn Anomaly + Meta CAPI v21.0",
         "HTTP 204 Margin Gate + Dual CAPI Sync": "HTTP 204 Margin Gate + Dual CAPI Sync",
-        "RM 0.00 Order-to-Settlement Audit Variance": "RM 0.00 Order-to-Settlement Audit Variance"
+        "RM 0.00 Order-to-Settlement Audit Variance": "RM 0.00 Order-to-Settlement Audit Variance",
+        "+60.8% Overclaim Caught · RM 0.00 Variance": "+60.8% Overclaim Caught · RM 0.00 Variance"
       }
     },
     "modal": {
@@ -477,7 +478,8 @@
         "Automated POAS & 404/500 Spend Cutoff": "Sekatan Automatik POAS & Pautan 404/500",
         "Z-Score Churn Anomaly + Meta CAPI v21.0": "Anomali Risiko Z-Score + Meta CAPI v21.0",
         "HTTP 204 Margin Gate + Dual CAPI Sync": "Kawalan Margin HTTP 204 + Dwi-Segerak CAPI",
-        "RM 0.00 Order-to-Settlement Audit Variance": "Varians Audit Pesanan-ke-Penyelesaian RM 0.00"
+        "RM 0.00 Order-to-Settlement Audit Variance": "Varians Audit Pesanan-ke-Penyelesaian RM 0.00",
+        "+60.8% Overclaim Caught · RM 0.00 Variance": "Lebihan Tuntutan +60.8% Dikesan · Varians RM 0.00"
       }
     },
     "modal": {

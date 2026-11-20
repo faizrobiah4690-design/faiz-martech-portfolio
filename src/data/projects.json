@@ -943,5 +943,266 @@
     "lookerUrl": "",
     "liveAppUrl": "",
     "repoUrl": "https://github.com/faizrobiah4690-design"
+  },
+  {
+    "id": "PRJ-06",
+    "stageCode": "02",
+    "funnelStageName": { "en": "Paid Ads Guardrail", "bm": "Kawalan Iklan Berbayar" },
+    "category": "Ad Ops & Guardrail",
+    "statusBadge": "Sandbox Stress-Test Validated",
+    "title": {
+      "en": "Cross-Platform Attribution Deduplicator, Cannibalization Auditor & Marginal nCAC Engine",
+      "bm": "Enjin Penyah-Tindihan Atribusi Merentas Platform, Audit Kanibalisasi & Pengagih Bajet nCAC"
+    },
+    "businessObjective": {
+      "en": "Reconciles overlapping Meta, TikTok, and Google Ads revenue claims against actual bank-settled cash, isolates Branded and PMax cannibalization waste, and guides Learning-Phase-safe budget shifts toward profitable new-customer acquisition.",
+      "bm": "Menyelaraskan tuntutan hasil bertindih merentas Meta, TikTok dan Google Ads berbanding tunai sebenar masuk bank, mengasingkan pembaziran kanibalisasi Branded serta PMax, dan memandu pengagihan bajet selamat Learning Phase ke arah pemerolehan pelanggan baharu yang menguntungkan."
+    },
+    "martechInsight": {
+      "en": "Ad platforms individually overclaimed RM 114,230.42 against RM 71,022.92 in actual bank-verified cash (+60.8% overclaim across 392 orders) while Google Branded (0.80x Acq Net POAS) and PMax (0.77x Acq Net POAS) masked negative new-customer acquisition profit behind returning-buyer clicks and TikTok/Meta view-through hijacks. Combining first-party localStorage FPX shield tracking, 70%/30% HDYHAU triangulation, and ±20% HITL budget gates prevents double-counting without resetting ad learning phases.",
+      "bm": "Platform iklan menuntut RM 114,230.42 secara berasingan berbanding RM 71,022.92 tunai sah bank (lebihan tuntutan +60.8% merentasi 392 pesanan), manakala Google Branded (Acq Net POAS 0.80x) dan PMax (0.77x) menyembunyikan kerugian pemerolehan pelanggan baharu di sebalik klik pembeli ulangan serta rampasan view-through TikTok/Meta. Gabungan penjejakan pelayar first-party kalis lencongan FPX, triangulasi HDYHAU 70%/30% dan kawalan bajet HITL ±20% menghalang kiraan berganda tanpa mereset Learning Phase iklan."
+    },
+    "headlineMetric": "+60.8% Overclaim Caught · RM 0.00 Variance",
+    "commercialLeak": {
+      "en": "Ad budgets misallocated by +60.8% platform revenue double-counting, FPX bank-redirect UTMs lost at checkout, and Google Branded/PMax cannibalizing returning buyers and TikTok/Meta discovery sales.",
+      "bm": "Bajet iklan tersalah agih akibat kiraan berganda tuntutan platform (+60.8%), kehilangan jejak UTM semasa lencongan bank FPX, serta kempen Google Branded/PMax yang memakan jualan pelanggan ulangan dan penemuan TikTok/Meta."
+    },
+    "deterministicGate": {
+      "en": "Deterministic FPX/Card fee & COGS deduction, SHA-256 NEW/RETURNING customer lookup, 1.0-capped 3-layer click + 70%/30% HDYHAU triangulation, Branded cannibalization audit, and ±20% Learning-Phase cap with RM 0.00 variance verification.",
+      "bm": "Potongan caj gerbang FPX/Kad & COGS deterministik, semakan pelanggan BAHARU/ULANGAN melalui hash SHA-256, triangulasi 3 lapisan bernilai tepat 1.0 (termasuk nisbah 70%/30% HDYHAU), audit kanibalisasi Branded, dan had pelarasan ±20% dengan pengesahan varians RM 0.00."
+    },
+    "boundedAiRole": {
+      "en": "Synthesizes weekly CFO executive memos strictly from zero-variance mart tables while all daily budget shifts require explicit human-in-the-loop (HITL) approval via the token-protected web console.",
+      "bm": "Merumuskan memo eksekutif mingguan CFO semata-mata daripada jadual hab data varians sifar manakala setiap perubahan bajet harian memerlukan kelulusan manusia (HITL) bertoken di konsol web."
+    },
+    "validatedOutcome": {
+      "en": "RM 71,022.92 bank-verified cash reconciled across 392 orders at RM 0.00 audit variance (Blended MER 4.16x, aMER 3.22x, nCAC RM 56.40), exposing +60.8% overclaim and RM 3,874.36 (14D) / RM 2,305.00 (7D) Branded/PMax cannibalization waste.",
+      "bm": "RM 71,022.92 tunai sah bank diselaraskan merentasi 392 pesanan pada varians audit RM 0.00 (MER Gabungan 4.16x, aMER 3.22x, nCAC RM 56.40), mendedahkan lebihan tuntutan +60.8% serta RM 3,874.36 (14H) / RM 2,305.00 (7H) pembaziran kanibalisasi Branded/PMax."
+    },
+    "stack": [
+      "First-Party localStorage",
+      "Google Sheets",
+      "Apps Script",
+      "Cloudflare Pages",
+      "Gemini API",
+      "Telegram Bot",
+      "Looker Studio"
+    ],
+    "pipelineNodes": [
+      { "en": "First-Party Browser & FPX Gate", "bm": "Jejak Pelayar & Lencongan FPX" },
+      { "en": "Zero-PII Bank Cash & Deduplication", "bm": "Lejar Tunai Bank Sifar PII & Penyah-Tindihan" },
+      { "en": "HITL Memo & Budget Guardrail", "bm": "Memo HITL & Kawalan Bajet ±20%" },
+      { "en": "Zero-Variance Attribution Mart", "bm": "Hab Data Atribusi Varians Sifar" },
+      { "en": "HITL Console + Telegram + Looker", "bm": "Konsol HITL + Telegram + Looker" }
+    ],
+    "pipelineStepDetails": [
+      {
+        "stepNumber": 1,
+        "role": { "en": "1. Trigger / Input", "bm": "1. Pencetus / Input" },
+        "summary": {
+          "en": "First-party localStorage (p6_attr_v1, 90d TTL) locks First-Touch and Last-Touch click IDs (fbclid, ttclid, gclid) across FPX bank redirects with zero raw click logs, firing only on confirmed ORDER_SETTLED and optional HDYHAU_SUBMIT.",
+          "bm": "Penyimpanan pelayar first-party (p6_attr_v1, tempoh 90 hari) mengunci sentuhan First-Touch dan Last-Touch (fbclid, ttclid, gclid) merentasi lencongan bank FPX tanpa log klik mentah, serta menghantar webhook hanya apabila ORDER_SETTLED dan tinjauan HDYHAU disahkan."
+        }
+      },
+      {
+        "stepNumber": 2,
+        "role": { "en": "2. Deterministic Gate", "bm": "2. Kawalan Deterministik" },
+        "summary": {
+          "en": "Hashes buyer contact via server-side SHA-256 to detect NEW vs RETURNING status, deducts exact gateway fees (FPX RM 1.00 / Card 2.2%) and COGS, splits view-through hijacks 70%/30% via HDYHAU, audits Branded/PMax waste, and caps budget shifts at ±20%.",
+          "bm": "Menyulitkan identiti pembeli dengan SHA-256 di pelayan untuk mengesan status BAHARU berbanding ULANGAN, menolak caj gerbang (FPX RM 1.00 / Kad 2.2%) dan COGS, membahagi rampasan view-through 70%/30% melalui HDYHAU, mengaudit kanibalisasi Branded/PMax serta mengehadkan pelarasan bajet pada ±20%."
+        }
+      },
+      {
+        "stepNumber": 3,
+        "role": { "en": "3. Bounded AI / Signal Router", "bm": "3. AI Berbatas / Penghala Isyarat" },
+        "summary": {
+          "en": "Generates weekly executive attribution briefings strictly from verified mart metrics while routing ±20% channel reallocation proposals to 06_BUDGET_REALLOC_QUEUE for human APPROVE/REJECT decisions.",
+          "bm": "Menjana memo eksekutif mingguan berpandukan metrik hab data yang telah disahkan sambil menghantar cadangan pengagihan bajet ±20% ke baris gilir 06_BUDGET_REALLOC_QUEUE untuk kelulusan manusia (LULUS/TOLAK)."
+        }
+      },
+      {
+        "stepNumber": 4,
+        "role": { "en": "4. PII-Safe Mart", "bm": "4. Hab Data Selamat PII" },
+        "summary": {
+          "en": "Maintains PDPA-compliant bank cash ledgers, 3-layer triangulated credit tables, cannibalization windows (7D/14D), Marginal nCAC metrics, and Tab 10 HITL decision logs with RM 0.00 cross-layer reconciliation variance.",
+          "bm": "Menyelenggara lejar tunai bank patuh PDPA 2024, jadual kredit triangulasi 3 lapisan, tetingkap audit kanibalisasi (7H/14H), metrik Marginal nCAC serta log audit keputusan HITL (Tab 10) dengan varians penyesuaian RM 0.00."
+        }
+      },
+      {
+        "stepNumber": 5,
+        "role": { "en": "5. Measurable Outcome", "bm": "5. Hasil Boleh Ukur" },
+        "summary": {
+          "en": "Surfaces +60.8% platform overclaim (RM 114,230.42 claimed vs RM 71,022.92 bank cash) in Looker Studio, dispatches daily Telegram Sentinel digests, and executes token-authenticated HITL budget approvals at RM 0/mo middleware cost.",
+          "bm": "Mendedahkan lebihan tuntutan +60.8% (RM 114,230.42 tuntutan vs RM 71,022.92 tunai bank) di Looker Studio, menghantar ringkasan harian Bot Telegram Projek #6 dan merekodkan kelulusan bajet HITL bertoken pada kos perantara RM 0/bln."
+        }
+      }
+    ],
+    "formulas": [
+      {
+        "name": { "en": "Bank Cash Reconciliation & Zero-Variance Audit", "bm": "Penyesuaian Tunai Bank & Audit Varians Sifar" },
+        "formula": "Net_Bank_Cash = Gross_Order - Gateway_Fee (FPX: RM 1.00 | Card: 2.2%)\nContribution_Margin = Net_Bank_Cash - COGS\nAudit_Variance = Σ(Bank_Cash) - Σ(Click_Dedup_Cash) == RM 0.00  [PASS_ZERO_VARIANCE]",
+        "note": {
+          "en": "Reconciled 392 settled orders to RM 71,022.92 bank cash against RM 114,230.42 platform claims (+60.8% overclaim) with RM 0.00 variance.",
+          "bm": "Menyelaraskan 392 pesanan sah bank kepada RM 71,022.92 tunai bank berbanding RM 114,230.42 tuntutan platform (+60.8% lebihan tuntutan) pada varians RM 0.00."
+        }
+      },
+      {
+        "name": { "en": "3-Layer HDYHAU Triangulation & ±20% Learning-Phase Gate", "bm": "Triangulasi 3-Lapisan HDYHAU & Had Learning Phase ±20%" },
+        "formula": "IF (Last_Touch == GOOGLE_BRANDED && HDYHAU == TIKTOK) -> 0.70 TikTok + 0.30 Google (Sum = 1.00)\nProposed_Delta_Pct = clamp(Marginal_nCAC_Signal, -20%, +20%) -> Requires HITL_ADMIN_TOKEN",
+        "note": {
+          "en": "Restores 70% discovery credit to TikTok on view-through hijacks and restricts human-approved budget changes (e.g., Meta -15%, Branded -20%) so ad sets never re-enter learning.",
+          "bm": "Memulihkan 70% kredit penemuan kepada TikTok bagi kes rampasan view-through serta mengehadkan perubahan bajet HITL (cth. Meta -15%, Branded -20%) agar fasa pembelajaran iklan tidak terreset."
+        }
+      }
+    ],
+    "processVisuals": [
+      {
+        "stage": "01",
+        "src": "/assets/projects/prj-06/slide-01.jpg",
+        "caption": {
+          "en": "Executive Overview — Platform Claimed RM 114,230 vs Bank Cash RM 71,022",
+          "bm": "Gambaran Eksekutif — Platform Tuntut RM114,230 vs Tunai Bank Sebenar RM71,022"
+        },
+        "flowStep": {
+          "en": "Executive Outcome Preview (Before Steps)",
+          "bm": "Pratonton Hasil Eksekutif (Sebelum Langkah)"
+        },
+        "takeaway": {
+          "en": "Looker Studio scorecard exposes +60.8% platform revenue overclaim (RM 114,230.42 claimed vs RM 71,022.92 bank cash), 4.16x Blended MER, 3.22x aMER, RM 56.40 nCAC, RM 35,428.69 contribution margin, and RM 3,874.36 in 14-day Branded/PMax waste at RM 0.00 variance.",
+          "bm": "Kad skor Looker Studio mendedahkan +60.8% lebihan tuntutan hasil merentas Meta, TikTok dan Google Ads (RM 114,230.42 tuntutan vs RM 71,022.92 tunai bank), MER 4.16x, aMER 3.22x, nCAC RM 56.40, margin sumbangan RM 35,428.69 dan RM 3,874.36 pembaziran Branded/PMax 14 hari pada varians RM 0.00."
+        }
+      },
+      {
+        "stage": "02",
+        "src": "/assets/projects/prj-06/slide-02.jpg",
+        "caption": {
+          "en": "First-Party Browser Tracking & FPX Bank-Redirect Shield",
+          "bm": "Jejak Pelayar First-Party & Perisai Lencongan Bank FPX"
+        },
+        "flowStep": {
+          "en": "Step 1 · Trigger & Zero-Click-Log Capture",
+          "bm": "Langkah 1 · Pencetus & Tangkapan Kalis Lencongan FPX"
+        },
+        "takeaway": {
+          "en": "First-party localStorage preserves First-Touch (TIKTOK) and Last-Touch (GOOGLE_BRANDED) across UTM-less FPX bank redirects and posts to Apps Script only on SETTLED checkout (ORD-WEB-543716: RM 168 net bank cash after RM 1.00 FPX fee, RM 108.85 contribution margin).",
+          "bm": "Penyimpanan pelayar first-party mengunci jejak First-Touch (TIKTOK) dan Last-Touch (GOOGLE_BRANDED) merentasi lencongan bank FPX tanpa UTM dan hanya menghantar rekod apabila bayaran disahkan SETTLED (ORD-WEB-543716: RM 168 tunai bank selepas caj FPX RM 1.00)."
+        }
+      },
+      {
+        "stage": "03",
+        "src": "/assets/projects/prj-06/slide-03.jpg",
+        "caption": {
+          "en": "Zero-PII Bank-Verified Cash Ledger (PDPA 2024)",
+          "bm": "Lejar Tunai Sah Bank Sifar PII (Pematuhan PDPA 2024)"
+        },
+        "flowStep": {
+          "en": "Step 2A · SHA-256 Customer Classification & Fee Math",
+          "bm": "Langkah 2A · Pengelasan SHA-256 & Kiraan Caj Gerbang"
+        },
+        "takeaway": {
+          "en": "Hashes buyer identities via SHA-256 with zero raw names or phones stored, automatically separating NEW vs RETURNING customers while deducting exact FPX/Card gateway fees and COGS per settled order.",
+          "bm": "Menukar identiti pembeli kepada hash SHA-256 tanpa menyimpan nama atau nombor telefon mentah, mengasingkan pelanggan BAHARU berbanding ULANGAN secara automatik sambil menolak caj FPX/Kad dan COGS dengan tepat."
+        }
+      },
+      {
+        "stage": "04",
+        "src": "/assets/projects/prj-06/slide-04.jpg",
+        "caption": {
+          "en": "Click Deduplication & 3-Layer HDYHAU Triangulation",
+          "bm": "Penyah-Tindihan Klik & Triangulasi 3-Lapisan HDYHAU"
+        },
+        "flowStep": {
+          "en": "Step 2B · View-Through Hijack Credit Recovery",
+          "bm": "Langkah 2B · Pemulihan Kredit Rampasan View-Through"
+        },
+        "takeaway": {
+          "en": "Post-purchase HDYHAU confirmation recovers 70% (0.7) discovery credit back to TikTok and leaves 30% (0.3) on Google Branded for VIEW_THROUGH_HIJACK orders while keeping every order's total credit locked at exactly 1.0.",
+          "bm": "Melalui tinjauan pasca-pembelian HDYHAU, 70% (0.7) kredit penemuan dipulihkan kepada TikTok dan 30% (0.3) kekal pada Google Branded bagi kes VIEW_THROUGH_HIJACK sambil memastikan jumlah kredit setiap pesanan kekal tepat 1.0."
+        }
+      },
+      {
+        "stage": "05",
+        "src": "/assets/projects/prj-06/slide-05.jpg",
+        "caption": {
+          "en": "Google Branded & PMax Cannibalization Audit",
+          "bm": "Audit Kanibalisasi Google Branded & PMax"
+        },
+        "flowStep": {
+          "en": "Step 2C · Returning Tax & Hijack Isolation",
+          "bm": "Langkah 2C · Pengasingan Cukai Pelanggan Ulangan"
+        },
+        "takeaway": {
+          "en": "Isolates Returning Tax and TikTok/Meta view-through hijacks across 7D (RM 3,387.87 Branded/PMax spend; 92.1% Branded and 47.1% PMax cannibalized) and 14D windows (RM 6,555.57 spend, 76.4% cannibalized), triggering CRITICAL_BRANDED_TAX.",
+          "bm": "Mengasingkan klik pelanggan sedia ada (Returning Tax) dan rampasan view-through TikTok/Meta merentasi tetingkap 7H (92.1% Branded & 47.1% PMax terkanibalisasi) dan 14H (76.4% daripada RM 6,555.57), mencetuskan status CRITICAL_BRANDED_TAX."
+        }
+      },
+      {
+        "stage": "06",
+        "src": "/assets/projects/prj-06/slide-06.jpg",
+        "caption": {
+          "en": "Total Gross Profit vs New Customer Acquisition Profit",
+          "bm": "Untung Kasar Keseluruhan vs Untung Pemerolehan Pelanggan Baharu"
+        },
+        "flowStep": {
+          "en": "Step 4A · True New-Customer Profitability Mart",
+          "bm": "Langkah 4A · Hab Data Untung Bersih Pemerolehan Baharu"
+        },
+        "takeaway": {
+          "en": "Horizontal bar chart proves Google Branded (0.80x Acq Net POAS) and Google PMax (0.77x Acq Net POAS) lose money on new-customer acquisition (negative blue bars) while TikTok (3.00x) and Meta (2.33x) drive true incremental profit.",
+          "bm": "Carta bar mendatar membuktikan Google Branded (0.80x Acq Net POAS) dan PMax (0.77x) rugi atas pemerolehan pelanggan baharu (bar biru negatif) manakala TikTok (3.00x) dan Meta (2.33x) memacu untung baharu tertinggi."
+        }
+      },
+      {
+        "stage": "07",
+        "src": "/assets/projects/prj-06/slide-07.jpg",
+        "caption": {
+          "en": "Learning-Phase-Safe ±20% HITL Approval Console",
+          "bm": "Konsol Kelulusan Manusia (HITL) Selamat Learning Phase ±20%"
+        },
+        "flowStep": {
+          "en": "Step 3 & 5A · Human-Approved Budget Guardrail",
+          "bm": "Langkah 3 & 5A · Pengagihan Bajet Diluluskan Manusia"
+        },
+        "takeaway": {
+          "en": "Operators review Marginal nCAC and 7D Acq POAS in the token-gated web console — approving Meta -15% (RM 460/d to RM 397/d, Marginal nCAC RM 91.50) and Branded -20% while holding TikTok steady — without resetting ad learning phases.",
+          "bm": "Pengendali menyemak Marginal nCAC serta Acq POAS 7H di konsol web bertoken — meluluskan potongan Meta -15% (RM 460/h ke RM 397/h) dan Branded -20% sambil mengekalkan TikTok — tanpa mereset Learning Phase iklan."
+        }
+      },
+      {
+        "stage": "08",
+        "src": "/assets/projects/prj-06/slide-08.jpg",
+        "caption": {
+          "en": "Daily Project #6 Telegram Sentinel Digest",
+          "bm": "Amaran Harian Bot Telegram Khusus Projek #6"
+        },
+        "flowStep": {
+          "en": "Step 5B · Automated Executive Telegram Briefing",
+          "bm": "Langkah 5B · Taklimat Telegram Eksekutif Automatik"
+        },
+        "takeaway": {
+          "en": "Dedicated Telegram bot delivers daily bank cash (RM 71,022.92), +60.8% platform overclaim, 4.16x MER / 3.22x aMER / RM 56.40 nCAC, PASS_ZERO_VARIANCE status, 7D Branded waste (RM 2,305.00), and pending HITL queue count.",
+          "bm": "Bot Telegram khusus Projek #6 menghantar ringkasan tunai sah bank RM 71,022.92, kadar lebihan tuntutan +60.8%, audit PASS_ZERO_VARIANCE, pembaziran Branded 7H (RM 2,305.00) dan status baris gilir HITL secara automatik setiap pagi."
+        }
+      },
+      {
+        "stage": "09",
+        "src": "/assets/projects/prj-06/slide-09.jpg",
+        "caption": {
+          "en": "Zero-Variance Reconciliation Audit Certificate",
+          "bm": "Sijil Audit Penyesuaian Sifar Varians"
+        },
+        "flowStep": {
+          "en": "Step 4B · End-to-End Zero-Variance Verification",
+          "bm": "Langkah 4B · Pengesahan Penyesuaian Varians RM 0.00"
+        },
+        "takeaway": {
+          "en": "Audit log certifies all 392 bank-verified orders (RM 71,022.92) reconcile with RM 0.00 variance (PASS_ZERO_VARIANCE) across click-deduplicated and HDYHAU-triangulated attribution layers at RM 0/mo middleware cost.",
+          "bm": "Log audit mengesahkan kesemua 392 pesanan sah bank (RM 71,022.92) lulus pengesahan PASS_ZERO_VARIANCE dengan varians RM 0.00 merentas semua lapisan atribusi pada kos perantara RM 0/bln."
+        }
+      }
+    ],
+    "lookerUrl": "",
+    "liveAppUrl": "",
+    "repoUrl": "https://github.com/faizrobiah4690-design"
   }
 ]

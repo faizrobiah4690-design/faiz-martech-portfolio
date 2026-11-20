@@ -1504,16 +1504,16 @@ export function relativeLuminance({ r, g, b }) {
   return 0.2126 * toLinear(r) + 0.7152 * toLinear(g) + 0.0722 * toLinear(b);
 }
 
-export async function runIsolatedPrj06Probe(browser, fn, { missingProcessVisual = false } = {}) {
+export async function runIsolatedNextProjectProbe(browser, fn, { missingProcessVisual = false } = {}) {
   const srcProjectsPath = path.join(REPO_ROOT, 'src', 'data', 'projects.json');
   const srcNodeModules = path.join(REPO_ROOT, 'node_modules');
   if (!fs.existsSync(srcProjectsPath) || !fs.existsSync(srcNodeModules)) {
     throw new Error(
-      `Cannot run isolated PRJ-06 rebuild probe: missing ${srcProjectsPath} or ${srcNodeModules}.`
+      `Cannot run isolated next-project rebuild probe: missing ${srcProjectsPath} or ${srcNodeModules}.`
     );
   }
 
-  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'e2e-prj06-'));
+  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'e2e-prjnext-'));
   const tempNodeModules = path.join(tempDir, 'node_modules');
   let server = null;
 
@@ -1532,9 +1532,18 @@ export async function runIsolatedPrj06Probe(browser, fn, { missingProcessVisual 
 
     const tempProjectsPath = path.join(tempDir, 'src', 'data', 'projects.json');
     const projects = JSON.parse(fs.readFileSync(tempProjectsPath, 'utf8'));
+    const prevTotal = projects.length;
+    const nextNum = prevTotal + 1;
+    const nextId = `PRJ-${String(nextNum).padStart(2, '0')}`;
+    const prevStage02Ids = projects.filter((p) => p.stageCode === '02').map((p) => p.id);
+    const expectedStage02Ids = [...prevStage02Ids, nextId].sort();
+    const expectedStageCounts = CANONICAL_FUNNEL_STAGES.map((stage) => [
+      stage.code,
+      String(projects.filter((p) => p.stageCode === stage.code).length + (stage.code === '02' ? 1 : 0)),
+    ]);
 
-    const prj06 = {
-      id: 'PRJ-06',
+    const prjNext = {
+      id: nextId,
       stageCode: '02',
       funnelStageName: { en: 'Paid Ads Guardrail', bm: 'Kawalan Iklan Berbayar' },
       category: 'Ad Ops & Guardrail',
@@ -1571,10 +1580,12 @@ export async function runIsolatedPrj06Probe(browser, fn, { missingProcessVisual 
       lookerUrl: '',
       liveAppUrl: '',
       repoUrl: 'https://github.com/faizrobiah4690-design',
-      ...(missingProcessVisual ? { processVisual: '/assets/prj-06-nonexistent-diagram.png' } : {}),
+      ...(missingProcessVisual
+        ? { processVisual: `/assets/prj-${String(nextNum).padStart(2, '0')}-nonexistent-diagram.png` }
+        : {}),
     };
 
-    projects.push(prj06);
+    projects.push(prjNext);
     fs.writeFileSync(tempProjectsPath, JSON.stringify(projects, null, 2), 'utf8');
 
     const viteBin = path.join(tempNodeModules, 'vite', 'bin', 'vite.js');
@@ -1590,8 +1601,12 @@ export async function runIsolatedPrj06Probe(browser, fn, { missingProcessVisual 
       baseUrl: server.baseUrl,
       tempDir,
       tempDistDir,
-      prj06,
+      prjNext,
+      nextId,
+      prevTotal,
       totalSystems: projects.length,
+      expectedStage02Ids,
+      expectedStageCounts,
     });
   } finally {
     if (server) {
@@ -1603,3 +1618,5 @@ export async function runIsolatedPrj06Probe(browser, fn, { missingProcessVisual 
     fs.rmSync(tempDir, { recursive: true, force: true });
   }
 }
+
+export const runIsolatedPrj06Probe = runIsolatedNextProjectProbe;

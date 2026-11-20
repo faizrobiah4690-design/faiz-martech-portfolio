@@ -22,7 +22,7 @@ import {
   loadGroundTruth,
   openProjectModal,
   resolveDistDir,
-  runIsolatedPrj06Probe,
+  runIsolatedNextProjectProbe,
   scanDirectoryForPdpaNric,
   scanTextForIndonesianTerms,
   scanTextForPdpaNric,
@@ -68,8 +68,9 @@ describe('Tier 4 — Real-World Application Scenarios (10 End-to-End User Journe
         .first();
       await heroCta.click();
 
+      const expected01 = truth.projects.filter((p) => p.stageCode === '01').map((p) => p.id).sort();
       await getFunnelStageButton(page, '01').click();
-      assert.deepEqual(await getVisibleProjectIds(page), ['PRJ-01']);
+      assert.deepEqual(await getVisibleProjectIds(page), expected01);
 
       const dialog = await openProjectModal(page, 'PRJ-01');
       const modalText = await dialog.innerText();
@@ -93,9 +94,10 @@ describe('Tier 4 — Real-World Application Scenarios (10 End-to-End User Journe
   });
 
   test('T4-02: Local SME / Clinic Client Seeking WhatsApp-to-Cash Attribution (PRJ-04 + CS-01)', async () => {
+    const expected03 = truth.projects.filter((p) => p.stageCode === '03').map((p) => p.id).sort();
     await withTrackedPage(browser, server.baseUrl, { viewport: VIEWPORTS.desktop }, async ({ page, errors }) => {
       await getFunnelStageButton(page, '03').click();
-      assert.deepEqual(await getVisibleProjectIds(page), ['PRJ-04']);
+      assert.deepEqual(await getVisibleProjectIds(page), expected03);
 
       const dialog = await openProjectModal(page, 'PRJ-04');
       const modalText = await dialog.innerText();
@@ -150,8 +152,9 @@ describe('Tier 4 — Real-World Application Scenarios (10 End-to-End User Journe
       assert.ok(heroText.includes('Pengamal Pemasaran Digital'));
       assert.ok(heroText.includes('Tunai Bersih Sebenar'));
 
+      const expected05 = truth.projects.filter((p) => p.stageCode === '05').map((p) => p.id).sort();
       await getFunnelStageButton(page, '05').click();
-      assert.deepEqual(await getVisibleProjectIds(page), ['PRJ-03']);
+      assert.deepEqual(await getVisibleProjectIds(page), expected05);
       const dialog = await openProjectModal(page, 'PRJ-03');
       assert.ok((await dialog.innerText()).includes('Enjin Pengekalan DTC'));
       await closeModal(page, 'escape');
@@ -187,10 +190,11 @@ describe('Tier 4 — Real-World Application Scenarios (10 End-to-End User Journe
     });
   });
 
-  test('T4-06: Ad Ops Lead Evaluating Paid Media Guardrails (PRJ-02 + Non-Negotiables)', async () => {
+  test('T4-06: Ad Ops Lead Evaluating Paid Media Guardrails (PRJ-02 + PRJ-06 + Non-Negotiables)', async () => {
+    const expected02 = truth.projects.filter((p) => p.stageCode === '02').map((p) => p.id).sort();
     await withTrackedPage(browser, server.baseUrl, { viewport: VIEWPORTS.desktop }, async ({ page, errors }) => {
       await getFunnelStageButton(page, '02').click();
-      assert.deepEqual(await getVisibleProjectIds(page), ['PRJ-02']);
+      assert.deepEqual(await getVisibleProjectIds(page), expected02);
 
       const dialog = await openProjectModal(page, 'PRJ-02');
       const modalText = await dialog.innerText();
@@ -256,22 +260,22 @@ describe('Tier 4 — Real-World Application Scenarios (10 End-to-End User Journe
     });
   });
 
-  test('T4-09: Portfolio Maintainer Adding PRJ-06 Day-by-Day (Isolated Rebuild 5 -> 6)', async () => {
+  test('T4-09: Portfolio Maintainer Adding Next PRJ-0N (PRJ-07) Day-by-Day (Isolated Rebuild 6 -> 7)', async () => {
     const doc = fs.readFileSync(path.join(REPO_ROOT, 'CONTRIBUTING_PROJECTS.md'), 'utf8');
     assert.ok(doc.includes('src/data/projects.json'));
     assert.ok(doc.includes('PRJ-06'));
 
-    await runIsolatedPrj06Probe(browser, async ({ baseUrl }) => {
+    await runIsolatedNextProjectProbe(browser, async ({ baseUrl, nextId, totalSystems, expectedStage02Ids }) => {
       await withTrackedPage(browser, baseUrl, { viewport: VIEWPORTS.desktop }, async ({ page, errors }) => {
-        assert.match(await getNavbar(page).innerText(), /\b6\b/);
-        assert.match(await page.locator('main section').first().innerText(), /\b6\b/);
-        assert.match(await getFunnelStageButton(page, '02').innerText(), /\b2\b/);
-        assert.equal((await getVisibleProjectIds(page)).length, 6);
+        assert.match(await getNavbar(page).innerText(), new RegExp(`\\b${totalSystems}\\b`));
+        assert.match(await page.locator('main section').first().innerText(), new RegExp(`\\b${totalSystems}\\b`));
+        assert.match(await getFunnelStageButton(page, '02').innerText(), new RegExp(`\\b${expectedStage02Ids.length}\\b`));
+        assert.equal((await getVisibleProjectIds(page)).length, totalSystems);
 
         await getFunnelStageButton(page, '02').click();
-        assert.deepEqual(await getVisibleProjectIds(page), ['PRJ-02', 'PRJ-06']);
-        const d6 = await openProjectModal(page, 'PRJ-06');
-        assert.ok((await d6.innerText()).includes('PRJ-06'));
+        assert.deepEqual(await getVisibleProjectIds(page), expectedStage02Ids);
+        const dNext = await openProjectModal(page, nextId);
+        assert.ok((await dNext.innerText()).includes(nextId));
         await closeModal(page, 'escape');
         errors.assertZeroUnexpected('T4-09');
       });

@@ -24,7 +24,7 @@ import {
   loadGroundTruth,
   openProjectModal,
   resolveDistDir,
-  runIsolatedPrj06Probe,
+  runIsolatedNextProjectProbe,
   scanDirectoryForIndonesianTerms,
   scanDirectoryForPdpaNric,
   scanTextForIndonesianTerms,
@@ -96,26 +96,27 @@ describe('Tier 3 — Cross-Feature Combinations (20 Pairwise & Multi-Feature Com
     });
   });
 
-  test('T3-03: F1 + F2 + F3 + F8 + F18 — Dynamic PRJ-06 Counter Propagation (Isolated Temp Build)', async () => {
-    await runIsolatedPrj06Probe(browser, async ({ baseUrl }) => {
+  test('T3-03: F1 + F2 + F3 + F8 + F18 — Dynamic Next-Project (PRJ-07) Counter Propagation (Isolated Temp Build)', async () => {
+    await runIsolatedNextProjectProbe(browser, async ({ baseUrl, totalSystems, expectedStage02Ids }) => {
       await withTrackedPage(browser, baseUrl, {}, async ({ page, errors }) => {
         const navText = await getNavbar(page).innerText();
-        assert.match(navText, /\b6\b/);
+        assert.match(navText, new RegExp(`\\b${totalSystems}\\b`));
         const heroText = await page.locator('main section').first().innerText();
-        assert.match(heroText, /\b6\b/);
-        assert.equal((await getVisibleProjectIds(page)).length, 6);
+        assert.match(heroText, new RegExp(`\\b${totalSystems}\\b`));
+        assert.equal((await getVisibleProjectIds(page)).length, totalSystems);
 
         await getFunnelStageButton(page, '02').click();
-        assert.deepEqual(await getVisibleProjectIds(page), ['PRJ-02', 'PRJ-06']);
+        assert.deepEqual(await getVisibleProjectIds(page), expectedStage02Ids);
         errors.assertZeroUnexpected('T3-03');
       });
     });
   });
 
   test('T3-04: F8 + F9 + F10 — Stage Filter + Category Filter + Search Reset + Modal Lifecycle', async () => {
+    const expected04 = truth.projects.filter((p) => p.stageCode === '04').map((p) => p.id).sort();
     await withTrackedPage(browser, server.baseUrl, {}, async ({ page, errors }) => {
       await getFunnelStageButton(page, '04').click();
-      assert.deepEqual(await getVisibleProjectIds(page), ['PRJ-05']);
+      assert.deepEqual(await getVisibleProjectIds(page), expected04);
       await getAllStagesButton(page).click();
 
       await selectCategoryFilter(page, 'RevOps & Lead Routing');
@@ -146,10 +147,11 @@ describe('Tier 3 — Cross-Feature Combinations (20 Pairwise & Multi-Feature Com
   });
 
   test('T3-05: F4 + F6 + F8 + F10 — Mobile 390x844 Sticky Navbar + Stage Filter + Modal Scroll & Backdrop Close', async () => {
+    const expected02 = truth.projects.filter((p) => p.stageCode === '02').map((p) => p.id).sort();
     await withTrackedPage(browser, server.baseUrl, { viewport: VIEWPORTS.mobile }, async ({ page, errors }) => {
       await assertNoHorizontalOverflow(page);
       await getFunnelStageButton(page, '02').click();
-      assert.deepEqual(await getVisibleProjectIds(page), ['PRJ-02']);
+      assert.deepEqual(await getVisibleProjectIds(page), expected02);
 
       const dialog = await openProjectModal(page, 'PRJ-02');
       await dialog.evaluate((el) => {

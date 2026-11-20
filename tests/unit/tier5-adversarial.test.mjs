@@ -43,10 +43,11 @@ const credentials = readJson('src/data/credentials.json');
 const operationalHistory = readJson('src/data/operationalHistory.json');
 const i18n = readJson('src/data/i18n.json');
 
-function makePrj06() {
+function makeNextSyntheticProject() {
+  const nextId = `PRJ-${String(projects.length + 1).padStart(2, '0')}`;
   return {
     ...structuredClone(projects[1]),
-    id: 'PRJ-06',
+    id: nextId,
     stageCode: '02',
     funnelStageName: { en: 'Paid Ads Guardrail', bm: 'Kawalan Iklan Berbayar' },
     category: 'Ad Ops & Guardrail',
@@ -299,20 +300,23 @@ test('SSR adversarial checks (U1, GAP-01..05, GAP-08e): Vite SSR renderToStaticM
 
     const renderEl = (Component, props) => renderToStaticMarkup(React.createElement(Component, props));
 
-    // U1: SSR 5 -> 6 in EN & BM
-    const ssr5En = renderEl(App);
-    assert.ok(ssr5En.includes('5 Systems Shipped'));
-    assert.ok(ssr5En.includes('Explore 5 MarTech Systems'));
+    // U1: SSR N -> N+1 (6 -> 7) in EN & BM
+    const baseCount = projects.length;
+    const nextCount = baseCount + 1;
+    const baseStage02Count = projects.filter((p) => p.stageCode === '02').length;
+    const ssrBaseEn = renderEl(App);
+    assert.ok(ssrBaseEn.includes(`${baseCount} Systems Shipped`));
+    assert.ok(ssrBaseEn.includes(`Explore ${baseCount} MarTech Systems`));
 
-    const extendedProjects = [...structuredClone(projects), makePrj06()];
-    const ssr6En = renderEl(App, { initialData: { projects: extendedProjects, lang: 'en' } });
-    assert.ok(ssr6En.includes('6 Systems Shipped'));
-    assert.ok(ssr6En.includes('Explore 6 MarTech Systems'));
-    assert.ok(ssr6En.includes('2 Systems'));
+    const extendedProjects = [...structuredClone(projects), makeNextSyntheticProject()];
+    const ssrExtEn = renderEl(App, { initialData: { projects: extendedProjects, lang: 'en' } });
+    assert.ok(ssrExtEn.includes(`${nextCount} Systems Shipped`));
+    assert.ok(ssrExtEn.includes(`Explore ${nextCount} MarTech Systems`));
+    assert.ok(ssrExtEn.includes(`${baseStage02Count + 1} Systems`));
 
-    const ssr6Bm = renderEl(App, { initialData: { projects: extendedProjects, lang: 'bm' } });
-    assert.ok(ssr6Bm.includes('6 Sistem Disiapkan'));
-    assert.ok(ssr6Bm.includes('Terokai 6 Sistem MarTech'));
+    const ssrExtBm = renderEl(App, { initialData: { projects: extendedProjects, lang: 'bm' } });
+    assert.ok(ssrExtBm.includes(`${nextCount} Sistem Disiapkan`));
+    assert.ok(ssrExtBm.includes(`Terokai ${nextCount} Sistem MarTech`));
 
     // GAP-01 / X1: SSR Hero KPI & CredentialsVault count sync on malformed array
     const badCreds = {
@@ -562,7 +566,7 @@ test('SSR adversarial checks (U1, GAP-01..05, GAP-08e): Vite SSR renderToStaticM
         i18n: { en: 'invalid-primitive', bm: i18n.bm }
       }
     });
-    assert.ok(ssrPrimitiveI18n.includes('Explore 5 MarTech Systems'));
+    assert.ok(ssrPrimitiveI18n.includes(`Explore ${projects.length} MarTech Systems`));
 
     // REM-GAP-02: Footer omits stray ' · ' separator on empty or partial profile
     const ssrFooterEmpty = renderEl(Footer, {

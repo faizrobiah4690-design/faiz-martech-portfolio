@@ -32,7 +32,7 @@ import {
   parseRgb,
   relativeLuminance,
   resolveDistDir,
-  runIsolatedPrj06Probe,
+  runIsolatedNextProjectProbe,
   scanDirectoryForPdpaNric,
   scanTextForIndonesianTerms,
   scanTextForPdpaNric,
@@ -158,10 +158,10 @@ describe('Tier 1 — Feature Coverage (F1–F18, 90 Tests)', () => {
     });
   });
 
-  test('T1-F02-02: Projects JSON data fidelity (PRJ-01..PRJ-05)', async () => {
+  test('T1-F02-02: Projects JSON data fidelity (PRJ-01..PRJ-06)', async () => {
     await withTrackedPage(browser, server.baseUrl, {}, async ({ page, errors }) => {
       const text = await page.locator('main').innerText();
-      for (const id of ['PRJ-01', 'PRJ-02', 'PRJ-03', 'PRJ-04', 'PRJ-05']) {
+      for (const id of ['PRJ-01', 'PRJ-02', 'PRJ-03', 'PRJ-04', 'PRJ-05', 'PRJ-06']) {
         assert.ok(text.includes(id), `Missing project ID: ${id}`);
       }
       assert.ok(text.includes('< 10s Speed-to-Lead SLA Sync'));
@@ -169,6 +169,7 @@ describe('Tier 1 — Feature Coverage (F1–F18, 90 Tests)', () => {
       assert.ok(text.includes('Z-Score Churn Anomaly + Meta CAPI v21.0'));
       assert.ok(text.includes('HTTP 204 Margin Gate + Dual CAPI Sync'));
       assert.ok(text.includes('RM 0.00 Order-to-Settlement Audit Variance'));
+      assert.ok(text.includes('+60.8% Overclaim Caught · RM 0.00 Variance'));
       assert.ok(text.includes('Sandbox Stress-Test Validated'));
       errors.assertZeroUnexpected('T1-F02-02');
     });
@@ -261,17 +262,17 @@ describe('Tier 1 — Feature Coverage (F1–F18, 90 Tests)', () => {
     });
   });
 
-  test('T1-F03-05: Isolated PRJ-06 rebuild increments counters from 5 to 6 with 0 UI edits', async () => {
-    await runIsolatedPrj06Probe(browser, async ({ baseUrl, totalSystems }) => {
-      assert.equal(totalSystems, 6);
+  test('T1-F03-05: Isolated next-project (PRJ-07) rebuild increments counters from 6 to 7 with 0 UI edits', async () => {
+    await runIsolatedNextProjectProbe(browser, async ({ baseUrl, nextId, prevTotal, totalSystems, expectedStage02Ids }) => {
+      assert.equal(totalSystems, prevTotal + 1);
       await withTrackedPage(browser, baseUrl, {}, async ({ page, errors }) => {
         const navText = await getNavbar(page).innerText();
-        assert.match(navText, /\b6\b.*(?:System|Sistem)/i);
+        assert.match(navText, new RegExp(`\\b${totalSystems}\\b.*(?:System|Sistem)`, 'i'));
         const visibleIds = await getVisibleProjectIds(page);
-        assert.equal(visibleIds.length, 6);
-        assert.ok(visibleIds.includes('PRJ-06'));
+        assert.equal(visibleIds.length, totalSystems);
+        assert.ok(visibleIds.includes(nextId));
         const stage02Text = await getFunnelStageButton(page, '02').innerText();
-        assert.match(stage02Text, /\b2\b/);
+        assert.match(stage02Text, new RegExp(`\\b${expectedStage02Ids.length}\\b`));
         errors.assertZeroUnexpected('T1-F03-05');
       });
     });
@@ -622,36 +623,41 @@ describe('Tier 1 — Feature Coverage (F1–F18, 90 Tests)', () => {
     });
   });
 
-  test('T1-F08-02: Stage 01 click filters Registry strictly to PRJ-01', async () => {
+  test('T1-F08-02: Stage 01 click filters Registry strictly to Stage 01 projects', async () => {
+    const expected01 = truth.projects.filter((p) => p.stageCode === '01').map((p) => p.id).sort();
     await withTrackedPage(browser, server.baseUrl, {}, async ({ page, errors }) => {
       await getFunnelStageButton(page, '01').click();
-      assert.deepEqual(await getVisibleProjectIds(page), ['PRJ-01']);
+      assert.deepEqual(await getVisibleProjectIds(page), expected01);
       errors.assertZeroUnexpected('T1-F08-02');
     });
   });
 
-  test('T1-F08-03: Stage 03 click maps to PRJ-04 (non-index stageCode mapping)', async () => {
+  test('T1-F08-03: Stage 03 click maps to Stage 03 projects (non-index stageCode mapping)', async () => {
+    const expected03 = truth.projects.filter((p) => p.stageCode === '03').map((p) => p.id).sort();
     await withTrackedPage(browser, server.baseUrl, {}, async ({ page, errors }) => {
       await getFunnelStageButton(page, '03').click();
-      assert.deepEqual(await getVisibleProjectIds(page), ['PRJ-04']);
+      assert.deepEqual(await getVisibleProjectIds(page), expected03);
       errors.assertZeroUnexpected('T1-F08-03');
     });
   });
 
-  test('T1-F08-04: Stage 04 maps to PRJ-05 and Stage 05 maps to PRJ-03', async () => {
+  test('T1-F08-04: Stage 04 and Stage 05 map accurately to their projects', async () => {
+    const expected04 = truth.projects.filter((p) => p.stageCode === '04').map((p) => p.id).sort();
+    const expected05 = truth.projects.filter((p) => p.stageCode === '05').map((p) => p.id).sort();
     await withTrackedPage(browser, server.baseUrl, {}, async ({ page, errors }) => {
       await getFunnelStageButton(page, '04').click();
-      assert.deepEqual(await getVisibleProjectIds(page), ['PRJ-05']);
+      assert.deepEqual(await getVisibleProjectIds(page), expected04);
       await getFunnelStageButton(page, '05').click();
-      assert.deepEqual(await getVisibleProjectIds(page), ['PRJ-03']);
+      assert.deepEqual(await getVisibleProjectIds(page), expected05);
       errors.assertZeroUnexpected('T1-F08-04');
     });
   });
 
   test('T1-F08-05: All Stages reset restores all systems', async () => {
+    const expected02 = truth.projects.filter((p) => p.stageCode === '02').map((p) => p.id).sort();
     await withTrackedPage(browser, server.baseUrl, {}, async ({ page, errors }) => {
       await getFunnelStageButton(page, '02').click();
-      assert.deepEqual(await getVisibleProjectIds(page), ['PRJ-02']);
+      assert.deepEqual(await getVisibleProjectIds(page), expected02);
       await getAllStagesButton(page).click();
       assert.equal((await getVisibleProjectIds(page)).length, truth.expectedSystems);
       errors.assertZeroUnexpected('T1-F08-05');
@@ -1181,6 +1187,41 @@ describe('Tier 1 — Feature Coverage (F1–F18, 90 Tests)', () => {
     });
   });
 
+  test('T1-F17-06: PRJ-06 all 9 processVisuals exist in dist/ and render [data-asset-status="ready"] with naturalWidth > 0', async () => {
+    const prj06 = truth.projects.find((p) => p.id === 'PRJ-06');
+    assert.ok(prj06, 'Expected PRJ-06 in truth.projects');
+    assert.equal(prj06.processVisuals.length, 9);
+    for (const visual of prj06.processVisuals) {
+      const distAsset = path.join(distDir, visual.src.replace(/^\/+/, ''));
+      assert.ok(fs.existsSync(distAsset), `Missing built PRJ-06 slide in dist/: ${distAsset}`);
+    }
+
+    await withTrackedPage(browser, server.baseUrl, {}, async ({ page, errors }) => {
+      const dialog = await openProjectModal(page, 'PRJ-06');
+      const visualsSection = dialog.getByTestId('process-visuals-section');
+      await visualsSection.waitFor({ state: 'visible' });
+      const tabs = visualsSection.locator('[role="tab"]');
+      assert.equal(await tabs.count(), 9, 'Expected 9 slide tabs in PRJ-06 modal');
+
+      for (let i = 0; i < 9; i++) {
+        await tabs.nth(i).click();
+        const readySlot = visualsSection.locator('[data-asset-status="ready"]');
+        await readySlot.waitFor({ state: 'visible', timeout: 5000 });
+        const imgCheck = await readySlot.locator('img').evaluate((img) => ({
+          src: img.getAttribute('src'),
+          complete: img.complete,
+          naturalWidth: img.naturalWidth,
+        }));
+        assert.equal(imgCheck.complete, true, `PRJ-06 slide ${i + 1} image did not finish loading`);
+        assert.ok(imgCheck.naturalWidth > 0, `PRJ-06 slide ${i + 1} naturalWidth must be > 0`);
+        assert.equal(imgCheck.src, prj06.processVisuals[i].src);
+      }
+
+      await closeModal(page, 'escape');
+      errors.assertZeroUnexpected('T1-F17-06');
+    });
+  });
+
   // F18: CONTRIBUTING_PROJECTS.md & PRJ-06+ Scaling Contract
   test('T1-F18-01: CONTRIBUTING_PROJECTS.md exists and is non-empty (>500 bytes)', () => {
     const docPath = path.join(REPO_ROOT, 'CONTRIBUTING_PROJECTS.md');
@@ -1365,7 +1406,7 @@ describe('Tier 1 — Feature Coverage (F1–F18, 90 Tests)', () => {
         assert.ok(ratio >= 4.5, `Light Mode Live Apps pill "${pill.text}" failed WCAG 2.1 AA (${ratio.toFixed(2)}:1 < 4.5:1): ${JSON.stringify(pill)}`);
       }
 
-      // Reset stages so all 5 PRJ-01..05 badges are visible (already verified for stage 02, now verify all 5)
+      // Reset stages so all PRJ badges are visible (already verified for stage 02, now verify all)
       await getAllStagesButton(page).click();
       await page.waitForTimeout(250);
       const allPrjBadges = await page.evaluate(() =>
@@ -1374,7 +1415,7 @@ describe('Tier 1 — Feature Coverage (F1–F18, 90 Tests)', () => {
           return { text: (el.textContent || '').trim(), bg: cs.backgroundColor, color: cs.color };
         })
       );
-      assert.equal(allPrjBadges.length, 5, 'Expected all 5 PRJ-01..05 ID badges');
+      assert.equal(allPrjBadges.length, truth.expectedSystems, `Expected all ${truth.expectedSystems} PRJ ID badges`);
       for (const badge of allPrjBadges) {
         const ratio = contrastRatio(badge.color, badge.bg);
         assert.ok(ratio >= 4.5, `Light Mode PRJ badge "${badge.text}" failed WCAG 2.1 AA (${ratio.toFixed(2)}:1 < 4.5:1): ${JSON.stringify(badge)}`);

@@ -33,7 +33,7 @@ import {
   parseRgb,
   relativeLuminance,
   resolveDistDir,
-  runIsolatedPrj06Probe,
+  runIsolatedNextProjectProbe,
   scanDirectoryForIndonesianTerms,
   scanDirectoryForPdpaNric,
   scanTextForIndonesianTerms,
@@ -126,13 +126,16 @@ describe('Tier 2 — Boundaries, Corner Cases & Adversarial Inputs (F1–F18, 90
   });
 
   test('T2-F02-02: Non-sequential stageCode mapping (01,02,05,03,04) preserved accurately', async () => {
+    const expected03 = truth.projects.filter((p) => p.stageCode === '03').map((p) => p.id).sort();
+    const expected04 = truth.projects.filter((p) => p.stageCode === '04').map((p) => p.id).sort();
+    const expected05 = truth.projects.filter((p) => p.stageCode === '05').map((p) => p.id).sort();
     await withTrackedPage(browser, server.baseUrl, {}, async ({ page, errors }) => {
       await getFunnelStageButton(page, '03').click();
-      assert.deepEqual(await getVisibleProjectIds(page), ['PRJ-04']);
+      assert.deepEqual(await getVisibleProjectIds(page), expected03);
       await getFunnelStageButton(page, '04').click();
-      assert.deepEqual(await getVisibleProjectIds(page), ['PRJ-05']);
+      assert.deepEqual(await getVisibleProjectIds(page), expected04);
       await getFunnelStageButton(page, '05').click();
-      assert.deepEqual(await getVisibleProjectIds(page), ['PRJ-03']);
+      assert.deepEqual(await getVisibleProjectIds(page), expected05);
       errors.assertZeroUnexpected('T2-F02-02');
     });
   });
@@ -209,21 +212,15 @@ describe('Tier 2 — Boundaries, Corner Cases & Adversarial Inputs (F1–F18, 90
     });
   });
 
-  test('T2-F03-04: PRJ-06 isolated rebuild increments ONLY Stage 02 (1 -> 2) and total (5 -> 6)', async () => {
-    await runIsolatedPrj06Probe(browser, async ({ baseUrl }) => {
+  test('T2-F03-04: PRJ-07 isolated rebuild increments ONLY Stage 02 and total (6 -> 7)', async () => {
+    await runIsolatedNextProjectProbe(browser, async ({ baseUrl, expectedStageCounts, expectedStage02Ids }) => {
       await withTrackedPage(browser, baseUrl, {}, async ({ page, errors }) => {
-        for (const [code, expectedCount] of [
-          ['01', '1'],
-          ['02', '2'],
-          ['03', '1'],
-          ['04', '1'],
-          ['05', '1'],
-        ]) {
+        for (const [code, expectedCount] of expectedStageCounts) {
           const text = await getFunnelStageButton(page, code).innerText();
           assert.match(text, new RegExp(`\\b${expectedCount}\\b`), `Stage ${code} expected count ${expectedCount}`);
         }
         await getFunnelStageButton(page, '02').click();
-        assert.deepEqual(await getVisibleProjectIds(page), ['PRJ-02', 'PRJ-06']);
+        assert.deepEqual(await getVisibleProjectIds(page), expectedStage02Ids);
         errors.assertZeroUnexpected('T2-F03-04');
       });
     });
@@ -519,35 +516,39 @@ describe('Tier 2 — Boundaries, Corner Cases & Adversarial Inputs (F1–F18, 90
 
   // F8 Boundaries
   test('T2-F08-01: Clicking already-active stage twice leaves UI state consistent', async () => {
+    const expected01 = truth.projects.filter((p) => p.stageCode === '01').map((p) => p.id).sort();
     await withTrackedPage(browser, server.baseUrl, {}, async ({ page, errors }) => {
       const s1 = getFunnelStageButton(page, '01');
       await s1.click();
-      assert.deepEqual(await getVisibleProjectIds(page), ['PRJ-01']);
+      assert.deepEqual(await getVisibleProjectIds(page), expected01);
       await s1.click();
       const ids = await getVisibleProjectIds(page);
-      assert.ok(ids.length === 1 || ids.length === truth.expectedSystems, `Unexpected state after double-click: ${ids}`);
+      assert.ok(ids.length === expected01.length || ids.length === truth.expectedSystems, `Unexpected state after double-click: ${ids}`);
       errors.assertZeroUnexpected('T2-F08-01');
     });
   });
 
-  test('T2-F08-02: Rapid sequential clicks 01 -> 02 -> 03 -> 04 -> 05 settle on Stage 05 (PRJ-03)', async () => {
+  test('T2-F08-02: Rapid sequential clicks 01 -> 02 -> 03 -> 04 -> 05 settle on Stage 05', async () => {
+    const expected05 = truth.projects.filter((p) => p.stageCode === '05').map((p) => p.id).sort();
     await withTrackedPage(browser, server.baseUrl, {}, async ({ page, errors }) => {
       for (const code of ['01', '02', '03', '04', '05']) {
         await getFunnelStageButton(page, code).click();
       }
-      assert.deepEqual(await getVisibleProjectIds(page), ['PRJ-03']);
+      assert.deepEqual(await getVisibleProjectIds(page), expected05);
       errors.assertZeroUnexpected('T2-F08-02');
     });
   });
 
   test('T2-F08-03: Stage filter persists when toggling EN -> BM', async () => {
+    const expected02 = truth.projects.filter((p) => p.stageCode === '02').map((p) => p.id).sort();
     await withTrackedPage(browser, server.baseUrl, {}, async ({ page, errors }) => {
       await getFunnelStageButton(page, '02').click();
-      assert.deepEqual(await getVisibleProjectIds(page), ['PRJ-02']);
+      assert.deepEqual(await getVisibleProjectIds(page), expected02);
       await switchLanguage(page, 'bm');
-      assert.deepEqual(await getVisibleProjectIds(page), ['PRJ-02']);
+      assert.deepEqual(await getVisibleProjectIds(page), expected02);
       const text = await page.locator('main').innerText();
       assert.ok(text.includes('Sistem Kawalan Paid Ads POAS'));
+      assert.ok(text.includes('Enjin Penyah-Tindihan Atribusi Merentas Platform'));
       errors.assertZeroUnexpected('T2-F08-03');
     });
   });
@@ -1088,11 +1089,12 @@ describe('Tier 2 — Boundaries, Corner Cases & Adversarial Inputs (F1–F18, 90
   });
 
   test('T2-F17-05: Modal with missing processVisual file path falls back cleanly without broken img', async () => {
-    await runIsolatedPrj06Probe(
+    await runIsolatedNextProjectProbe(
       browser,
-      async ({ baseUrl }) => {
+      async ({ baseUrl, nextId }) => {
         await withTrackedPage(browser, baseUrl, {}, async ({ page, errors }) => {
-          await openProjectModal(page, 'PRJ-06');
+          const dialog = await openProjectModal(page, nextId);
+          assert.equal(await dialog.locator('[data-asset-status="fallback"]').count(), 1);
           await assertNoBrokenVisibleImages(page);
           errors.assertZeroUnexpected('T2-F17-05');
         });
@@ -1124,8 +1126,8 @@ describe('Tier 2 — Boundaries, Corner Cases & Adversarial Inputs (F1–F18, 90
     assert.ok(doc.includes('npm run build'));
   });
 
-  test('T2-F18-05: Appending PRJ-06 in isolated workspace requires 0 component edits & builds exit 0', async () => {
-    await runIsolatedPrj06Probe(browser, async ({ tempDir, tempDistDir }) => {
+  test('T2-F18-05: Appending next PRJ-0N (PRJ-07) in isolated workspace requires 0 component edits & builds exit 0', async () => {
+    await runIsolatedNextProjectProbe(browser, async ({ tempDir, tempDistDir }) => {
       assert.ok(fs.existsSync(path.join(tempDistDir, 'index.html')));
       const origCompDir = path.join(REPO_ROOT, 'src', 'components');
       const tempCompDir = path.join(tempDir, 'src', 'components');
