@@ -17,12 +17,22 @@ export function computePortfolioMetrics(projects = [], credentials = null) {
   ).filter(isPlainObject);
 
   const countByStage = new Map(FUNNEL_STAGES.map((stage) => [stage.code, 0]));
+  const projectIdsByStage = new Map(FUNNEL_STAGES.map((stage) => [stage.code, []]));
   const categoryCounts = {};
 
   for (const project of safeProjects) {
     const code = typeof project.stageCode === 'string' ? project.stageCode.trim() : '';
     if (countByStage.has(code)) {
       countByStage.set(code, countByStage.get(code) + 1);
+      const rawId =
+        typeof project.id === 'string'
+          ? project.id.trim()
+          : typeof project.id === 'number'
+            ? String(project.id).trim()
+            : '';
+      if (rawId) {
+        projectIdsByStage.get(code).push(rawId);
+      }
     }
 
     const rawCategory =
@@ -45,7 +55,8 @@ export function computePortfolioMetrics(projects = [], credentials = null) {
 
   const stageCounts = FUNNEL_STAGES.map((stage) => ({
     ...stage,
-    count: countByStage.get(stage.code) ?? 0
+    count: countByStage.get(stage.code) ?? 0,
+    projectIds: projectIdsByStage.get(stage.code) ?? []
   }));
 
   return {

@@ -95,7 +95,7 @@
         },
         "02": {
           "name": "Paid Ads Guardrail",
-          "description": "Stop wasting ad budget on dead links or misleading ROAS (post-COGS Net POAS & 404/500 spend cutoffs)"
+          "description": "Stop wasting ad budget on dead links, double-counted conversions, or misleading ROAS (post-COGS Net POAS, 404/500 cutoffs & cross-channel Marginal nCAC)"
         },
         "03": {
           "name": "Offline / WA CAPI",
@@ -115,7 +115,7 @@
       "eyebrow": "Step 02 · Pillar 1 · Zero-Subscription Revenue Systems",
       "heading": "MarTech & Ad Ops Systems Registry",
       "subtitle": "Modular architectures separating deterministic mathematical gates from bounded AI synthesis — built for clarity from plain-language business goal to engineering proof.",
-      "attributionNotice": "Honest Attribution Boundary: PRJ-01 through PRJ-05+ are Production-Architected & Sandbox Stress-Tested MarTech Systems (Mock/Live API Adapter Ready).",
+      "attributionNotice": "Honest Attribution Boundary: PRJ-01 through PRJ-06+ are Production-Architected & Sandbox Stress-Tested MarTech Systems (Mock/Live API Adapter Ready).",
       "searchPlaceholder": "Search systems, business goals, stack, metrics, or commercial leaks...",
       "searchLabel": "Search MarTech systems",
       "allCategories": "All Categories",
@@ -436,7 +436,7 @@
         },
         "02": {
           "name": "Kawalan Iklan Berbayar",
-          "description": "Hentikan pembaziran bajet pada pautan mati atau ROAS mengelirukan (Net POAS selepas COGS & sekatan pautan 404/500)"
+          "description": "Hentikan pembaziran bajet pada pautan mati, tuntutan jualan bertindih atau ROAS mengelirukan (Net POAS selepas COGS, sekatan 404/500 & nCAC Marginal merentas saluran)"
         },
         "03": {
           "name": "CAPI WhatsApp / Kaunter",
@@ -456,7 +456,7 @@
       "eyebrow": "Langkah 02 · Teras 1 · Sistem Hasil Tanpa Langganan",
       "heading": "Pendaftaran Sistem MarTech & Ad Ops",
       "subtitle": "Seni bina modular yang memisahkan kawalan matematik deterministik daripada rumusan AI berbatas — disusun jelas daripada objektif perniagaan ringkas hingga bukti kejuruteraan.",
-      "attributionNotice": "Sempadan Atribusi Jujur: PRJ-01 hingga PRJ-05+ ialah Sistem MarTech Berteraskan Seni Bina Pengeluaran & Diuji Tekanan Sandbox (Sedia Penyesuai API Simulasi/Sebenar).",
+      "attributionNotice": "Sempadan Atribusi Jujur: PRJ-01 hingga PRJ-06+ ialah Sistem MarTech Berteraskan Seni Bina Pengeluaran & Diuji Tekanan Sandbox (Sedia Penyesuai API Simulasi/Sebenar).",
       "searchPlaceholder": "Cari sistem, objektif perniagaan, timbunan teknologi, metrik atau kebocoran komersial...",
       "searchLabel": "Cari sistem MarTech",
       "allCategories": "Semua Kategori",

@@ -65,6 +65,10 @@ export default function FunnelPipelineMap({
             const stageName = localizeText(stageEntry?.name, lang) || localizeText(stage, lang);
             const stageDesc = localizeText(stageEntry?.description, lang);
             const countNum = typeof stage.count === 'number' ? stage.count : 0;
+            const projectIds = Array.isArray(stage.projectIds)
+              ? stage.projectIds.filter((id) => typeof id === 'string' && id.trim())
+              : [];
+            const stagePrefix = localizeText(t?.systems?.stagePrefix, lang) || 'Stage';
             const countTemplate =
               countNum === 1
                 ? localizeText(t?.funnel?.stageCountSingle, lang) || '{count} System'
@@ -86,13 +90,15 @@ export default function FunnelPipelineMap({
               >
                 <div className="flex items-center justify-between gap-2 w-full">
                   <span className="font-mono text-xs font-bold text-cyan-400">
-                    {stageCode}
+                    {stagePrefix} {stageCode}
                   </span>
                   <span
                     className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 font-mono text-[11px] font-semibold ${
                       isSelected
                         ? 'bg-emerald-400 text-slate-950'
-                        : 'bg-slate-800 text-slate-200'
+                        : countNum > 1
+                          ? 'border border-emerald-400/40 bg-emerald-950/30 text-emerald-300'
+                          : 'bg-slate-800 text-slate-200'
                     }`}
                   >
                     {isSelected ? (
@@ -102,10 +108,22 @@ export default function FunnelPipelineMap({
                   </span>
                 </div>
 
-                <div className="space-y-1.5 min-w-0">
+                <div className="space-y-2 min-w-0">
                   <h3 className="text-sm sm:text-base font-display font-bold text-white break-words">
                     {stageName}
                   </h3>
+                  {projectIds.length > 0 ? (
+                    <div className="flex flex-wrap gap-1.5">
+                      {projectIds.map((pid) => (
+                        <span
+                          key={`${stageCode}-${pid}`}
+                          className="rounded-md border border-emerald-400/35 bg-emerald-950/20 px-1.5 py-0.5 font-mono text-[11px] font-semibold text-emerald-300"
+                        >
+                          {pid}
+                        </span>
+                      ))}
+                    </div>
+                  ) : null}
                   {stageDesc ? (
                     <p className="text-xs text-slate-400 leading-relaxed break-words">
                       {stageDesc}
