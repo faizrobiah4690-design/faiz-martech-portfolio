@@ -136,6 +136,23 @@
   },
   {
     "id": "APP-09",
+    "name": "Radhi Fruits",
+    "status": "live",
+    "category": {
+      "en": "Retail POS, FIFO Inventory & COD PWA",
+      "bm": "PWA POS Runcit, Inventori FIFO & COD"
+    },
+    "tagline": {
+      "en": "Mobile-first retail operations & POS PWA for Radhi Fruits (Taman Alam Perdana) featuring 3-role RLS supplier-cost secrecy, atomic FIFO batch deduction & reverse-FIFO voiding, radius-based COD fee accounting, and dual-mode WhatsApp stock/receipt broadcasts.",
+      "bm": "PWA operasi runcit & POS mudah alih untuk Radhi Fruits (Taman Alam Perdana) dengan kawalan akses 3 peranan RLS bagi kerahsiaan kos pembekal, tolakan stok FIFO atomik, kiraan caj COD mengikut radius, serta penjana hebahan stok & resit WhatsApp."
+    },
+    "liveUrl": "https://radhi-fruits.vercel.app/",
+    "repoUrl": "",
+    "repoVisibility": "private",
+    "stack": ["Next.js 15", "React 19", "TypeScript", "Supabase", "Tesseract OCR", "Vercel"]
+  },
+  {
+    "id": "APP-10",
     "name": "SebutCepat AI",
     "status": "coming-soon",
     "category": {

@@ -306,11 +306,11 @@ test('schema: operationalHistory.json has 5 bilingual entries covering clinical,
   assert.ok(combined.includes('MISC Integrated Logistics'));
 });
 
-test('schema: liveApps.json satisfies APP-01..09 contract, live/coming-soon states, and safe URLs', () => {
-  assert.ok(Array.isArray(liveApps) && liveApps.length === 9);
+test('schema: liveApps.json satisfies APP-01..10 contract, live/coming-soon states, and safe URLs', () => {
+  assert.ok(Array.isArray(liveApps) && liveApps.length === 10);
   assert.deepEqual(
     liveApps.map((a) => a.id),
-    ['APP-01', 'APP-02', 'APP-03', 'APP-04', 'APP-05', 'APP-06', 'APP-07', 'APP-08', 'APP-09']
+    ['APP-01', 'APP-02', 'APP-03', 'APP-04', 'APP-05', 'APP-06', 'APP-07', 'APP-08', 'APP-09', 'APP-10']
   );
 
   for (const app of liveApps) {
@@ -346,7 +346,12 @@ test('schema: liveApps.json satisfies APP-01..09 contract, live/coming-soon stat
     }
   }
 
-  const sebutCepat = liveApps.find((a) => a.id === 'APP-09');
+  const radhiFruits = liveApps.find((a) => a.id === 'APP-09');
+  assert.equal(radhiFruits?.name, 'Radhi Fruits');
+  assert.equal(radhiFruits?.status, 'live');
+  assert.equal(radhiFruits?.liveUrl, 'https://radhi-fruits.vercel.app/');
+
+  const sebutCepat = liveApps.find((a) => a.id === 'APP-10');
   assert.equal(sebutCepat?.name, 'SebutCepat AI');
   assert.equal(sebutCepat?.status, 'coming-soon');
   assert.equal(sebutCepat?.liveUrl, '');
@@ -549,10 +554,10 @@ test('utils: i18n, urlSafety, and exportPortfolioJson pure helpers handle edge c
     operationalHistory
   });
   assert.equal(payload.pdpaCompliant, true);
-  assert.equal(payload.liveApps.length, 9);
+  assert.equal(payload.liveApps.length, 10);
   assert.deepEqual(
     payload.liveApps.map((a) => a.id),
-    ['APP-01', 'APP-02', 'APP-03', 'APP-04', 'APP-05', 'APP-06', 'APP-07', 'APP-08', 'APP-09']
+    ['APP-01', 'APP-02', 'APP-03', 'APP-04', 'APP-05', 'APP-06', 'APP-07', 'APP-08', 'APP-09', 'APP-10']
   );
   assert.match(payload.attributionScope.liveApps, /Live Deployed.*Upcoming/i);
   assert.ok(typeof payload.exportedAt === 'string' && payload.exportedAt.length > 0);

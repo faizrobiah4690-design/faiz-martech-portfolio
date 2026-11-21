@@ -1265,7 +1265,7 @@ describe('Tier 1 — Feature Coverage (F1–F18, 90 Tests)', () => {
   });
 
   // R2 & R3 Coverage: LiveAppsShowcase & Light Mode Contrast
-  test('T1-R2-01: LiveAppsShowcase renders APP-01..09 in EN & BM with live links and non-live coming-soon state', async () => {
+  test('T1-R2-01: LiveAppsShowcase renders APP-01..10 in EN & BM with live links and non-live coming-soon state', async () => {
     await withTrackedPage(browser, server.baseUrl, {}, async ({ page, errors }) => {
       const section = page.locator('#live-apps');
       await section.waitFor({ state: 'visible' });
@@ -1279,16 +1279,17 @@ describe('Tier 1 — Feature Coverage (F1–F18, 90 Tests)', () => {
         'TemanBakti',
         'AdVenture AI',
         'AuditSiap',
+        'Radhi Fruits',
         'SebutCepat AI',
       ];
       for (const appName of expectedApps) {
         assert.ok(enText.includes(appName), `Missing live app in EN: ${appName}`);
       }
-      assert.equal(await section.locator('[data-live-app-id]').count(), 9);
-      assert.equal(await section.locator('[data-live-app-status="live"]').count(), 8);
+      assert.equal(await section.locator('[data-live-app-id]').count(), 10);
+      assert.equal(await section.locator('[data-live-app-status="live"]').count(), 9);
       assert.equal(await section.locator('[data-live-app-status="coming-soon"]').count(), 1);
 
-      for (const liveId of ['APP-01', 'APP-02', 'APP-03', 'APP-04', 'APP-05', 'APP-06', 'APP-07', 'APP-08']) {
+      for (const liveId of ['APP-01', 'APP-02', 'APP-03', 'APP-04', 'APP-05', 'APP-06', 'APP-07', 'APP-08', 'APP-09']) {
         const card = section.locator(`[data-live-app-id="${liveId}"]`);
         assert.equal(await card.getAttribute('data-live-app-status'), 'live');
         assert.ok((await card.innerText()).includes('LIVE'));
@@ -1296,18 +1297,18 @@ describe('Tier 1 — Feature Coverage (F1–F18, 90 Tests)', () => {
         assert.match(launchHref || '', /^https:\/\//, `Missing https:// launch URL on ${liveId}`);
       }
 
-      for (const privateId of ['APP-05', 'APP-06', 'APP-07']) {
+      for (const privateId of ['APP-05', 'APP-06', 'APP-07', 'APP-09']) {
         const card = section.locator(`[data-live-app-id="${privateId}"]`);
         assert.ok((await card.innerText()).includes('Private Repo'), `Expected Private Repo pill on ${privateId}`);
         assert.equal(await card.locator('a[href*="github.com"]').count(), 0, `Unexpected broken GitHub link on ${privateId}`);
       }
 
-      const app09 = section.locator('[data-live-app-id="APP-09"]');
-      assert.equal(await app09.getAttribute('data-live-app-status'), 'coming-soon');
-      const app09En = await app09.innerText();
-      assert.ok(app09En.includes('COMING SOON'));
-      assert.ok(app09En.includes('Deployment Coming Soon'));
-      assert.equal(await app09.locator('a').count(), 0, 'Non-live APP-09 must render zero <a> links');
+      const app10 = section.locator('[data-live-app-id="APP-10"]');
+      assert.equal(await app10.getAttribute('data-live-app-status'), 'coming-soon');
+      const app10En = await app10.innerText();
+      assert.ok(app10En.includes('COMING SOON'));
+      assert.ok(app10En.includes('Deployment Coming Soon'));
+      assert.equal(await app10.locator('a').count(), 0, 'Non-live APP-10 must render zero <a> links');
 
       await switchLanguage(page, 'bm');
       const bmText = await section.innerText();
