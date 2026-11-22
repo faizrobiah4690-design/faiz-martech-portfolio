@@ -8,7 +8,8 @@ import {
   ExternalLink,
   Mail,
   MessageCircle,
-  ShieldCheck
+  ShieldCheck,
+  Video
 } from 'lucide-react';
 import {
   buildSanitizedPortfolioExport,
@@ -49,6 +50,7 @@ export default function Footer({
   const whatsappUrl = normalizeExternalUrl(contacts.whatsappUrl);
   const linkedinUrl = normalizeExternalUrl(contacts.linkedinUrl);
   const githubUrl = normalizeExternalUrl(contacts.githubUrl);
+  const tiktokUrl = normalizeExternalUrl(contacts.tiktokUrl);
   const emailAddress = typeof contacts.email === 'string' ? contacts.email.trim() : '';
   const gmailSubject =
     localizeText(t?.hero?.gmailSubject, lang) || 'Portfolio Inquiry — Mohd Faiz Bin Md Nordin';
@@ -139,6 +141,19 @@ export default function Footer({
               >
                 <Code2 className="h-3.5 w-3.5 text-emerald-400 shrink-0" aria-hidden="true" />
                 <span>{localizeText(t?.hero?.ctaGithub, lang) || 'GitHub'}</span>
+                <ExternalLink className="h-3 w-3 text-slate-400 shrink-0" aria-hidden="true" />
+              </a>
+            ) : null}
+
+            {isSafeExternalUrl(tiktokUrl) ? (
+              <a
+                href={tiktokUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-slate-800 bg-slate-900/80 px-3 py-2 text-xs font-medium text-slate-200 hover:border-cyan-400/50 hover:text-cyan-300"
+              >
+                <Video className="h-3.5 w-3.5 text-cyan-400 shrink-0" aria-hidden="true" />
+                <span>{localizeText(t?.hero?.ctaTiktok, lang) || 'TikTok (@pesanpesan_exhort)'}</span>
                 <ExternalLink className="h-3 w-3 text-slate-400 shrink-0" aria-hidden="true" />
               </a>
             ) : null}

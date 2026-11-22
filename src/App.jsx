@@ -370,7 +370,7 @@ export default function App({ initialData } = {}) {
 
         <LiveAppsShowcase apps={liveAppsData} lang={lang} t={t} />
 
-        <LocalCaseStudies caseStudies={caseStudies} lang={lang} t={t} />
+        <LocalCaseStudies caseStudies={caseStudies} profile={profile} lang={lang} t={t} />
 
         <CredentialsVault credentials={credentials} lang={lang} t={t} />
 

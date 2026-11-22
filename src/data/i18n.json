@@ -36,6 +36,7 @@
       "ctaWhatsapp": "WhatsApp",
       "ctaLinkedin": "LinkedIn",
       "ctaGithub": "GitHub",
+      "ctaTiktok": "TikTok (@pesanpesan_exhort)",
       "ctaEmail": "Email",
       "gmailComposeTitle": "Compose email in Gmail",
       "gmailSubject": "Portfolio Inquiry — Mohd Faiz Bin Md Nordin",
@@ -186,7 +187,7 @@
     "liveApps": {
       "eyebrow": "Step 03 · Product & Web App Showcase · Live & Upcoming",
       "heading": "Live & Upcoming Web Applications",
-      "subtitle": "Nine production-focused web products across MarTech, EdTech, clinical guidance, eldercare, and SME compliance: eight live deployments you can test right now (APP-01..08), plus one upcoming build in active development (APP-09 · SebutCepat AI).",
+      "subtitle": "Ten production-focused web products across MarTech, retail POS, EdTech, clinical guidance, eldercare, and SME compliance: nine live deployments you can test right now (APP-01..09), plus one upcoming build in active development (APP-10 · SebutCepat AI).",
       "liveBadge": "LIVE",
       "comingSoonBadge": "COMING SOON",
       "launchButton": "Launch Live App",
@@ -206,6 +207,30 @@
       "whyItMattersLabel": "Funnel & MarTech Connection",
       "evidenceBoundaryLabel": "Attribution & Evidence Boundary",
       "visualEvidenceLabel": "Campaign & Visual Evidence",
+      "tiktokShowcase": {
+        "badge": "TIKTOK AFFILIATE VIDEO PRODUCTION",
+        "handle": "@pesanpesan_exhort",
+        "title": "Short-Form Affiliate Video Engineering (10s · 15s · 30s)",
+        "subtitle": "Conversion-focused vertical (9:16) product videos scripted and produced across three strategic durations to match buyer attention and SKU price points.",
+        "ctaButton": "Watch Videos on TikTok (@pesanpesan_exhort)",
+        "formats": [
+          {
+            "duration": "10s",
+            "name": "Hook & Curiosity Teaser",
+            "desc": "2-second visual pattern interrupt, single high-impact benefit callout, and immediate yellow-basket curiosity CTA optimized for completion & replay rate."
+          },
+          {
+            "duration": "15s",
+            "name": "Problem–Solution Product Demo",
+            "desc": "Concise pain-point hook, clear visual product demonstration in Bahasa Melayu, and direct offer framing for cold-to-warm discovery feeds."
+          },
+          {
+            "duration": "30s",
+            "name": "Full Storytelling & Value Proof",
+            "desc": "Structured Hook → Agitation → Demo → Value Proof → Yellow-Basket Checkout CTA for higher-consideration SKUs with strict 9:16 safe-zone framing."
+          }
+        ]
+      },
       "periods": {
         "Oct 2021 – Present": "Oct 2021 – Present",
         "May 2026 – Present": "May 2026 – Present",
@@ -377,6 +402,7 @@
       "ctaWhatsapp": "WhatsApp",
       "ctaLinkedin": "LinkedIn",
       "ctaGithub": "GitHub",
+      "ctaTiktok": "TikTok (@pesanpesan_exhort)",
       "ctaEmail": "E-mel",
       "gmailComposeTitle": "Tulis e-mel di Gmail",
       "gmailSubject": "Pertanyaan Portfolio — Mohd Faiz Bin Md Nordin",
@@ -527,7 +553,7 @@
     "liveApps": {
       "eyebrow": "Langkah 03 · Pameran Produk & Aplikasi Web · Aktif & Akan Datang",
       "heading": "Aplikasi Web Langsung & Akan Datang",
-      "subtitle": "Sembilan produk web merangkumi MarTech, EdTech, panduan klinikal, penjagaan warga emas dan pematuhan PKS: lapan aplikasi aktif yang boleh diuji terus di pelayar anda (APP-01..08), serta satu produk baharu dalam pembangunan aktif (APP-09 · SebutCepat AI).",
+      "subtitle": "Sepuluh produk web merangkumi MarTech, POS runcit, EdTech, panduan klinikal, penjagaan warga emas dan pematuhan PKS: sembilan aplikasi aktif yang boleh diuji terus di pelayar anda (APP-01..09), serta satu produk baharu dalam pembangunan aktif (APP-10 · SebutCepat AI).",
       "liveBadge": "AKTIF",
       "comingSoonBadge": "AKAN DATANG",
       "launchButton": "Buka Aplikasi Langsung",
@@ -547,6 +573,30 @@
       "whyItMattersLabel": "Perkaitan Corong & MarTech",
       "evidenceBoundaryLabel": "Sempadan Atribusi & Bukti",
       "visualEvidenceLabel": "Bukti Kempen & Visual",
+      "tiktokShowcase": {
+        "badge": "PENJANAAN VIDEO AFFILIATE TIKTOK",
+        "handle": "@pesanpesan_exhort",
+        "title": "Kejuruteraan Video Pendek Affiliate TikTok (10s · 15s · 30s)",
+        "subtitle": "Video produk menegak (9:16) berfokuskan jualan yang dirangka dan dihasilkan dalam tiga tempoh strategik mengikut tahap perhatian pembeli serta nilai produk.",
+        "ctaButton": "Tonton Video di TikTok (@pesanpesan_exhort)",
+        "formats": [
+          {
+            "duration": "10s",
+            "name": "Hook Pantas & Pencetus Minat",
+            "desc": "Pembuka visual 2 saat penghenti tatalan, satu manfaat utama berimpak tinggi, dan seruan beg kuning segera untuk kadar tontonan penuh & ulangan tinggi."
+          },
+          {
+            "duration": "15s",
+            "name": "Demonstrasi Masalah–Penyelesaian",
+            "desc": "Tajuk masalah pelanggan yang tepat, demonstrasi fungsi produk secara visual dalam Bahasa Melayu semula jadi, dan tawaran jelas untuk suapan penemuan pantas."
+          },
+          {
+            "duration": "30s",
+            "name": "Penceritaan Penuh & Bukti Nilai",
+            "desc": "Aliran lengkap Hook → Masalah → Demonstrasi → Bukti Nilai → Seruan Beg Kuning bagi produk bernilai lebih tinggi dengan pematuhan zon selamat skrin 9:16."
+          }
+        ]
+      },
       "periods": {
         "Oct 2021 – Present": "Okt 2021 – Kini",
         "May 2026 – Present": "Mei 2026 – Kini",
